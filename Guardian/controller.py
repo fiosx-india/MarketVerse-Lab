@@ -21,6 +21,8 @@ from .integrations.system_monitor import SystemMonitor
 from .integrations.central_brain_monitor import CentralBrainMonitor
 from .integrations.dashboard_monitor import DashboardMonitor
 from .notifier import Notifier
+from .file_analyzer import FileAnalyzer
+from .placement_analyzer import PlacementAnalyzer
 
 class GuardianController:
 
