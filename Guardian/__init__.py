@@ -16,6 +16,7 @@ from .registry_sync import RegistrySync
 from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
 from .auto_fixer import AutoFixer
+from .self_healing import SelfHealing
 from .controller import GuardianController
 
 
@@ -40,6 +41,7 @@ __all__ = [
     "FileAnalyzer",
     "PlacementAnalyzer",
     "AutoFixer",
+    "SelfHealing",
 ]
 
-__version__ = "2.1.0"
+__version__ = "2.2.0"
