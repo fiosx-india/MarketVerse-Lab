@@ -13,16 +13,16 @@ from .health import HealthMonitor
 from .advisor import GuardianAdvisor
 from .import_checker import ImportChecker
 
-# ==========================
 # Integration Monitors
-# ==========================
 from .integrations.app_monitor import AppMonitor
 from .integrations.system_monitor import SystemMonitor
 from .integrations.central_brain_monitor import CentralBrainMonitor
 from .integrations.dashboard_monitor import DashboardMonitor
+
 from .notifier import Notifier
 from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
+
 
 class GuardianController:
 
@@ -35,6 +35,10 @@ class GuardianController:
         self.health = HealthMonitor()
         self.advisor = GuardianAdvisor()
         self.import_checker = ImportChecker()
+
+        # New Analyzers
+        self.file_analyzer = FileAnalyzer()
+        self.placement_analyzer = PlacementAnalyzer()
 
         # Integration Monitors
         self.app_monitor = AppMonitor()
@@ -63,14 +67,17 @@ class GuardianController:
 
             imports = self.dependency.analyze(file)
 
+            # New Analysis
+            file_report = self.file_analyzer.analyze(file)
+            placement_report = self.placement_analyzer.analyze(file)
+
             dependencies[str(file)] = {
                 "imports": imports,
-                "check": self.import_checker.check(imports)
+                "check": self.import_checker.check(imports),
+                "file_analysis": file_report,
+                "placement_analysis": placement_report
             }
 
-        # ==========================
-        # Integration Health Report
-        # ==========================
         integration_report = {
             "app": self.app_monitor.check(),
             "system": self.system_monitor.check(),
@@ -78,9 +85,6 @@ class GuardianController:
             "dashboard": self.dashboard_monitor.check()
         }
 
-        # ==========================
-        # Health Report
-        # ==========================
         report = self.health.generate(
             files,
             results,
