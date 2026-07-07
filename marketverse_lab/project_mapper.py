@@ -198,6 +198,11 @@ class ProjectMapper:
         return {
             "root_found": self.root is not None,
             "folder_count": len(self.folders),
+            "file_count": len(self.files),
+            "mapping_complete":
+                self.root is not None and
+                len(self.files) > 0
+        }
 
     # ----------------------------------------
     # Diagnostics
