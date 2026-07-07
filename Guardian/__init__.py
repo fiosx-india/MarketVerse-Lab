@@ -16,6 +16,10 @@ from .registry_sync import RegistrySync
 
 from .controller import GuardianController
 
+self.import_checker = ImportChecker()
+self.file_analyzer = FileAnalyzer()
+self.placement_analyzer = PlacementAnalyzer()
+
 def run_guardian():
     guardian = GuardianController()
     return guardian.run()
