@@ -17,14 +17,12 @@ from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
 from .controller import GuardianController
 
-self.import_checker = ImportChecker()
-self.file_analyzer = FileAnalyzer()
-self.placement_analyzer = PlacementAnalyzer()
 
-def run_guardian():
+def run_guardian(root="."):
     guardian = GuardianController()
-    return guardian.run()
-    
+    return guardian.run(root)
+
+
 __all__ = [
     "GuardianController",
     "run_guardian",
@@ -38,6 +36,8 @@ __all__ = [
     "ProjectRegistry",
     "ModuleInfo",
     "RegistrySync",
+    "FileAnalyzer",
+    "PlacementAnalyzer",
 ]
 
 __version__ = "2.0.0"
