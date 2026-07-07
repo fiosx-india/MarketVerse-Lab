@@ -202,6 +202,31 @@ class CodeLocator:
 
     # ----------------------------------------
     # Complete Search
+    # ----------------------------------------
+
+    def locate(self, target):
+
+        result = self.find_file(target)
+
+        if result:
+            return self.best_match()
+
+        result = self.find_class(target)
+
+        if result:
+            return self.best_match()
+
+        result = self.find_function(target)
+
+        if result:
+            return self.best_match()
+
+        result = self.find_keyword(target)
+
+        if result:
+            return self.best_match()
+
+        return None
 
     # ----------------------------------------
     # Diagnostics
