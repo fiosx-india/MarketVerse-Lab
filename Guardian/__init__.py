@@ -13,7 +13,8 @@ from .import_checker import ImportChecker
 from .notifier import Notifier
 from .registry import ProjectRegistry, ModuleInfo
 from .registry_sync import RegistrySync
-
+from .file_analyzer import FileAnalyzer
+from .placement_analyzer import PlacementAnalyzer
 from .controller import GuardianController
 
 self.import_checker = ImportChecker()
