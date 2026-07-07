@@ -60,6 +60,7 @@ class GuardianController:
         dependencies = {}
         validation_errors = []
         healing_report = []
+        fix_report = []
 
         for file in files:
 
@@ -81,16 +82,16 @@ class GuardianController:
                     "backup": backup
                 })
 
-            # Auto Fix
-            fix_report = []
+            # Auto Fix Missing Imports
+            for missing in getattr(result, "missing_imports", []):
 
-         for missing in result.missing_imports if hasattr(result, "missing_imports") else []:
-             fixed = self.auto_fixer.fix_import(file, missing)
+                fixed = self.auto_fixer.fix_import(file, missing)
 
-               fix_report.append({
+                fix_report.append({
+                    "file": str(file),
                     "import": missing,
                     "fixed": fixed
-               })
+                })
 
             imports = self.dependency.analyze(file)
 
@@ -126,5 +127,6 @@ class GuardianController:
             "dependencies": dependencies,
             "validation_errors": validation_errors,
             "integrations": integration_report,
-            "self_healing": healing_report
+            "self_healing": healing_report,
+            "auto_fix": fix_report
         }
