@@ -81,6 +81,17 @@ class GuardianController:
                     "backup": backup
                 })
 
+            # Auto Fix
+            fix_report = []
+
+         for missing in result.missing_imports if hasattr(result, "missing_imports") else []:
+             fixed = self.auto_fixer.fix_import(file, missing)
+
+               fix_report.append({
+                    "import": missing,
+                    "fixed": fixed
+               })
+
             imports = self.dependency.analyze(file)
 
             # New Analysis
