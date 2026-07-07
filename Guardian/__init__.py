@@ -15,6 +15,7 @@ from .registry import ProjectRegistry, ModuleInfo
 from .registry_sync import RegistrySync
 from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
+from .auto_fixer import AutoFixer
 from .controller import GuardianController
 
 
@@ -38,6 +39,7 @@ __all__ = [
     "RegistrySync",
     "FileAnalyzer",
     "PlacementAnalyzer",
+    "AutoFixer",
 ]
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
