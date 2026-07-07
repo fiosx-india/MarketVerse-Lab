@@ -25,6 +25,7 @@ from .placement_analyzer import PlacementAnalyzer
 from .auto_fixer import AutoFixer
 from .self_healing import SelfHealing
 
+
 class GuardianController:
 
     def __init__(self):
@@ -41,6 +42,10 @@ class GuardianController:
         self.file_analyzer = FileAnalyzer()
         self.placement_analyzer = PlacementAnalyzer()
 
+        # Auto Fix & Self Healing
+        self.auto_fixer = AutoFixer()
+        self.self_healing = SelfHealing()
+
         # Integration Monitors
         self.app_monitor = AppMonitor()
         self.system_monitor = SystemMonitor()
@@ -54,6 +59,7 @@ class GuardianController:
         results = []
         dependencies = {}
         validation_errors = []
+        healing_report = []
 
         for file in files:
 
@@ -61,9 +67,18 @@ class GuardianController:
             results.append(result)
 
             if not result.valid:
+
                 validation_errors.append({
                     "file": str(file),
                     "error": result.error
+                })
+
+                # Backup before any fix
+                backup = self.self_healing.backup(file)
+
+                healing_report.append({
+                    "file": str(file),
+                    "backup": backup
                 })
 
             imports = self.dependency.analyze(file)
@@ -99,5 +114,6 @@ class GuardianController:
             "advice": advice,
             "dependencies": dependencies,
             "validation_errors": validation_errors,
-            "integrations": integration_report
+            "integrations": integration_report,
+            "self_healing": healing_report
         }
