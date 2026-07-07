@@ -23,6 +23,7 @@ from .notifier import Notifier
 from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
 from .auto_fixer import AutoFixer
+from .self_healing import SelfHealing
 
 class GuardianController:
 
