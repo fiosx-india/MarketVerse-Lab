@@ -22,7 +22,7 @@ from .integrations.dashboard_monitor import DashboardMonitor
 from .notifier import Notifier
 from .file_analyzer import FileAnalyzer
 from .placement_analyzer import PlacementAnalyzer
-
+from .auto_fixer import AutoFixer
 
 class GuardianController:
 
