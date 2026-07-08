@@ -49,3 +49,102 @@ st.divider()
 
 st.subheader("🤖 AI Recommendation")
 st.success("Project is ready for module integration.")
+
+st.divider()
+
+st.subheader("📥 Export Report")
+
+report_text = """
+MARKETVERSE LAB REPORT
+
+Total Files:
+Healthy Files:
+Warning Files:
+Error Files:
+Modules Connected:
+Modules Pending:
+Health Score:
+Last Scan:
+"""
+
+st.download_button(
+    label="📄 Download Report",
+    data=report_text,
+    file_name="marketverse_report.txt",
+    mime="text/plain"
+)
+
+st.divider()
+
+st.subheader("📄 Project Report")
+
+report = {
+    "Total Files": 0,
+    "Healthy Files": 0,
+    "Warning Files": 0,
+    "Error Files": 0,
+    "Modules Connected": 0,
+    "Modules Pending": 0,
+    "Health Score": "0%",
+    "Last Scan": "Not Scanned"
+}
+
+st.json(report)
+
+st.divider()
+
+st.subheader("📊 Full Project Summary")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("📁 Total Files", total_files)
+
+with col2:
+    st.metric("📦 Total Folders", total_folders)
+
+with col3:
+    st.metric("❤️ Project Health", f"{health_score}%")
+
+st.divider()
+
+st.subheader("📋 Scan Result")
+
+st.dataframe(scan_report)
+
+st.divider()
+
+st.subheader("🚨 Error Report")
+
+st.dataframe(error_report)
+
+st.divider()
+
+st.subheader("⚠ Warning Report")
+
+st.dataframe(warning_report)
+
+st.divider()
+
+st.subheader("🤖 AI Suggestions")
+
+for suggestion in ai_suggestions:
+    st.write("•", suggestion)
+
+st.divider()
+
+st.subheader("📝 Recent Changes")
+
+st.dataframe(change_history)
+
+st.divider()
+
+st.subheader("📤 Export")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.button("📄 Copy Report")
+
+with col2:
+    st.button("💾 Export Report")
