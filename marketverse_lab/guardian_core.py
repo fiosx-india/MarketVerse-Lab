@@ -17,6 +17,8 @@ from .knowledge_base import KnowledgeBase
 from .change_planner import ChangePlanner
 from .auto_patch_engine import AutoPatchEngine
 from .project_memory import ProjectMemory
+from .live_monitor import LiveMonitor
+from .workflow_engine import WorkflowEngine
 
 
 class GuardianCore:
@@ -34,7 +36,9 @@ class GuardianCore:
         self.change_planner = ChangePlanner()
         self.auto_patch_engine = AutoPatchEngine()
         self.project_memory = ProjectMemory()
-
+        self.live_monitor = LiveMonitor()
+        self.workflow_engine = WorkflowEngine()
+        
         self._connect_modules()
 
     # ----------------------------------------
@@ -51,6 +55,8 @@ class GuardianCore:
             self.change_planner,
             self.auto_patch_engine,
             self.project_memory
+            self.live_monitor,
+            self.workflow_engine
 
         ]
 
