@@ -9,12 +9,6 @@ MarketVerse Lab.
 
 from dataclasses import dataclass
 from typing import Optional
-
-from .knowledge_base import KnowledgeBase
-from .project_memory import ProjectMemory
-from .change_planner import ChangePlanner
-@dataclass
-
 class AIRequest:
 
     command: str
