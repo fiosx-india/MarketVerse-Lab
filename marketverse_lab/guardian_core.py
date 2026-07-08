@@ -327,6 +327,8 @@ class GuardianCore:
             "change_planner": self.change_planner.is_ready(),
             "auto_patch_engine": self.auto_patch_engine.is_ready(),
             "project_memory": self.project_memory.is_ready()
+           "live_monitor": self.live_monitor.is_ready(),
+            "workflow_engine": self.workflow_engine.is_ready(),
         }
 
     # ----------------------------------------
