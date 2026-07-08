@@ -236,3 +236,12 @@ col2.metric("Folders", project["total_folders"])
 col3.metric("Empty Files", project["empty_files"])
 col4.metric("Last Scan", project["scan_time"])
 
+"""
+MarketVerse Lab
+guardian_core.py
+
+Purpose:
+Central AI Brain for MarketVerse Lab.
+Coordinates every module.
+"""
+
