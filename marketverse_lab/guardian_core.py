@@ -54,7 +54,7 @@ class GuardianCore:
             self.knowledge_base,
             self.change_planner,
             self.auto_patch_engine,
-            self.project_memory
+            self.project_memory,
             self.live_monitor,
             self.workflow_engine
 
