@@ -19,7 +19,7 @@ from .auto_patch_engine import AutoPatchEngine
 from .project_memory import ProjectMemory
 from .live_monitor import LiveMonitor
 from .workflow_engine import WorkflowEngine
-
+from .ai_assistant import AIAssistant
 
 class GuardianCore:
 
@@ -38,6 +38,7 @@ class GuardianCore:
         self.project_memory = ProjectMemory()
         self.live_monitor = LiveMonitor()
         self.workflow_engine = WorkflowEngine()
+        self.ai_assistant = AIAssistant()
         
         self._connect_modules()
 
@@ -57,6 +58,7 @@ class GuardianCore:
             self.project_memory,
             self.live_monitor,
             self.workflow_engine
+            self.ai_assistant 
 
         ]
 
