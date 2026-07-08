@@ -10,7 +10,12 @@ code block should be inserted.
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Optional
-
+from .project_blueprint import ProjectBlueprint
+from .project_mapper import ProjectMapper
+from .dependency_graph import DependencyGraph
+from .integration_checker import IntegrationChecker
+from .error_intelligence import ErrorIntelligence
+from .knowledge_base import KnowledgeBase
 
 @dataclass
 class LocationResult:
