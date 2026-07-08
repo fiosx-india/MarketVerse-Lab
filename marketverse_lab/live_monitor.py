@@ -11,6 +11,16 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
+from .project_blueprint import ProjectBlueprint
+from .project_mapper import ProjectMapper
+from .code_locator import CodeLocator
+from .dependency_graph import DependencyGraph
+from .integration_checker import IntegrationChecker
+from .error_intelligence import ErrorIntelligence
+from .knowledge_base import KnowledgeBase
+from .change_planner import ChangePlanner
+from .auto_patch_engine import AutoPatchEngine
+from .project_memory import ProjectMemory
 
 
 @dataclass
