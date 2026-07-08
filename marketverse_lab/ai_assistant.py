@@ -9,6 +9,8 @@ MarketVerse Lab.
 
 from dataclasses import dataclass
 from typing import Optional
+
+@dataclass
 class AIRequest:
 
     command: str
