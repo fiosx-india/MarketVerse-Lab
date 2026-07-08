@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+from datetime import datetime
 
 st.set_page_config(
     page_title="MarketVerse Lab",
@@ -148,3 +150,40 @@ with col1:
 
 with col2:
     st.button("💾 Export Report")
+
+project = scan_project()
+
+st.subheader("📂 Live Project Scanner")
+
+col1, col2, col3, col4 = st.columns(4)
+
+col1.metric("Files", project["total_files"])
+col2.metric("Folders", project["total_folders"])
+col3.metric("Empty Files", project["empty_files"])
+col4.metric("Last Scan", project["scan_time"])
+
+def scan_project(project_path="."):
+    total_files = 0
+    total_folders = 0
+    empty_files = 0
+
+    for root, dirs, files in os.walk(project_path):
+        total_folders += len(dirs)
+
+        for file in files:
+            total_files += 1
+
+            path = os.path.join(root, file)
+
+            try:
+                if os.path.getsize(path) == 0:
+                    empty_files += 1
+            except:
+                pass
+
+    return {
+        "total_files": total_files,
+        "total_folders": total_folders,
+        "empty_files": empty_files,
+        "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
