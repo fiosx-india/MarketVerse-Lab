@@ -10,7 +10,15 @@ classification and recovery engine.
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Dict
-
+from .project_blueprint import ProjectBlueprint
+from .project_mapper import ProjectMapper
+from .code_locator import CodeLocator
+from .dependency_graph import DependencyGraph
+from .integration_checker import IntegrationChecker
+from .error_intelligence import ErrorIntelligence
+from .change_planner import ChangePlanner
+from .auto_patch_engine import AutoPatchEngine
+from .project_memory import ProjectMemory
 
 @dataclass
 class ErrorRecord:
