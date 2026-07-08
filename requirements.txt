@@ -1,1 +1,10 @@
-
+streamlit
+pandas
+numpy
+requests
+pyyaml
+networkx
+loguru
+python-dotenv
+watchdog
+rich
