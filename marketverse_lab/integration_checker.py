@@ -9,7 +9,12 @@ before applying changes.
 
 from dataclasses import dataclass, field
 from typing import Dict, List
-
+from .project_blueprint import ProjectBlueprint
+from .project_mapper import ProjectMapper
+from .code_locator import CodeLocator
+from .dependency_graph import DependencyGraph
+from .error_intelligence import ErrorIntelligence
+from .knowledge_base import KnowledgeBase
 
 @dataclass
 class IntegrationResult:
