@@ -1,5 +1,4 @@
 import streamlit as st
-from guardian_core import GuardianCore
 
 st.set_page_config(
     page_title="MarketVerse Lab",
