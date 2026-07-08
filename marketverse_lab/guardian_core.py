@@ -94,22 +94,7 @@ class GuardianCore:
         self.ai_assistant.connect_knowledge_base(
              self.knowledge_base
         )
-        self.ai_assistant.connect_blueprint(
-              self.blueprint
-         )
-
-         self.ai_assistant.connect_mapper(
-              self.mapper
-         )
-
-         self.ai_assistant.connect_locator(
-              self.locator
-         )
-
-         self.ai_assistant.connect_dependency_graph(
-              self.dependency_graph
-         )
-
+    
         self.integration_checker.connect_mapper(
             self.mapper
         )
