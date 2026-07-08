@@ -2,6 +2,7 @@ import streamlit as st
 import os
 from datetime import datetime
 from scanner import ProjectScanner
+from scanner import ProjectScanner
 
 scanner = ProjectScanner()
 scan = scanner.scan()
