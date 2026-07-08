@@ -9,7 +9,11 @@ Coordinate and execute AI workflows.
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
-
+from .ai_assistant import AIAssistant
+from .change_planner import ChangePlanner
+from .auto_patch_engine import AutoPatchEngine
+from .project_memory import ProjectMemory
+from .live_monitor import LiveMonitor
 
 @dataclass
 class WorkflowTask:
