@@ -72,6 +72,7 @@ class GuardianCore:
             )
 
         self.ai_assistant.connect_guardian(self)
+        
         self.ai_assistant.connect_change_planner(
             self.change_planner
         )
@@ -192,6 +193,10 @@ class GuardianCore:
         # ----------------------------------------
 
         self.workflow_engine.connect_guardian(self)
+
+        self.workflow_engine.connect_ai_assistant(
+            self.ai_assistant
+        )
 
         self.workflow_engine.connect_change_planner(
             self.change_planner
