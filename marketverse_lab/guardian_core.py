@@ -1,1 +1,304 @@
+"""
+MarketVerse Lab
+guardian_core.py
 
+Purpose:
+Central AI Brain for MarketVerse Lab.
+Coordinates every module.
+"""
+
+from .project_blueprint import ProjectBlueprint
+from .project_mapper import ProjectMapper
+from .code_locator import CodeLocator
+from .dependency_graph import DependencyGraph
+from .integration_checker import IntegrationChecker
+from .error_intelligence import ErrorIntelligence
+from .knowledge_base import KnowledgeBase
+from .change_planner import ChangePlanner
+from .auto_patch_engine import AutoPatchEngine
+from .project_memory import ProjectMemory
+
+
+class GuardianCore:
+
+    def __init__(self):
+
+        # Core Modules
+        self.blueprint = ProjectBlueprint()
+        self.mapper = ProjectMapper()
+        self.locator = CodeLocator()
+        self.dependency_graph = DependencyGraph()
+        self.integration_checker = IntegrationChecker()
+        self.error_intelligence = ErrorIntelligence()
+        self.knowledge_base = KnowledgeBase()
+        self.change_planner = ChangePlanner()
+        self.auto_patch_engine = AutoPatchEngine()
+        self.project_memory = ProjectMemory()
+
+        self._connect_modules()
+
+    # ----------------------------------------
+    # Connect Everything
+    # ----------------------------------------
+
+    def _connect_modules(self):
+
+        modules = [
+
+            self.integration_checker,
+            self.error_intelligence,
+            self.knowledge_base,
+            self.change_planner,
+            self.auto_patch_engine,
+            self.project_memory
+
+        ]
+
+        for module in modules:
+
+            module.connect_blueprint(self.blueprint)
+            module.connect_mapper(self.mapper)
+            module.connect_locator(self.locator)
+            module.connect_dependency_graph(
+                self.dependency_graph
+            )
+
+        self.integration_checker.connect_mapper(
+            self.mapper
+        )
+
+        self.error_intelligence.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.knowledge_base.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.knowledge_base.connect_error_intelligence(
+            self.error_intelligence
+        )
+
+        self.change_planner.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.change_planner.connect_error_intelligence(
+            self.error_intelligence
+        )
+
+        self.change_planner.connect_knowledge_base(
+            self.knowledge_base
+        )
+
+        self.auto_patch_engine.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.auto_patch_engine.connect_error_intelligence(
+            self.error_intelligence
+        )
+
+        self.auto_patch_engine.connect_knowledge_base(
+            self.knowledge_base
+        )
+
+        self.auto_patch_engine.connect_change_planner(
+            self.change_planner
+        )
+
+        self.project_memory.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.project_memory.connect_error_intelligence(
+            self.error_intelligence
+        )
+
+        self.project_memory.connect_knowledge_base(
+            self.knowledge_base
+        )
+
+        self.project_memory.connect_change_planner(
+            self.change_planner
+        )
+
+        self.project_memory.connect_auto_patch_engine(
+            self.auto_patch_engine
+        )
+
+    # ----------------------------------------
+    # Scan Project
+    # ----------------------------------------
+
+    def scan_project(
+        self,
+        root="."
+    ):
+
+        report = {}
+
+        report["blueprint"] = self.blueprint.report()
+
+        report["mapping"] = self.mapper.report()
+
+        report["dependencies"] = (
+            self.dependency_graph.report()
+        )
+
+        report["integration"] = (
+            self.integration_checker.report()
+        )
+
+        report["errors"] = (
+            self.error_intelligence.report()
+        )
+
+        report["knowledge"] = (
+            self.knowledge_base.report()
+        )
+
+        report["memory"] = (
+            self.project_memory.report()
+        )
+
+        return report
+
+    # ----------------------------------------
+    # Plan Change
+    # ----------------------------------------
+
+    def plan_change(
+        self,
+        target_file,
+        action
+    ):
+
+        return self.change_planner.generate_plan(
+            target_file,
+            action
+        )
+
+    # ----------------------------------------
+    # Apply Patch
+    # ----------------------------------------
+
+    def apply_patch(
+        self,
+        file,
+        line,
+        code
+    ):
+
+        backup = self.auto_patch_engine.backup_file(
+            file
+        )
+
+        if not backup.success:
+
+            return backup
+
+        result = self.auto_patch_engine.insert_code(
+            file=file,
+            line=line,
+            code=code
+        )
+
+        self.project_memory.record_change(
+            file=file,
+            action="PATCH",
+            description=result.message
+        )
+
+        return result
+    # ----------------------------------------
+    # Auto Scan
+    # ----------------------------------------
+
+    def auto_scan(self):
+
+        return {
+            "scan": self.scan_project(),
+            "diagnostics": self.diagnostics()
+        }
+
+    # ----------------------------------------
+    # Diagnostics
+    # ----------------------------------------
+
+    def diagnostics(self):
+
+        return {
+            "blueprint": self.blueprint.is_ready(),
+            "mapper": self.mapper.is_ready(),
+            "locator": self.locator.is_ready(),
+            "dependency_graph": self.dependency_graph.is_ready(),
+            "integration_checker": self.integration_checker.is_ready(),
+            "error_intelligence": self.error_intelligence.is_ready(),
+            "knowledge_base": self.knowledge_base.is_ready(),
+            "change_planner": self.change_planner.is_ready(),
+            "auto_patch_engine": self.auto_patch_engine.is_ready(),
+            "project_memory": self.project_memory.is_ready()
+        }
+
+    # ----------------------------------------
+    # Health Report
+    # ----------------------------------------
+
+    def health_report(self):
+
+        diagnostics = self.diagnostics()
+
+        ready = sum(
+            1
+            for value in diagnostics.values()
+            if value
+        )
+
+        total = len(diagnostics)
+
+        return {
+            "ready_modules": ready,
+            "total_modules": total,
+            "health_percent": round(
+                (ready / total) * 100,
+                2
+            )
+        }
+
+    # ----------------------------------------
+    # AI Recommendation
+    # ----------------------------------------
+
+    def ai_recommendation(self):
+
+        return {
+            "project_health": self.health_report(),
+            "planner": self.change_planner.report(),
+            "errors": self.error_intelligence.report()
+        }
+
+    # ----------------------------------------
+    # Ready Check
+    # ----------------------------------------
+
+    def is_ready(self):
+
+        return all(
+            self.diagnostics().values()
+        )
+
+    # ----------------------------------------
+    # String Representation
+    # ----------------------------------------
+
+    def __str__(self):
+
+        health = self.health_report()
+
+        return (
+            f"GuardianCore("
+            f"{health['health_percent']}% Ready)"
+        )
+
+    __repr__ = __str__
