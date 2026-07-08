@@ -1,6 +1,18 @@
 import streamlit as st
 import os
 from datetime import datetime
+from scanner import ProjectScanner
+
+scanner = ProjectScanner()
+scan = scanner.scan()
+
+st.subheader("📂 Project Scanner")
+
+st.write(f"📄 Total Files : {scan['total_files']}")
+st.write(f"🐍 Python Files : {scan['python_files']}")
+st.write(f"📭 Empty Files : {len(scan['empty_files'])}")
+st.write(f"❌ Syntax Errors : {len(scan['syntax_errors'])}")
+st.write(f"🕒 Last Scan : {scan['scan_time']}")
 
 st.set_page_config(
     page_title="MarketVerse Lab",
