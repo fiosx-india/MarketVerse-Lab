@@ -177,11 +177,7 @@ class Bootstrap:
             "workflow": self.workflow.is_ready(),
             "monitor": self.monitor.is_ready()
         }
-
-    # ----------------------------------------
-    # Shutdown
-    # ----------------------------------------
-
+        
     def shutdown(self):
 
         self.monitor.reset()
@@ -191,72 +187,17 @@ class Bootstrap:
             "status": "STOPPED"
         }
 
-
-# ----------------------------------------
-# Bootstrap Function
-# ----------------------------------------
-
-def bootstrap_system():
-
-    system = Bootstrap()
-
-    system.start()
-
-    return system
-
     # ----------------------------------------
-    # Connect AI Assistant
+    # Bootstrap Function
     # ----------------------------------------
 
-    def _connect_assistant(self):
+    def bootstrap_system():
 
-        self.assistant.connect_guardian(
-            self.guardian
-        )
+        system = Bootstrap()
 
-        self.assistant.connect_blueprint(
-            self.guardian.blueprint
-        )
+        system.start()
 
-        self.assistant.connect_mapper(
-            self.guardian.mapper
-        )
-
-        self.assistant.connect_locator(
-            self.guardian.locator
-        )
-
-        self.assistant.connect_dependency_graph(
-            self.guardian.dependency_graph
-        )
-
-        self.assistant.connect_integration_checker(
-            self.guardian.integration_checker
-        )
-
-        self.assistant.connect_error_intelligence(
-            self.guardian.error_intelligence
-        )
-
-        self.assistant.connect_knowledge_base(
-            self.guardian.knowledge_base
-        )
-
-        self.assistant.connect_change_planner(
-            self.guardian.change_planner
-        )
-
-        self.assistant.connect_auto_patch_engine(
-            self.guardian.auto_patch_engine
-        )
-
-        self.assistant.connect_project_memory(
-            self.guardian.project_memory
-        )
-
-        self.assistant.connect_live_monitor(
-            self.monitor
-        )
+        return system
 
     # ----------------------------------------
     # Connect Workflow Engine
