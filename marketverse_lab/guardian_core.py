@@ -137,6 +137,32 @@ class GuardianCore:
     # Scan Project
     # ----------------------------------------
 
+     self.live_monitor.connect_guardian(self)
+
+     self.live_monitor.connect_integration_checker(
+          self.integration_checker
+     )
+
+     self.live_monitor.connect_error_intelligence(
+          self.error_intelligence
+     )
+
+     self.live_monitor.connect_knowledge_base(
+          self.knowledge_base
+     )
+
+     self.live_monitor.connect_change_planner(
+          self.change_planner
+     )
+
+     self.live_monitor.connect_auto_patch_engine(
+          self.auto_patch_engine
+     )
+
+     self.live_monitor.connect_project_memory(
+          self.project_memory
+     )
+
     def scan_project(
         self,
         root="."
