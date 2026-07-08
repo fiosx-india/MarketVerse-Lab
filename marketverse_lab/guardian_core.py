@@ -128,45 +128,71 @@ class GuardianCore:
         self.project_memory.connect_change_planner(
             self.change_planner
         )
-
         self.project_memory.connect_auto_patch_engine(
             self.auto_patch_engine
+        )
+
+        # ----------------------------------------
+        # Live Monitor Connections
+        # ----------------------------------------
+
+        self.live_monitor.connect_guardian(self)
+
+        self.live_monitor.connect_integration_checker(
+            self.integration_checker
+        )
+
+        self.live_monitor.connect_error_intelligence(
+            self.error_intelligence
+        )
+
+        self.live_monitor.connect_knowledge_base(
+            self.knowledge_base
+        )
+
+        self.live_monitor.connect_change_planner(
+            self.change_planner
+        )
+
+        self.live_monitor.connect_auto_patch_engine(
+            self.auto_patch_engine
+        )
+
+        self.live_monitor.connect_project_memory(
+            self.project_memory
+        )
+
+        # ----------------------------------------
+        # Workflow Engine Connections
+        # ----------------------------------------
+
+        self.workflow_engine.connect_guardian(self)
+
+        self.workflow_engine.connect_change_planner(
+            self.change_planner
+        )
+
+        self.workflow_engine.connect_auto_patch_engine(
+            self.auto_patch_engine
+        )
+
+        self.workflow_engine.connect_project_memory(
+            self.project_memory
+        )
+
+        self.workflow_engine.connect_live_monitor(
+            self.live_monitor
         )
 
     # ----------------------------------------
     # Scan Project
     # ----------------------------------------
 
-     self.live_monitor.connect_guardian(self)
-
-     self.live_monitor.connect_integration_checker(
-          self.integration_checker
-     )
-
-     self.live_monitor.connect_error_intelligence(
-          self.error_intelligence
-     )
-
-     self.live_monitor.connect_knowledge_base(
-          self.knowledge_base
-     )
-
-     self.live_monitor.connect_change_planner(
-          self.change_planner
-     )
-
-     self.live_monitor.connect_auto_patch_engine(
-          self.auto_patch_engine
-     )
-
-     self.live_monitor.connect_project_memory(
-          self.project_memory
-     )
-
     def scan_project(
         self,
         root="."
     ):
+
 
         report = {}
 
