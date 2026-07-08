@@ -10,7 +10,11 @@ insertions, replacements and rollback.
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List
-
+from .change_planner import ChangePlanner
+from .integration_checker import IntegrationChecker
+from .error_intelligence import ErrorIntelligence
+from .knowledge_base import KnowledgeBase
+from .project_memory import ProjectMemory
 
 @dataclass
 class PatchResult:
