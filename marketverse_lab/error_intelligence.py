@@ -15,7 +15,6 @@ from .project_mapper import ProjectMapper
 from .code_locator import CodeLocator
 from .dependency_graph import DependencyGraph
 from .integration_checker import IntegrationChecker
-from .error_intelligence import ErrorIntelligence
 from .change_planner import ChangePlanner
 from .auto_patch_engine import AutoPatchEngine
 from .project_memory import ProjectMemory
