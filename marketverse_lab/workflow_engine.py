@@ -99,6 +99,27 @@ class WorkflowEngine:
 
     # ----------------------------------------
 
+    def connect_blueprint(self, blueprint):
+        self.blueprint = blueprint
+
+    def connect_mapper(self, mapper):
+        self.mapper = mapper
+
+    def connect_locator(self, locator):
+        self.code_locator = locator
+
+    def connect_dependency_graph(self, graph):
+        self.dependency_graph = graph
+
+    def connect_integration_checker(self, checker):
+        self.integration_checker = checker
+
+    def connect_error_intelligence(self, intelligence):
+        self.error_intelligence = intelligence
+
+    def connect_knowledge_base(self, knowledge):
+        self.knowledge_base = knowledge
+
     def reset(self):
 
         self.tasks.clear()
