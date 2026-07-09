@@ -400,10 +400,28 @@ class GuardianCore:
 
 def dashboard_report(self):
 
-    health = self.health_report()
     diagnostics = self.diagnostics()
+    health = self.health_report()
+    scan = self.scan_project()
+    ai = self.ai_recommendation()
+
+    ready_modules = []
+
+    pending_modules = []
+
+    for name, status in diagnostics.items():
+
+        if status:
+            ready_modules.append(name)
+        else:
+            pending_modules.append(name)
 
     return {
+
+        # Basic Information
+        "name": "Guardian Core",
+
+        "version": "1.0",
 
         "status": (
             "🟢 Online"
@@ -412,14 +430,32 @@ def dashboard_report(self):
             "🟡 Initializing"
         ),
 
+        # Health
         "health": health["health_percent"],
 
         "ready_modules": health["ready_modules"],
 
         "total_modules": health["total_modules"],
 
+        # Module Status
         "modules": diagnostics,
 
+        "ready_list": ready_modules,
+
+        "pending_list": pending_modules,
+
+        # Scan Information
+        "last_scan": "Live",
+
+        "scan_report": scan,
+
+        # Health Details
+        "project_health": health,
+
+        # AI
+        "ai_recommendation": ai,
+
+        # Recommendation
         "recommendation": (
             "System Ready"
             if self.is_ready()
@@ -427,52 +463,21 @@ def dashboard_report(self):
             "Integration Pending"
         ),
 
-        "last_scan": "Live",
-
-        "project_health": self.health_report(),
-
-        "scan_report": self.scan_project(),
-
-        "ai_recommendation": self.ai_recommendation()
+        # Summary
+        "summary": {
+            "blueprint": self.blueprint.is_ready(),
+            "mapper": self.mapper.is_ready(),
+            "locator": self.locator.is_ready(),
+            "dependency_graph": self.dependency_graph.is_ready(),
+            "integration_checker": self.integration_checker.is_ready(),
+            "error_intelligence": self.error_intelligence.is_ready(),
+            "knowledge_base": self.knowledge_base.is_ready(),
+            "change_planner": self.change_planner.is_ready(),
+            "auto_patch_engine": self.auto_patch_engine.is_ready(),
+            "project_memory": self.project_memory.is_ready(),
+            "live_monitor": self.live_monitor.is_ready(),
+            "workflow_engine": self.workflow_engine.is_ready(),
+            "ai_assistant": self.ai_assistant.is_ready(),
+        }
 
     }
-
-st.subheader("📄 Guardian Report")
-
-report_text = f"""
-========== GUARDIAN CORE REPORT ==========
-
-Status           : {report['status']}
-Health           : {report['health']}%
-Ready Modules    : {report['ready_modules']}
-Total Modules    : {report['total_modules']}
-Recommendation   : {report['recommendation']}
-Last Scan        : {report['last_scan']}
-
-Modules
------------------------------------------
-"""
-
-for name, status in report["modules"].items():
-    report_text += (
-        f"{name:25} : "
-        f"{'✅ Ready' if status else '❌ Not Ready'}\n"
-    )
-
-# பெரிய Report Box
-st.text_area(
-    "Guardian Core Report",
-    report_text,
-    height=350
-)
-
-# Copy செய்ய வசதி
-st.code(report_text, language="text")
-
-# Download Button
-st.download_button(
-    label="📥 Download Guardian Report",
-    data=report_text,
-    file_name="guardian_core_report.txt",
-    mime="text/plain"
-)
