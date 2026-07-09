@@ -65,19 +65,19 @@ class GuardianCore:
         for module in modules:
           try:
               # Connect common modules
-        module.connect_blueprint(self.blueprint)
-        module.connect_mapper(self.mapper)
-        module.connect_locator(self.locator)
-        module.connect_dependency_graph(
-            self.dependency_graph
-        )
+              module.connect_blueprint(self.blueprint)
+              module.connect_mapper(self.mapper)
+              module.connect_locator(self.locator)
+              module.connect_dependency_graph(
+                    self.dependency_graph
+              )
 
-       except Exception as e:
-           print(
-             f"[Guardian] Connection failed: "
-            f"{module.__class__.__name__} -> {e}"
-         )
-         continue
+                      except Exception as e:
+                          print(
+                               f"[Guardian] Connection failed: "
+               f"{module.__class__.__name__} -> {e}"
+                     )
+                     continue
 
          self.ai_assistant.connect_guardian(self)
 
