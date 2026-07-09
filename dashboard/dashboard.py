@@ -1,51 +1,68 @@
 import streamlit as st
-import os
-from datetime import datetime
 from scanner import ProjectScanner
 
-st.set_page_config(
-    page_title="MarketVerse Lab",
-    page_icon="🧠",
-    layout="wide"
-)
-
-scanner = ProjectScanner()
-scan = scanner.scan()
-
-st.subheader("📂 Project Scanner")
-
-st.write(f"📄 Total Files : {scan['total_files']}")
-st.write(f"🐍 Python Files : {scan['python_files']}")
-st.write(f"📭 Empty Files : {len(scan['empty_files'])}")
-st.write(f"❌ Syntax Errors : {len(scan['syntax_errors'])}")
-st.write(f"🕒 Last Scan : {scan['scan_time']}")
+# ==========================================================
+# PAGE CONFIG
+# ==========================================================
 
 st.set_page_config(
     page_title="MarketVerse Lab",
     page_icon="🧠",
     layout="wide"
 )
+
+# ==========================================================
+# PAGE TITLE
+# ==========================================================
 
 st.title("🧠 MarketVerse Lab")
-st.subheader("AI Development Control Center")
+st.caption("AI Development Control Center")
 
 st.divider()
+
+# ==========================================================
+# SAFE PROJECT SCANNER
+# ==========================================================
+
+try:
+    scanner = ProjectScanner()
+    scan = scanner.scan()
+
+except Exception as e:
+
+    scan = {
+        "total_files": 0,
+        "python_files": 0,
+        "empty_files": [],
+        "syntax_errors": [],
+        "scan_time": "Scanner Offline"
+    }
+
+    st.warning(f"⚠ Scanner Offline : {e}")
+
+# ==========================================================
+# TOP DASHBOARD
+# ==========================================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("📁 Total Files", "0")
+    st.metric("📁 Total Files", scan["total_files"])
 
 with col2:
-    st.metric("✅ Healthy", "0")
+    st.metric("🐍 Python Files", scan["python_files"])
 
 with col3:
-    st.metric("⚠ Warnings", "0")
+    st.metric("📭 Empty Files", len(scan["empty_files"]))
 
 with col4:
-    st.metric("❌ Errors", "0")
+    st.metric("❌ Syntax Errors", len(scan["syntax_errors"]))
 
 st.divider()
+
+# ==========================================================
+# LIVE PROJECT STATUS
+# ==========================================================
 
 st.subheader("📋 Live Project Status")
 
@@ -62,148 +79,171 @@ st.json(status)
 
 st.divider()
 
+# ==========================================================
+# LIVE ERRORS
+# ==========================================================
+
 st.subheader("🚨 Live Errors")
-st.info("No errors detected.")
+
+if len(scan["syntax_errors"]) == 0:
+    st.success("No syntax errors detected.")
+else:
+    st.error(scan["syntax_errors"])
 
 st.divider()
+
+# ==========================================================
+# AI RECOMMENDATION
+# ==========================================================
 
 st.subheader("🤖 AI Recommendation")
-st.success("Project is ready for module integration.")
+
+if len(scan["syntax_errors"]) == 0:
+    st.success("Project is ready for module integration.")
+else:
+    st.warning("Fix syntax errors before integrating new modules.")
 
 st.divider()
 
-st.subheader("📥 Export Report")
-
-report_text = """
-MARKETVERSE LAB REPORT
-
-Total Files:
-Healthy Files:
-Warning Files:
-Error Files:
-Modules Connected:
-Modules Pending:
-Health Score:
-Last Scan:
-"""
-
-st.download_button(
-    label="📄 Download Report",
-    data=report_text,
-    file_name="marketverse_report.txt",
-    mime="text/plain"
-)
-
-st.divider()
+# ==========================================================
+# PROJECT REPORT
+# ==========================================================
 
 st.subheader("📄 Project Report")
 
 report = {
-    "Total Files": 0,
-    "Healthy Files": 0,
-    "Warning Files": 0,
-    "Error Files": 0,
-    "Modules Connected": 0,
-    "Modules Pending": 0,
-    "Health Score": "0%",
-    "Last Scan": "Not Scanned"
+    "Total Files": scan["total_files"],
+    "Python Files": scan["python_files"],
+    "Empty Files": len(scan["empty_files"]),
+    "Syntax Errors": len(scan["syntax_errors"]),
+    "Last Scan": scan["scan_time"]
+}
+
+st.json(report)
+
+# ==========================================================
+# PROJECT REPORT
+# ==========================================================
+
+st.subheader("📄 Project Report")
+
+report = {
+    "Total Files": scan["total_files"],
+    "Python Files": scan["python_files"],
+    "Empty Files": len(scan["empty_files"]),
+    "Syntax Errors": len(scan["syntax_errors"]),
+    "Health Score": (
+        "100%"
+        if len(scan["syntax_errors"]) == 0
+        else f"{max(0, 100 - len(scan['syntax_errors']) * 10)}%"
+    ),
+    "Last Scan": scan["scan_time"]
 }
 
 st.json(report)
 
 st.divider()
 
+# ==========================================================
+# FULL PROJECT SUMMARY
+# ==========================================================
+
 st.subheader("📊 Full Project Summary")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("📁 Total Files", total_files)
+    st.metric("📁 Total Files", scan["total_files"])
 
 with col2:
-    st.metric("📦 Total Folders", total_folders)
+    st.metric("🐍 Python Files", scan["python_files"])
 
 with col3:
-    st.metric("❤️ Project Health", f"{health_score}%")
+    health = (
+        "100%"
+        if len(scan["syntax_errors"]) == 0
+        else f"{max(0,100-len(scan['syntax_errors'])*10)}%"
+    )
+    st.metric("❤️ Project Health", health)
 
 st.divider()
 
-st.subheader("📋 Scan Result")
+# ==========================================================
+# EMPTY FILE REPORT
+# ==========================================================
 
-st.dataframe(scan_report)
+st.subheader("📭 Empty Files")
+
+if scan["empty_files"]:
+    st.write(scan["empty_files"])
+else:
+    st.success("No empty files detected.")
+
+st.divider()
+
+# ==========================================================
+# SYNTAX ERROR REPORT
+# ==========================================================
+
+st.subheader("🚨 Syntax Error Report")
+
+if scan["syntax_errors"]:
+    st.error(scan["syntax_errors"])
+else:
+    st.success("No syntax errors detected.")
 
 st.divider()
 
-st.subheader("🚨 Error Report")
-
-st.dataframe(error_report)
-
-st.divider()
-
-st.subheader("⚠ Warning Report")
-
-st.dataframe(warning_report)
-
-st.divider()
+# ==========================================================
+# AI SUGGESTIONS
+# ==========================================================
 
 st.subheader("🤖 AI Suggestions")
 
-for suggestion in ai_suggestions:
-    st.write("•", suggestion)
+if len(scan["syntax_errors"]) == 0:
+    st.success("Project is healthy. Safe to integrate new modules.")
+else:
+    st.warning("Fix syntax errors before adding new modules.")
+
+if scan["empty_files"]:
+    st.info("Some empty files are available. Complete or remove them.")
 
 st.divider()
 
-st.subheader("📝 Recent Changes")
-
-st.dataframe(change_history)
-
-st.divider()
-
-st.subheader("📤 Export")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.button("📄 Copy Report")
-
-with col2:
-    st.button("💾 Export Report")
-
-def scan_project():
-
-project = scan_project()
+# ==========================================================
+# LIVE PROJECT SCANNER
+# ==========================================================
 
 st.subheader("📂 Live Project Scanner")
 
-col1, col2, col3, col4 = st.columns(4)
+c1, c2, c3, c4 = st.columns(4)
 
-col1.metric("Files", project["total_files"])
-col2.metric("Folders", project["total_folders"])
-col3.metric("Empty Files", project["empty_files"])
-col4.metric("Last Scan", project["scan_time"])
+c1.metric("Files", scan["total_files"])
+c2.metric("Python", scan["python_files"])
+c3.metric("Empty", len(scan["empty_files"]))
+c4.metric("Last Scan", scan["scan_time"])
 
-def scan_project(project_path="."):
-    total_files = 0
-    total_folders = 0
-    empty_files = 0
+st.divider()
 
-    for root, dirs, files in os.walk(project_path):
-        total_folders += len(dirs)
+# ==========================================================
+# EXPORT REPORT
+# ==========================================================
 
-        for file in files:
-            total_files += 1
+st.subheader("📥 Export Report")
 
-            path = os.path.join(root, file)
+report_text = f"""
+MARKETVERSE LAB REPORT
 
-            try:
-                if os.path.getsize(path) == 0:
-                    empty_files += 1
-            except:
-                pass
+Total Files      : {scan['total_files']}
+Python Files     : {scan['python_files']}
+Empty Files      : {len(scan['empty_files'])}
+Syntax Errors    : {len(scan['syntax_errors'])}
+Last Scan        : {scan['scan_time']}
+"""
 
-    return {
-        "total_files": total_files,
-        "total_folders": total_folders,
-        "empty_files": empty_files,
-        "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
+st.download_button(
+    "📄 Download Report",
+    report_text,
+    file_name="marketverse_report.txt",
+    mime="text/plain"
+)
