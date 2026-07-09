@@ -132,48 +132,77 @@ except Exception as e:
     st.code(str(e))
 
 # ==========================================================
-# GUARDIAN DASHBOARD
+# GUARDIAN CORE DASHBOARD
 # ==========================================================
 
-st.subheader("🛡️ Guardian Status")
+st.subheader("🛡️ Guardian Core")
 
 try:
     from guardian.guardian_core import GuardianCore
 
     guardian = GuardianCore()
+    report = guardian.dashboard_report()
 
-    if hasattr(guardian, "dashboard_report"):
+    st.success("✅ Guardian Core Connected")
 
-        report = guardian.dashboard_report()
+    col1, col2, col3 = st.columns(3)
 
-        st.success("✅ Guardian Connected")
+    with col1:
+        st.metric(
+            "❤️ Health",
+            f"{report['health']}%"
+        )
 
-        col1, col2 = st.columns(2)
+    with col2:
+        st.metric(
+            "🧩 Ready Modules",
+            report["ready_modules"]
+        )
 
-        with col1:
-            st.metric(
-                "❤️ Health",
-                f"{report['health']}%"
-            )
+    with col3:
+        st.metric(
+            "📦 Total Modules",
+            report["total_modules"]
+        )
 
-        with col2:
-            st.metric(
-                "🧩 Modules",
-                f"{report['ready_modules']}/{report['total_modules']}"
-            )
+    st.divider()
 
-        st.subheader("📋 Guardian Report")
-        st.json(report["modules"])
+    st.subheader("📋 Guardian Core Report")
+    st.json(report)
 
-        st.info(report["recommendation"])
+    st.divider()
 
-    else:
-        st.warning("🟡 Guardian Connected (Dashboard Report Not Available)")
+    st.subheader("📄 Guardian Report")
+
+    report_text = f"""
+========== GUARDIAN CORE REPORT ==========
+
+Status           : {report['status']}
+Health           : {report['health']}%
+Ready Modules    : {report['ready_modules']}
+Total Modules    : {report['total_modules']}
+Recommendation   : {report['recommendation']}
+Last Scan        : {report['last_scan']}
+
+Modules
+-----------------------------------------
+{report['modules']}
+"""
+
+    st.download_button(
+        "📥 Download Guardian Report",
+        report_text,
+        file_name="guardian_core_report.txt",
+        mime="text/plain"
+    )
 
 except ModuleNotFoundError as e:
-    st.warning("🟡 Guardian Module Waiting")
+    st.warning("🟡 Guardian Core Waiting")
     st.code(str(e))
 
+except AttributeError:
+    st.warning("🟡 dashboard_report() method not found")
+
 except Exception as e:
-    st.error("🔴 Guardian Error")
+    st.error("🔴 Guardian Core Error")
     st.code(str(e))
