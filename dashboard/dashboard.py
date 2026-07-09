@@ -2,7 +2,12 @@ import streamlit as st
 import os
 from datetime import datetime
 from scanner import ProjectScanner
-from scanner import ProjectScanner
+
+st.set_page_config(
+    page_title="MarketVerse Lab",
+    page_icon="🧠",
+    layout="wide"
+)
 
 scanner = ProjectScanner()
 scan = scanner.scan()
@@ -163,6 +168,8 @@ with col1:
 
 with col2:
     st.button("💾 Export Report")
+
+def scan_project():
 
 project = scan_project()
 
