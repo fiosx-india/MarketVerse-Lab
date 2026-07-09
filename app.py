@@ -131,28 +131,49 @@ except Exception as e:
     st.warning("⚠ Score System Offline")
     st.code(str(e))
 
-from guardian_core import GuardianCore
+# ==========================================================
+# GUARDIAN DASHBOARD
+# ==========================================================
 
-guardian = GuardianCore()
+st.subheader("🛡️ Guardian Status")
 
 try:
-    report = guardian.dashboard_report()
+    from guardian.guardian_core import GuardianCore
 
-    st.success("✅ Guardian Connected")
+    guardian = GuardianCore()
 
-    st.metric("❤️ Health", f"{report['health']}%")
+    if hasattr(guardian, "dashboard_report"):
 
-    st.metric(
-        "🧩 Modules",
-        f"{report['ready_modules']}/{report['total_modules']}"
-    )
+        report = guardian.dashboard_report()
 
-    st.json(report["modules"])
+        st.success("✅ Guardian Connected")
 
-    st.info(report["recommendation"])
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric(
+                "❤️ Health",
+                f"{report['health']}%"
+            )
+
+        with col2:
+            st.metric(
+                "🧩 Modules",
+                f"{report['ready_modules']}/{report['total_modules']}"
+            )
+
+        st.subheader("📋 Guardian Report")
+        st.json(report["modules"])
+
+        st.info(report["recommendation"])
+
+    else:
+        st.warning("🟡 Guardian Connected (Dashboard Report Not Available)")
+
+except ModuleNotFoundError as e:
+    st.warning("🟡 Guardian Module Waiting")
+    st.code(str(e))
 
 except Exception as e:
-
-    st.warning("Guardian Waiting")
+    st.error("🔴 Guardian Error")
     st.code(str(e))
-    
