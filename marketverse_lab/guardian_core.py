@@ -436,3 +436,43 @@ def dashboard_report(self):
         "ai_recommendation": self.ai_recommendation()
 
     }
+
+st.subheader("📄 Guardian Report")
+
+report_text = f"""
+========== GUARDIAN CORE REPORT ==========
+
+Status           : {report['status']}
+Health           : {report['health']}%
+Ready Modules    : {report['ready_modules']}
+Total Modules    : {report['total_modules']}
+Recommendation   : {report['recommendation']}
+Last Scan        : {report['last_scan']}
+
+Modules
+-----------------------------------------
+"""
+
+for name, status in report["modules"].items():
+    report_text += (
+        f"{name:25} : "
+        f"{'✅ Ready' if status else '❌ Not Ready'}\n"
+    )
+
+# பெரிய Report Box
+st.text_area(
+    "Guardian Core Report",
+    report_text,
+    height=350
+)
+
+# Copy செய்ய வசதி
+st.code(report_text, language="text")
+
+# Download Button
+st.download_button(
+    label="📥 Download Guardian Report",
+    data=report_text,
+    file_name="guardian_core_report.txt",
+    mime="text/plain"
+)
