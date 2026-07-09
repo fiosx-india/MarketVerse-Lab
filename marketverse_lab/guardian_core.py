@@ -63,47 +63,51 @@ class GuardianCore:
         ]
 
         for module in modules:
-            try:
-                # Connect common modules
-                
-            module.connect_blueprint(self.blueprint)
-            module.connect_mapper(self.mapper)
-            module.connect_locator(self.locator)
-            module.connect_dependency_graph(
-                self.dependency_graph
-            )
-        except Exception as e:
-            print(f"[Guardian] Connection failed: {module.__class__.__name__} -> {e}")
-        continue
-        self.ai_assistant.connect_guardian(self)
-        
-        self.ai_assistant.connect_change_planner(
-            self.change_planner
+          try:
+              # Connect common modules
+        module.connect_blueprint(self.blueprint)
+        module.connect_mapper(self.mapper)
+        module.connect_locator(self.locator)
+        module.connect_dependency_graph(
+            self.dependency_graph
         )
-                 
-        self.ai_assistant.connect_auto_patch_engine(
-            self.auto_patch_engine
-        )
-                 
-        self.ai_assistant.connect_project_memory(
-            self.project_memory
-        )
-                 
-        self.ai_assistant.connect_live_monitor(
-            self.live_monitor
-        )
-                 
-        self.ai_assistant.connect_integration_checker(
-            self.integration_checker
-        )
-                 
-        self.ai_assistant.connect_error_intelligence(
-            self.error_intelligence
-        )
-                 
-        self.ai_assistant.connect_knowledge_base(
+
+       except Exception as e:
+           print(
+             f"[Guardian] Connection failed: "
+            f"{module.__class__.__name__} -> {e}"
+         )
+         continue
+
+         self.ai_assistant.connect_guardian(self)
+
+         self.ai_assistant.connect_change_planner(
+             self.change_planner
+         )
+
+         self.ai_assistant.connect_auto_patch_engine(
+             self.auto_patch_engine
+         )
+
+         self.ai_assistant.connect_project_memory(
+             self.project_memory
+         )
+
+         self.ai_assistant.connect_live_monitor(
+             self.live_monitor
+         )
+
+         self.ai_assistant.connect_integration_checker(
+             self.integration_checker
+         )
+
+         self.ai_assistant.connect_error_intelligence(
+             self.error_intelligence
+         )
+
+         self.ai_assistant.connect_knowledge_base(
              self.knowledge_base
-        )
+         )
     
         self.integration_checker.connect_mapper(
             self.mapper
