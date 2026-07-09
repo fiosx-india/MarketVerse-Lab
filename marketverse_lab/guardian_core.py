@@ -393,3 +393,35 @@ class GuardianCore:
         )
 
     __repr__ = __str__
+
+# ----------------------------------------
+# Dashboard Report
+# ----------------------------------------
+
+def dashboard_report(self):
+
+    health = self.health_report()
+    diagnostics = self.diagnostics()
+
+    return {
+
+        "status": "Online",
+
+        "health": health["health_percent"],
+
+        "ready_modules": health["ready_modules"],
+
+        "total_modules": health["total_modules"],
+
+        "modules": diagnostics,
+
+        "recommendation": (
+            "System Ready"
+            if self.is_ready()
+            else
+            "Integration Pending"
+        ),
+
+        "last_scan": "Live"
+
+    }
