@@ -9,224 +9,125 @@ st.set_page_config(
 st.title("🚀 MarketVerse Lab")
 st.caption("Guardian Development Platform")
 
-st.sidebar.title("🛡️ Guardian")
+st.sidebar.title("🛡 Guardian")
 
 menu = st.sidebar.radio(
     "Select Module",
     [
         "🏠 Home",
         "🤖 Guardian",
-        "📦 Modules",
+        "📂 Project Scanner",
+        "📄 Reports",
         "🧪 Testing",
         "📜 Logs",
-        "⚙️ Settings"
+        "⚙ Settings"
     ]
 )
 
 st.divider()
 
+# ---------------- HOME ----------------
+
 if menu == "🏠 Home":
-    st.header("Welcome")
-    st.success("MarketVerse Lab is running successfully.")
+
+    st.success("MarketVerse Lab Running Successfully")
+
+    col1,col2,col3,col4 = st.columns(4)
+
+    col1.metric("📁 Files","--")
+    col2.metric("📂 Folders","--")
+    col3.metric("❤️ Health","--")
+    col4.metric("⚠ Errors","0")
+
+    st.divider()
+
+    st.subheader("📋 System Status")
+
+    st.json({
+        "Guardian":"🟢 Ready",
+        "Scanner":"🟢 Ready",
+        "Reports":"🟢 Ready",
+        "AI":"🟢 Ready"
+    })
+
+# ---------------- GUARDIAN ----------------
 
 elif menu == "🤖 Guardian":
-    st.header("Guardian")
-    st.info("Guardian Engine - Coming Soon")
 
-elif menu == "📦 Modules":
-    st.header("Modules")
-    st.info("Project Modules")
+    st.header("Guardian")
+    st.info("Guardian Engine Ready")
+
+# ---------------- PROJECT SCANNER ----------------
+
+elif menu == "📂 Project Scanner":
+
+    st.header("Project Scanner")
+
+    if st.button("🔍 Scan Project"):
+        st.info("Scanner Module will run here.")
+
+# ---------------- REPORT ----------------
+
+elif menu == "📄 Reports":
+
+    st.header("Project Report")
+
+    if st.button("Generate Report"):
+        st.info("Report Generator Module")
+
+    if st.button("Download Report"):
+        st.success("Report Ready")
+
+# ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
+
     st.header("Testing")
     st.info("Testing Environment")
 
+# ---------------- LOGS ----------------
+
 elif menu == "📜 Logs":
+
     st.header("Logs")
     st.info("System Logs")
 
-elif menu == "⚙️ Settings":
+# ---------------- SETTINGS ----------------
+
+elif menu == "⚙ Settings":
+
     st.header("Settings")
     st.info("Configuration")
-import streamlit as st
 
-st.set_page_config(
-    page_title="MarketVerse Lab",
-    page_icon="🧠",
-    layout="wide"
-)
-
-st.title("🧠 MarketVerse Lab")
-st.subheader("AI Development Control Center")
+# ============================
+# SCORE REPORT (SAFE MODE)
+# ============================
 
 st.divider()
+st.subheader("📊 Score Report")
 
-col1, col2, col3, col4 = st.columns(4)
+try:
+    from score import get_score_report
 
-with col1:
-    st.metric("📁 Total Files", "0")
+    report = get_score_report()
 
-with col2:
-    st.metric("✅ Healthy", "0")
+    st.metric("⭐ Health Score", f"{report['health_score']}%")
+    st.metric("📁 Total Files", report["total_files"])
+    st.metric("📂 Total Folders", report["total_folders"])
 
-with col3:
-    st.metric("⚠ Warnings", "0")
+    st.dataframe(report["scan_report"])
 
-with col4:
-    st.metric("❌ Errors", "0")
+    if len(report["errors"]) > 0:
+        st.error("🚨 Errors Found")
+        st.dataframe(report["errors"])
 
-st.divider()
+    if len(report["warnings"]) > 0:
+        st.warning("⚠ Warnings")
+        st.dataframe(report["warnings"])
 
-st.subheader("📋 Live Project Status")
+    st.success("✅ Score System Connected")
 
-status = {
-    "Guardian Core": "🟢 Ready",
-    "Blueprint": "🟢 Ready",
-    "Mapper": "🟢 Ready",
-    "Dependency Graph": "🟡 Waiting",
-    "AI Assistant": "🟢 Ready",
-    "Live Monitor": "🟡 Waiting"
-}
+except Exception as e:
+    st.warning("⚠ Score System Offline")
+    st.code(str(e))
 
-st.json(status)
-
-st.divider()
-
-st.subheader("🚨 Live Errors")
-st.info("No errors detected.")
-
-st.divider()
-
-st.subheader("🤖 AI Recommendation")
-st.success("Project is ready for module integration.")
-
-st.divider()
-
-st.subheader("📄 Project Report")
-
-report = {
-    "Total Files": 0,
-    "Healthy Files": 0,
-    "Warning Files": 0,
-    "Error Files": 0,
-    "Modules Connected": 0,
-    "Modules Pending": 0,
-    "Health Score": "0%",
-    "Last Scan": "Not Scanned"
-}
-
-st.json(report)
-
-st.divider()
-
-st.subheader("📥 Export Report")
-
-report_text = """
-MARKETVERSE LAB REPORT
-
-Total Files:
-Healthy Files:
-Warning Files:
-Error Files:
-Modules Connected:
-Modules Pending:
-Health Score:
-Last Scan:
-"""
-
-st.download_button(
-    label="📄 Download Report",
-    data=report_text,
-    file_name="marketverse_report.txt",
-    mime="text/plain"
-)
-
-st.divider()
-
-st.subheader("📊 Full Project Summary")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("📁 Total Files", total_files)
-
-with col2:
-    st.metric("📦 Total Folders", total_folders)
-
-with col3:
-    st.metric("❤️ Project Health", f"{health_score}%")
-
-st.divider()
-
-st.subheader("📋 Scan Result")
-
-st.dataframe(scan_report)
-
-st.divider()
-
-st.subheader("🚨 Error Report")
-
-st.dataframe(error_report)
-
-st.divider()
-
-st.subheader("⚠ Warning Report")
-
-st.dataframe(warning_report)
-
-st.divider()
-
-st.subheader("🤖 AI Suggestions")
-
-for suggestion in ai_suggestions:
-    st.write("•", suggestion)
-
-st.divider()
-
-st.subheader("📝 Recent Changes")
-
-st.dataframe(change_history)
-
-st.divider()
-
-st.subheader("📤 Export")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.button("📄 Copy Report")
-
-with col2:
-    st.button("💾 Export Report")
-
-def scan_project(project_path="."):
-    total_files = 0
-    total_folders = 0
-    empty_files = 0
-
-    for root, dirs, files in os.walk(project_path):
-        total_folders += len(dirs)
-
-        for file in files:
-            total_files += 1
-
-            path = os.path.join(root, file)
-
-            try:
-                if os.path.getsize(path) == 0:
-                    empty_files += 1
-            except:
-                pass
-
-    return {
-        "total_files": total_files,
-        "total_folders": total_folders,
-        "empty_files": empty_files,
-        "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
-
-project = scan_project()
-
-st.subheader("📂 Live Project Scanner")
-
-col1, col2, col3, col4 = st.columns(4)
