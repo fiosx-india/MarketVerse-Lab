@@ -33,6 +33,13 @@ class WorkflowEngine:
         self.auto_patch_engine = None
         self.project_memory = None
         self.live_monitor = None
+        self.blueprint = None
+        self.mapper = None
+        self.code_locator = None
+        self.dependency_graph = None
+        self.integration_checker = None
+        self.error_intelligence = None
+        self.knowledge_base = None
 
         self.tasks: List[WorkflowTask] = []
 
