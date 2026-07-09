@@ -405,7 +405,12 @@ def dashboard_report(self):
 
     return {
 
-        "status": "Online",
+        "status": (
+            "🟢 Online"
+            if self.is_ready()
+            else
+            "🟡 Initializing"
+        ),
 
         "health": health["health_percent"],
 
@@ -422,6 +427,12 @@ def dashboard_report(self):
             "Integration Pending"
         ),
 
-        "last_scan": "Live"
+        "last_scan": "Live",
+
+        "project_health": self.health_report(),
+
+        "scan_report": self.scan_project(),
+
+        "ai_recommendation": self.ai_recommendation()
 
     }
