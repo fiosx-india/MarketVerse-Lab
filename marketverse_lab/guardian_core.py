@@ -63,8 +63,9 @@ class GuardianCore:
         ]
 
         for module in modules:
-             try:
-                 # Connect common modules
+            try:
+                # Connect common modules
+                
             module.connect_blueprint(self.blueprint)
             module.connect_mapper(self.mapper)
             module.connect_locator(self.locator)
