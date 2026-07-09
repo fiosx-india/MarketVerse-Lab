@@ -156,6 +156,24 @@ class LiveMonitor:
         self.project_memory = memory
 
     # ----------------------------------------
+
+    def connect_workflow_engine(
+        self,
+        workflow_engine
+    ):
+
+        self.workflow_engine = workflow_engine
+
+    # ----------------------------------------
+
+    def connect_ai_assistant(
+        self,
+        ai_assistant
+    ):
+
+        self.ai_assistant = ai_assistant
+
+    # ----------------------------------------
     # Register File
     # ----------------------------------------
 
