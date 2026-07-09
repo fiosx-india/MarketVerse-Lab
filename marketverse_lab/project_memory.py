@@ -36,10 +36,27 @@ class ProjectMemory:
         self.knowledge_base = None
         self.change_planner = None
         self.auto_patch_engine = None
+        self.project_memory = None
+        self.live_monitor = None
+        self.workflow_engine = None
 
         # Memory Storage
         self.history: List[MemoryEntry] = []
 
+    def connect_live_monitor(self, monitor):
+
+        self.live_monitor = monitor
+
+
+    def connect_workflow_engine(self, workflow):
+
+        self.workflow_engine = workflow
+
+
+    def connect_project_memory(self, memory):
+
+        self.project_memory = memory
+        
     # ----------------------------------------
 
     def connect_blueprint(self, blueprint):
