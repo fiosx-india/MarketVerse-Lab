@@ -405,23 +405,28 @@ def dashboard_report(self):
     scan = self.scan_project()
     ai = self.ai_recommendation()
 
-    ready_modules = []
+    ready_modules = [
+        name for name, state in diagnostics.items()
+        if state
+    ]
 
-    pending_modules = []
+    pending_modules = [
+        name for name, state in diagnostics.items()
+        if not state
+    ]
 
-    for name, status in diagnostics.items():
-
-        if status:
-            ready_modules.append(name)
-        else:
-            pending_modules.append(name)
+    total_modules = health["total_modules"]
+    ready_count = health["ready_modules"]
+    pending_count = total_modules - ready_count
 
     return {
 
-        # Basic Information
-        "name": "Guardian Core",
+        # =================================================
+        # Guardian Information
+        # =================================================
 
-        "version": "1.0",
+        "name": "Guardian Core",
+        "version": "1.0.0",
 
         "status": (
             "🟢 Online"
@@ -430,32 +435,44 @@ def dashboard_report(self):
             "🟡 Initializing"
         ),
 
+        # =================================================
         # Health
+        # =================================================
+
         "health": health["health_percent"],
 
-        "ready_modules": health["ready_modules"],
+        "health_report": health,
 
-        "total_modules": health["total_modules"],
+        "ready_modules": ready_count,
 
-        # Module Status
+        "pending_modules": pending_count,
+
+        "total_modules": total_modules,
+
+        # =================================================
+        # Module Details
+        # =================================================
+
         "modules": diagnostics,
 
         "ready_list": ready_modules,
 
         "pending_list": pending_modules,
 
-        # Scan Information
-        "last_scan": "Live",
+        # =================================================
+        # Project Scan
+        # =================================================
 
         "scan_report": scan,
 
-        # Health Details
-        "project_health": health,
+        "last_scan": "Live",
 
-        # AI
+        # =================================================
+        # AI Report
+        # =================================================
+
         "ai_recommendation": ai,
 
-        # Recommendation
         "recommendation": (
             "System Ready"
             if self.is_ready()
@@ -463,21 +480,87 @@ def dashboard_report(self):
             "Integration Pending"
         ),
 
-        # Summary
-        "summary": {
+        # =================================================
+        # Dashboard Counters
+        # =================================================
+
+        "statistics": {
+
+            "health_percent": health["health_percent"],
+
+            "ready_modules": ready_count,
+
+            "pending_modules": pending_count,
+
+            "total_modules": total_modules,
+
+            "ready_percent": round(
+                (ready_count / total_modules) * 100,
+                2
+            ) if total_modules else 0
+        },
+
+        # =================================================
+        # Live Status
+        # =================================================
+
+        "live": {
+
+            "guardian": True,
+
+            "scanner": True,
+
             "blueprint": self.blueprint.is_ready(),
+
             "mapper": self.mapper.is_ready(),
+
             "locator": self.locator.is_ready(),
+
             "dependency_graph": self.dependency_graph.is_ready(),
-            "integration_checker": self.integration_checker.is_ready(),
-            "error_intelligence": self.error_intelligence.is_ready(),
-            "knowledge_base": self.knowledge_base.is_ready(),
-            "change_planner": self.change_planner.is_ready(),
-            "auto_patch_engine": self.auto_patch_engine.is_ready(),
-            "project_memory": self.project_memory.is_ready(),
-            "live_monitor": self.live_monitor.is_ready(),
-            "workflow_engine": self.workflow_engine.is_ready(),
-            "ai_assistant": self.ai_assistant.is_ready(),
+
+            "integration_checker":
+                self.integration_checker.is_ready(),
+
+            "error_intelligence":
+                self.error_intelligence.is_ready(),
+
+            "knowledge_base":
+                self.knowledge_base.is_ready(),
+
+            "change_planner":
+                self.change_planner.is_ready(),
+
+            "auto_patch_engine":
+                self.auto_patch_engine.is_ready(),
+
+            "project_memory":
+                self.project_memory.is_ready(),
+
+            "live_monitor":
+                self.live_monitor.is_ready(),
+
+            "workflow_engine":
+                self.workflow_engine.is_ready(),
+
+            "ai_assistant":
+                self.ai_assistant.is_ready()
+
+        },
+
+        # =================================================
+        # Dashboard Summary
+        # =================================================
+
+        "summary": {
+
+            "online": self.is_ready(),
+
+            "healthy": health["health_percent"] >= 80,
+
+            "warnings": pending_count,
+
+            "errors": 0
+
         }
 
     }
