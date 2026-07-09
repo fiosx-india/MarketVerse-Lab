@@ -12,10 +12,6 @@ from pathlib import Path
 from typing import Dict, List, Set
 from .project_blueprint import ProjectBlueprint
 from .project_mapper import ProjectMapper
-from .code_locator import CodeLocator
-from .integration_checker import IntegrationChecker
-from .error_intelligence import ErrorIntelligence
-from .knowledge_base import KnowledgeBase
 
 @dataclass
 class DependencyNode:
