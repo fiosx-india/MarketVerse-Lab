@@ -40,8 +40,6 @@ class WorkflowEngine:
         self.integration_checker = None
         self.error_intelligence = None
         self.knowledge_base = None
-        self.blueprint = None
-        self.mapper = None
 
         self.tasks: List[WorkflowTask] = []
 
@@ -121,12 +119,7 @@ class WorkflowEngine:
 
     def connect_knowledge_base(self, knowledge):
         self.knowledge_base = knowledge
-
-    def connect_blueprint(self, blueprint):
-        self.blueprint = blueprint
-
-    def connect_mapper(self, mapper):
-        self.mapper = mapper
+        
 
     def reset(self):
 
