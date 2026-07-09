@@ -140,6 +140,7 @@ st.subheader("🛡️ Guardian Core")
 
 try:
     from marketverse_lab.guardian_core import GuardianCore
+    from .guardian_core import GuardianCore
 
     guardian = GuardianCore()
     report = guardian.dashboard_report()
