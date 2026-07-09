@@ -131,3 +131,28 @@ except Exception as e:
     st.warning("⚠ Score System Offline")
     st.code(str(e))
 
+from guardian_core import GuardianCore
+
+guardian = GuardianCore()
+
+try:
+    report = guardian.dashboard_report()
+
+    st.success("✅ Guardian Connected")
+
+    st.metric("❤️ Health", f"{report['health']}%")
+
+    st.metric(
+        "🧩 Modules",
+        f"{report['ready_modules']}/{report['total_modules']}"
+    )
+
+    st.json(report["modules"])
+
+    st.info(report["recommendation"])
+
+except Exception as e:
+
+    st.warning("Guardian Waiting")
+    st.code(str(e))
+    
