@@ -396,46 +396,33 @@ class WorkflowEngine:
 
     def diagnostics(self):
 
-    return {
-        "guardian_connected":
-            self.guardian is not None,
+        return {
+            "guardian_connected": self.guardian is not None,
 
-        "assistant_connected":
-            self.ai_assistant is not None,
+            "assistant_connected": self.ai_assistant is not None,
 
-        "planner_connected":
-            self.change_planner is not None,
+            "planner_connected": self.change_planner is not None,
 
-        "patch_engine_connected":
-            self.auto_patch_engine is not None,
+            "patch_engine_connected": self.auto_patch_engine is not None,
 
-        "memory_connected":
-            self.project_memory is not None,
+            "memory_connected": self.project_memory is not None,
 
-        "monitor_connected":
-            self.live_monitor is not None,
+            "monitor_connected": self.live_monitor is not None,
 
-        "blueprint_connected":
-            self.blueprint is not None,
+            "blueprint_connected": self.blueprint is not None,
 
-        "mapper_connected":
-            self.mapper is not None,
+            "mapper_connected": self.mapper is not None,
 
-        "locator_connected":
-            self.code_locator is not None,
+            "locator_connected": self.code_locator is not None,
 
-        "dependency_graph_connected":
-            self.dependency_graph is not None,
+            "dependency_graph_connected": self.dependency_graph is not None,
 
-        "integration_checker_connected":
-            self.integration_checker is not None,
+            "integration_checker_connected": self.integration_checker is not None,
 
-        "error_intelligence_connected":
-            self.error_intelligence is not None,
+            "error_intelligence_connected": self.error_intelligence is not None,
 
-        "knowledge_base_connected":
-            self.knowledge_base is not None,
-    }
+            "knowledge_base_connected": self.knowledge_base is not None,
+        }
 
     # ----------------------------------------
     # Health Report
