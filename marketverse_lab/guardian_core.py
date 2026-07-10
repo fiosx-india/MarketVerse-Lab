@@ -591,29 +591,122 @@ def dashboard_report(self):
 
     }
 
-# ----------------------------------------
-# Export Diagnostic Report
-# ----------------------------------------
+# ==========================================
+# Export Professional Diagnostic Report
+# ==========================================
 
-def export_diagnostic_report(self, output_file="guardian_report.json"):
+def export_diagnostic_report(
+    self,
+    output_file="guardian_report.json"
+):
 
     import json
+    import traceback
     from datetime import datetime
 
     report = {
-
         "generated_at": datetime.now().isoformat(),
+        "guardian": {},
+        "health": {},
+        "diagnostics": {},
+        "scan": {},
+        "recommendation": {},
+        "issues": [],
+        "summary": {}
+    }
 
-        "guardian": self.dashboard_report(),
+    # Guardian Dashboard
+    try:
+        report["guardian"] = self.dashboard_report()
+    except Exception as e:
+        report["issues"].append({
+            "module": "GuardianCore",
+            "severity": "HIGH",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
 
-        "health": self.health_report(),
+    # Health
+    try:
+        report["health"] = self.health_report()
+    except Exception as e:
+        report["issues"].append({
+            "module": "HealthReport",
+            "severity": "HIGH",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
 
-        "diagnostics": self.diagnostics(),
+    # Diagnostics
+    try:
+        report["diagnostics"] = self.diagnostics()
+    except Exception as e:
+        report["issues"].append({
+            "module": "Diagnostics",
+            "severity": "HIGH",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
 
-        "scan": self.scan_project(),
+    # Project Scan
+    try:
+        report["scan"] = self.scan_project()
+    except Exception as e:
+        report["issues"].append({
+            "module": "ProjectScanner",
+            "severity": "HIGH",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
 
-        "recommendation": self.ai_recommendation()
+    # AI Recommendation
+    try:
+        report["recommendation"] = self.ai_recommendation()
+    except Exception as e:
+        report["issues"].append({
+            "module": "AIRecommendation",
+            "severity": "MEDIUM",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
 
+    # Optional module reports
+    modules = [
+        ("integration", self.integration_checker),
+        ("dependency_graph", self.dependency_graph),
+        ("error_intelligence", self.error_intelligence),
+        ("knowledge_base", self.knowledge_base),
+        ("change_planner", self.change_planner),
+        ("auto_patch_engine", self.auto_patch_engine),
+        ("project_memory", self.project_memory),
+        ("live_monitor", self.live_monitor),
+        ("workflow_engine", self.workflow_engine),
+    ]
+
+    for name, module in modules:
+        try:
+            if hasattr(module, "report"):
+                report[name] = module.report()
+        except Exception as e:
+            report["issues"].append({
+                "module": name,
+                "severity": "MEDIUM",
+                "error": type(e).__name__,
+                "message": str(e),
+                "traceback": traceback.format_exc()
+            })
+
+    report["summary"] = {
+        "total_issues": len(report["issues"]),
+        "guardian_ready": self.is_ready(),
+        "health_percent": report.get("health", {}).get(
+            "health_percent", 0
+        )
     }
 
     with open(output_file, "w", encoding="utf-8") as f:
