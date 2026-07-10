@@ -90,25 +90,25 @@ class GuardianCore:
         )
 
         self.ai_assistant.connect_project_memory(
-             self.project_memory
-         )
+            self.project_memory
+        )
 
-         self.ai_assistant.connect_live_monitor(
-             self.live_monitor
-         )
+        self.ai_assistant.connect_live_monitor(
+            self.live_monitor
+        )
 
-         self.ai_assistant.connect_integration_checker(
-             self.integration_checker
-         )
+        self.ai_assistant.connect_integration_checker(
+            self.integration_checker
+        )
 
-         self.ai_assistant.connect_error_intelligence(
-             self.error_intelligence
-         )
+        self.ai_assistant.connect_error_intelligence(
+            self.error_intelligence
+        )
 
-         self.ai_assistant.connect_knowledge_base(
-             self.knowledge_base
-         )
-    
+        self.ai_assistant.connect_knowledge_base(
+            self.knowledge_base
+        )
+
         self.integration_checker.connect_mapper(
             self.mapper
         )
