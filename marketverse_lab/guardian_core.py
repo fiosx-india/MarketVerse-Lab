@@ -591,9 +591,9 @@ def dashboard_report(self):
 
     }
 
- # ======================================================
- # Send Complete Report to App
- # ======================================================
+  # ======================================================
+  # Send Complete Report to App
+  # ======================================================
     def app_report(self):
         """
         Generate one complete report for the Streamlit App.
