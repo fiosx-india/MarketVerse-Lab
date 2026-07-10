@@ -284,78 +284,58 @@ except Exception as e:
 # ======================================================
 
 import json
-from datetime import datetime
 
-def export_diagnostic_report(self, output_file="guardian_report.json"):
+st.divider()
+st.subheader("Guardian Diagnostic Report")
 
-    dashboard = self.dashboard_report()
-    diagnostics = self.diagnostics()
-    health = self.health_report()
-    scan = self.scan_project()
+if st.button("Generate Guardian Report", key="guardian_report_btn"):
 
-    report = {
-        "generated_at": datetime.now().isoformat(),
+    try:
+        # Generate report from Guardian Core
+        report_file = guardian.export_diagnostic_report()
 
-        "guardian": {
-            "name": dashboard.get("name"),
-            "version": dashboard.get("version"),
-            "status": dashboard.get("status"),
-            "health": dashboard.get("health")
-        },
+        # Load JSON report
+        with open(report_file, "r", encoding="utf-8") as f:
+            report_data = json.load(f)
 
-        "summary": {
-            "ready_modules": dashboard.get("ready_modules"),
-            "pending_modules": dashboard.get("pending_modules"),
-            "total_modules": dashboard.get("total_modules"),
-            "recommendation": dashboard.get("recommendation")
-        },
+        st.success("Report generated successfully.")
 
-        "diagnostics": diagnostics,
+        # -------------------------------------------------
+        # Report Preview
+        # -------------------------------------------------
+        st.subheader("Report Preview")
+        st.json(report_data)
 
-        "scan_report": scan,
-
-        "issues": self.error_intelligence.report(),
-
-        "dependencies": self.dependency_graph.report(),
-
-        "integration": self.integration_checker.report(),
-
-        "memory": self.project_memory.report(),
-
-        "knowledge": self.knowledge_base.report(),
-
-        "planner": self.change_planner.report()
-    }
-
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(
-            report,
-            f,
+        # -------------------------------------------------
+        # Copy Report
+        # -------------------------------------------------
+        report_text = json.dumps(
+            report_data,
             indent=4,
             ensure_ascii=False
         )
 
-    return output_file
+        st.subheader("Copy Report")
 
-st.divider()
-st.subheader("📋 Guardian Diagnostic Report")
+        st.text_area(
+            "Guardian Diagnostic Report",
+            report_text,
+            height=450
+        )
 
-if st.button("📄 Generate Guardian Report"):
+        # -------------------------------------------------
+        # Download Report
+        # -------------------------------------------------
+        st.download_button(
+            label="Download Guardian Report (.json)",
+            data=report_text,
+            file_name="guardian_report.json",
+            mime="application/json",
+            key="download_guardian_report"
+        )
 
-    report_file = guardian.export_diagnostic_report()
+    except Exception as e:
 
-    with open(report_file, "r", encoding="utf-8") as f:
-        report_text = f.read()
+        st.error("Failed to generate Guardian report.")
 
-    st.success("✅ Report Generated Successfully")
-
-    # Screen-ல் முழு Report
-    st.code(report_text, language="json")
-
-    # Download Button
-    st.download_button(
-        label="⬇ Download Guardian Report",
-        data=report_text,
-        file_name="guardian_report.json",
-        mime="application/json"
-    )
+        st.code(str(e))
