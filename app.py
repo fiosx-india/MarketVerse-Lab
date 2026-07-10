@@ -286,56 +286,63 @@ except Exception as e:
 import json
 
 st.divider()
-st.subheader("Guardian Diagnostic Report")
+st.subheader("📋 Guardian Diagnostic Report")
 
-if st.button("Generate Guardian Report", key="guardian_report_btn"):
+if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
     try:
-        # Generate report from Guardian Core
-        report_file = guardian.export_diagnostic_report()
 
-        # Load JSON report
-        with open(report_file, "r", encoding="utf-8") as f:
-            report_data = json.load(f)
+        report = guardian.dashboard_report()
 
-        st.success("Report generated successfully.")
-
-        # -------------------------------------------------
-        # Report Preview
-        # -------------------------------------------------
-        st.subheader("Report Preview")
-        st.json(report_data)
-
-        # -------------------------------------------------
-        # Copy Report
-        # -------------------------------------------------
         report_text = json.dumps(
-            report_data,
+            report,
             indent=4,
             ensure_ascii=False
         )
 
-        st.subheader("Copy Report")
+        st.success("✅ Guardian Report Generated Successfully")
+
+        # ==========================================
+        # Report Preview
+        # ==========================================
+
+        st.subheader("📄 Report Preview")
 
         st.text_area(
             "Guardian Diagnostic Report",
             report_text,
-            height=450
+            height=500
         )
 
-        # -------------------------------------------------
-        # Download Report
-        # -------------------------------------------------
+        # ==========================================
+        # Expandable JSON View
+        # ==========================================
+
+        with st.expander("🔍 Open Full Report", expanded=False):
+            st.json(report)
+
+        # ==========================================
+        # Download Button
+        # ==========================================
+
         st.download_button(
-            label="Download Guardian Report (.json)",
+            label="⬇ Download Guardian Report (.json)",
             data=report_text,
             file_name="guardian_report.json",
             mime="application/json",
-            key="download_guardian_report"
+            key="guardian_download_json"
+        )
+
+        st.download_button(
+            label="⬇ Download Guardian Report (.txt)",
+            data=report_text,
+            file_name="guardian_report.txt",
+            mime="text/plain",
+            key="guardian_download_txt"
         )
 
     except Exception as e:
 
-        st.error("Failed to generate Guardian report.")
+        st.error("❌ Failed to Generate Guardian Report")
 
         st.code(str(e))
