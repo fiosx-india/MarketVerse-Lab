@@ -259,9 +259,25 @@ class GuardianCore:
 
         report = {}
 
-        report["blueprint"] = self.blueprint.report()
+        if self.error_intelligence is not None:
 
-        report["mapping"] = self.mapper.report()
+            report["errors"] = (
+                self.error_intelligence.report()
+            )
+
+        else:
+
+            report["errors"] = {
+                "status": "ErrorIntelligence not connected."
+            }
+
+        report["blueprint"] = (
+            self.blueprint.report()
+        )
+
+        report["mapping"] = (
+            self.mapper.report()
+        )
 
         report["dependencies"] = (
             self.dependency_graph.report()
@@ -269,10 +285,6 @@ class GuardianCore:
 
         report["integration"] = (
             self.integration_checker.report()
-        )
-
-        report["errors"] = (
-            self.error_intelligence.report()
         )
 
         report["knowledge"] = (
