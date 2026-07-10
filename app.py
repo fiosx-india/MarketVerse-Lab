@@ -278,30 +278,21 @@ except AttributeError as e:
 except Exception as e:
 
     st.error("🔴 Guardian Core Error")
-    
-# ======================================================
-# Guardian Diagnostic Report
-# ======================================================
-
-import json
-
-st.divider()
-st.subheader("📋 Guardian Diagnostic Report")
 
 if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
     try:
 
-    # Get complete report from Guardian Core
-    report = guardian.app_report()
+        # Get complete report from Guardian Core
+        report = guardian.app_report()
 
-    report_text = json.dumps(
-        report,
-        indent=4,
-        ensure_ascii=False
-    )
+        report_text = json.dumps(
+            report,
+            indent=4,
+            ensure_ascii=False
+        )
 
-    st.success("✅ Guardian Report Generated Successfully")
+        st.success("✅ Guardian Report Generated Successfully")
 
         # ==========================================
         # Report Preview
@@ -323,7 +314,7 @@ if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
             st.json(report)
 
         # ==========================================
-        # Download Button
+        # Download Buttons
         # ==========================================
 
         st.download_button(
@@ -345,5 +336,5 @@ if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
     except Exception as e:
 
         st.error("❌ Failed to Generate Guardian Report")
-
         st.code(str(e))
+        
