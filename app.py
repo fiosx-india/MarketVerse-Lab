@@ -279,47 +279,83 @@ except Exception as e:
 
     st.error("🔴 Guardian Core Error")
     
-# ========================================
+# ======================================================
 # Guardian Diagnostic Report
-# ========================================
+# ======================================================
+
+import json
+from datetime import datetime
+
+def export_diagnostic_report(self, output_file="guardian_report.json"):
+
+    dashboard = self.dashboard_report()
+    diagnostics = self.diagnostics()
+    health = self.health_report()
+    scan = self.scan_project()
+
+    report = {
+        "generated_at": datetime.now().isoformat(),
+
+        "guardian": {
+            "name": dashboard.get("name"),
+            "version": dashboard.get("version"),
+            "status": dashboard.get("status"),
+            "health": dashboard.get("health")
+        },
+
+        "summary": {
+            "ready_modules": dashboard.get("ready_modules"),
+            "pending_modules": dashboard.get("pending_modules"),
+            "total_modules": dashboard.get("total_modules"),
+            "recommendation": dashboard.get("recommendation")
+        },
+
+        "diagnostics": diagnostics,
+
+        "scan_report": scan,
+
+        "issues": self.error_intelligence.report(),
+
+        "dependencies": self.dependency_graph.report(),
+
+        "integration": self.integration_checker.report(),
+
+        "memory": self.project_memory.report(),
+
+        "knowledge": self.knowledge_base.report(),
+
+        "planner": self.change_planner.report()
+    }
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(
+            report,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
+    return output_file
+
+st.divider()
+st.subheader("📋 Guardian Diagnostic Report")
 
 if st.button("📄 Generate Guardian Report"):
 
     report_file = guardian.export_diagnostic_report()
 
-    st.success("Guardian report generated successfully.")
+    with open(report_file, "r", encoding="utf-8") as f:
+        report_text = f.read()
 
-    with open(report_file, "rb") as f:
+    st.success("✅ Report Generated Successfully")
 
-        st.download_button(
+    # Screen-ல் முழு Report
+    st.code(report_text, language="json")
 
-            label="⬇ Download Guardian Report",
-
-            data=f,
-
-            file_name="guardian_report.json",
-
-            mime="application/json"
-
-        )
-
-if st.button("📄 Generate Guardian Report"):
-
-    report = guardian.dashboard_report()
-
-    report_text = str(report)
-
-    st.subheader("Guardian Report")
-
-    st.text_area(
-        "Report",
-        report_text,
-        height=400
-    )
-
+    # Download Button
     st.download_button(
         label="⬇ Download Guardian Report",
         data=report_text,
-        file_name="guardian_report.txt",
-        mime="text/plain"
+        file_name="guardian_report.json",
+        mime="application/json"
     )
