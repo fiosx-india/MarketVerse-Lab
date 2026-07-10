@@ -248,14 +248,14 @@ class GuardianCore:
             self.live_monitor
         )
         
-# ----------------------------------------
-# Scan Project
-# ----------------------------------------
+  # ----------------------------------------
+  # Scan Project
+  # ----------------------------------------
 
-def scan_project(
-    self,
-    root="."
-):
+  def scan_project(
+      self,
+      root="."
+  ):
 
     report = {}
 
