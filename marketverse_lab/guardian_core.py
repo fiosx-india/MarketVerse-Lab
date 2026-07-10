@@ -591,29 +591,29 @@ def dashboard_report(self):
 
     }
 
-# ======================================================
-# Send Complete Report to App
-# ======================================================
+    # ======================================================
+    # Send Complete Report to App
+    # ======================================================
 
     def app_report(self):
-        
-    Generate one complete report for the Streamlit App.
-    """
+        """
+        Generate one complete report for the Streamlit App.
+        """
 
-    from datetime import datetime
-    import traceback
+        from datetime import datetime
+        import traceback
 
-    report = {
-        "generated_at": datetime.now().isoformat(),
-        "guardian": {},
-        "health": {},
-        "diagnostics": {},
-        "scan": {},
-        "recommendation": {},
-        "modules": {},
-        "issues": [],
-        "summary": {}
-    }
+        report = {
+            "generated_at": datetime.now().isoformat(),
+            "guardian": {},
+            "health": {},
+            "diagnostics": {},
+            "scan": {},
+            "recommendation": {},
+            "modules": {},
+            "issues": [],
+            "summary": {}
+        }
 
     # Guardian Dashboard
     try:
