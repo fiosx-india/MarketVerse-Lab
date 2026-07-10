@@ -718,3 +718,103 @@ def export_diagnostic_report(
         )
 
     return output_file
+    
+# ======================================================
+# Send Diagnostic Report to App
+# ======================================================
+
+def app_report(self):
+    """
+    Returns the complete Guardian report for the App UI.
+    """
+
+    import traceback
+    from datetime import datetime
+
+    report = {
+        "generated_at": datetime.now().isoformat(),
+        "guardian": {},
+        "health": {},
+        "diagnostics": {},
+        "scan": {},
+        "recommendation": {},
+        "modules": {},
+        "issues": []
+    }
+
+    # ---------------- Guardian ----------------
+
+    try:
+        report["guardian"] = self.dashboard_report()
+    except Exception as e:
+        report["issues"].append({
+            "module": "GuardianCore",
+            "error": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        })
+
+    # ---------------- Health ----------------
+
+    try:
+        report["health"] = self.health_report()
+    except Exception:
+        pass
+
+    # ---------------- Diagnostics ----------------
+
+    try:
+        report["diagnostics"] = self.diagnostics()
+    except Exception:
+        pass
+
+    # ---------------- Scanner ----------------
+
+    try:
+        report["scan"] = self.scan_project()
+    except Exception:
+        pass
+
+    # ---------------- AI ----------------
+
+    try:
+        report["recommendation"] = self.ai_recommendation()
+    except Exception:
+        pass
+
+    # ---------------- Auto Discover Modules ----------------
+
+    for name, obj in self.__dict__.items():
+
+        try:
+
+            if hasattr(obj, "report"):
+                report["modules"][name] = obj.report()
+
+            elif hasattr(obj, "diagnostics"):
+                report["modules"][name] = obj.diagnostics()
+
+            elif hasattr(obj, "health_report"):
+                report["modules"][name] = obj.health_report()
+
+            elif hasattr(obj, "is_ready"):
+                report["modules"][name] = {
+                    "ready": obj.is_ready()
+                }
+
+        except Exception as e:
+
+            report["issues"].append({
+                "module": name,
+                "error": type(e).__name__,
+                "message": str(e),
+                "traceback": traceback.format_exc()
+            })
+
+    report["summary"] = {
+        "guardian_ready": self.is_ready(),
+        "total_modules": len(report["modules"]),
+        "total_issues": len(report["issues"])
+    }
+
+    return report
