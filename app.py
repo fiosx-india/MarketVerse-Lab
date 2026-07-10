@@ -106,8 +106,8 @@ elif menu == "⚙ Settings":
 st.divider()
 st.subheader("📊 Score Report")
 
-try: 
-   from score import get_score_report
+try:
+    from score import get_score_report
 
     report = get_score_report()
 
