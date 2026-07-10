@@ -63,31 +63,31 @@ class GuardianCore:
         ]
 
         for module in modules:
-          try:
-              # Connect common modules
-              module.connect_blueprint(self.blueprint)
-              module.connect_mapper(self.mapper)
-              module.connect_locator(self.locator)
-              module.connect_dependency_graph(
+            try:
+                # Connect common modules
+                module.connect_blueprint(self.blueprint)
+                module.connect_mapper(self.mapper)
+                module.connect_locator(self.locator)
+                module.connect_dependency_graph(
                     self.dependency_graph
-              )
+                )
 
-              except Exception as e:
-        print(
-            f"[Guardian] Connection failed: "
-            f"{module.__class__.__name__} -> {e}"
+            except Exception as e:
+                print(
+                    f"[Guardian] Connection failed: "
+                    f"{module.__class__.__name__} -> {e}"
+                )
+                continue
+
+        self.ai_assistant.connect_guardian(self)
+
+        self.ai_assistant.connect_change_planner(
+            self.change_planner
         )
-        continue
 
-         self.ai_assistant.connect_guardian(self)
-
-         self.ai_assistant.connect_change_planner(
-             self.change_planner
-         )
-
-         self.ai_assistant.connect_auto_patch_engine(
-             self.auto_patch_engine
-         )
+        self.ai_assistant.connect_auto_patch_engine(
+            self.auto_patch_engine
+        )
 
          self.ai_assistant.connect_project_memory(
              self.project_memory
