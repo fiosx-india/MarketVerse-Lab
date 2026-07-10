@@ -280,3 +280,13 @@ class ProjectMapper:
         )
 
     __repr__ = __str__
+
+    # ----------------------------------------
+    # Ready Check
+    # ----------------------------------------
+
+    def is_ready(self):
+
+        validation = self.validate()
+
+        return validation["mapping_complete"]
