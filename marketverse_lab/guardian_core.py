@@ -100,7 +100,7 @@ class GuardianCore:
         self.ai_assistant.connect_integration_checker(
             self.integration_checker
         )
-        
+
         self.ai_assistant.connect_error_intelligence(
             self.error_intelligence
         )
