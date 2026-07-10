@@ -278,33 +278,7 @@ except AttributeError as e:
 except Exception as e:
 
     st.error("🔴 Guardian Core Error")
-
-# ======================================================
-# Guardian Diagnostic Report Download
-# ======================================================
-
-st.divider()
-st.subheader("📋 Guardian Diagnostic Report")
-
-if st.button("📥 Generate Diagnostic Report"):
-
-    try:
-        report_file = guardian.export_diagnostic_report()
-
-        st.success("✅ Diagnostic report generated successfully.")
-
-        with open(report_file, "rb") as f:
-            st.download_button(
-                label="⬇ Download Diagnostic Report (.json)",
-                data=f,
-                file_name="guardian_report.json",
-                mime="application/json",
-            )
-
-    except Exception as e:
-        st.error("❌ Failed to generate Guardian report")
-        st.code(str(e))
-
+    
 # ========================================
 # Guardian Diagnostic Report
 # ========================================
