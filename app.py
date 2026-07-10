@@ -292,15 +292,16 @@ if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
     try:
 
-        report = guardian.dashboard_report()
+    # Get complete report from Guardian Core
+    report = guardian.app_report()
 
-        report_text = json.dumps(
-            report,
-            indent=4,
-            ensure_ascii=False
-        )
+    report_text = json.dumps(
+        report,
+        indent=4,
+        ensure_ascii=False
+    )
 
-        st.success("✅ Guardian Report Generated Successfully")
+    st.success("✅ Guardian Report Generated Successfully")
 
         # ==========================================
         # Report Preview
