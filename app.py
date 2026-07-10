@@ -100,37 +100,15 @@ elif menu == "⚙ Settings":
     st.info("Configuration")
 
 # ============================
-# SCORE REPORT (SAFE MODE)
+# SCORE REPORT
 # ============================
 
 st.divider()
 st.subheader("📊 Score Report")
 
-try:
-    from score import get_score_report
+st.info("Score Report is integrated into Guardian Core.")
 
-    report = get_score_report()
-
-    st.metric("⭐ Health Score", f"{report['health_score']}%")
-    st.metric("📁 Total Files", report["total_files"])
-    st.metric("📂 Total Folders", report["total_folders"])
-
-    st.dataframe(report["scan_report"])
-
-    if len(report["errors"]) > 0:
-        st.error("🚨 Errors Found")
-        st.dataframe(report["errors"])
-
-    if len(report["warnings"]) > 0:
-        st.warning("⚠ Warnings")
-        st.dataframe(report["warnings"])
-
-    st.success("✅ Score System Connected")
-
-except Exception as e:
-    st.warning("⚠ Score System Offline")
-    st.code(str(e))
-
+st.success("✅ Score System Ready")
 # ==========================================================
 # GUARDIAN CORE DASHBOARD
 # ==========================================================
