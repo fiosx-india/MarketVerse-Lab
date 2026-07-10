@@ -591,18 +591,17 @@ def dashboard_report(self):
 
     }
 
-# ==========================================
-# Export Professional Diagnostic Report
-# ==========================================
+# ======================================================
+# Send Complete Report to App
+# ======================================================
 
-def export_diagnostic_report(
-    self,
-    output_file="guardian_report.json"
-):
+def app_report(self):
+    """
+    Generate one complete report for the Streamlit App.
+    """
 
-    import json
-    import traceback
     from datetime import datetime
+    import traceback
 
     report = {
         "generated_at": datetime.now().isoformat(),
@@ -611,6 +610,7 @@ def export_diagnostic_report(
         "diagnostics": {},
         "scan": {},
         "recommendation": {},
+        "modules": {},
         "issues": [],
         "summary": {}
     }
@@ -621,7 +621,6 @@ def export_diagnostic_report(
     except Exception as e:
         report["issues"].append({
             "module": "GuardianCore",
-            "severity": "HIGH",
             "error": type(e).__name__,
             "message": str(e),
             "traceback": traceback.format_exc()
@@ -632,11 +631,9 @@ def export_diagnostic_report(
         report["health"] = self.health_report()
     except Exception as e:
         report["issues"].append({
-            "module": "HealthReport",
-            "severity": "HIGH",
+            "module": "Health",
             "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
+            "message": str(e)
         })
 
     # Diagnostics
@@ -645,10 +642,8 @@ def export_diagnostic_report(
     except Exception as e:
         report["issues"].append({
             "module": "Diagnostics",
-            "severity": "HIGH",
             "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
+            "message": str(e)
         })
 
     # Project Scan
@@ -657,10 +652,8 @@ def export_diagnostic_report(
     except Exception as e:
         report["issues"].append({
             "module": "ProjectScanner",
-            "severity": "HIGH",
             "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
+            "message": str(e)
         })
 
     # AI Recommendation
@@ -669,121 +662,11 @@ def export_diagnostic_report(
     except Exception as e:
         report["issues"].append({
             "module": "AIRecommendation",
-            "severity": "MEDIUM",
             "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
+            "message": str(e)
         })
 
-    # Optional module reports
-    modules = [
-        ("integration", self.integration_checker),
-        ("dependency_graph", self.dependency_graph),
-        ("error_intelligence", self.error_intelligence),
-        ("knowledge_base", self.knowledge_base),
-        ("change_planner", self.change_planner),
-        ("auto_patch_engine", self.auto_patch_engine),
-        ("project_memory", self.project_memory),
-        ("live_monitor", self.live_monitor),
-        ("workflow_engine", self.workflow_engine),
-    ]
-
-    for name, module in modules:
-        try:
-            if hasattr(module, "report"):
-                report[name] = module.report()
-        except Exception as e:
-            report["issues"].append({
-                "module": name,
-                "severity": "MEDIUM",
-                "error": type(e).__name__,
-                "message": str(e),
-                "traceback": traceback.format_exc()
-            })
-
-    report["summary"] = {
-        "total_issues": len(report["issues"]),
-        "guardian_ready": self.is_ready(),
-        "health_percent": report.get("health", {}).get(
-            "health_percent", 0
-        )
-    }
-
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(
-            report,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
-
-    return output_file
-    
-# ======================================================
-# Send Diagnostic Report to App
-# ======================================================
-
-def app_report(self):
-    """
-    Returns the complete Guardian report for the App UI.
-    """
-
-    import traceback
-    from datetime import datetime
-
-    report = {
-        "generated_at": datetime.now().isoformat(),
-        "guardian": {},
-        "health": {},
-        "diagnostics": {},
-        "scan": {},
-        "recommendation": {},
-        "modules": {},
-        "issues": []
-    }
-
-    # ---------------- Guardian ----------------
-
-    try:
-        report["guardian"] = self.dashboard_report()
-    except Exception as e:
-        report["issues"].append({
-            "module": "GuardianCore",
-            "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
-        })
-
-    # ---------------- Health ----------------
-
-    try:
-        report["health"] = self.health_report()
-    except Exception:
-        pass
-
-    # ---------------- Diagnostics ----------------
-
-    try:
-        report["diagnostics"] = self.diagnostics()
-    except Exception:
-        pass
-
-    # ---------------- Scanner ----------------
-
-    try:
-        report["scan"] = self.scan_project()
-    except Exception:
-        pass
-
-    # ---------------- AI ----------------
-
-    try:
-        report["recommendation"] = self.ai_recommendation()
-    except Exception:
-        pass
-
-    # ---------------- Auto Discover Modules ----------------
-
+    # Automatically collect every module report
     for name, obj in self.__dict__.items():
 
         try:
@@ -807,12 +690,12 @@ def app_report(self):
             report["issues"].append({
                 "module": name,
                 "error": type(e).__name__,
-                "message": str(e),
-                "traceback": traceback.format_exc()
+                "message": str(e)
             })
 
     report["summary"] = {
         "guardian_ready": self.is_ready(),
+        "health_percent": report["health"].get("health_percent", 0),
         "total_modules": len(report["modules"]),
         "total_issues": len(report["issues"])
     }
