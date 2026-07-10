@@ -596,24 +596,24 @@ def dashboard_report(self):
     # ======================================================
 
     def app_report(self):
-        """
-        Generate one complete report for the Streamlit App.
-        """
+    """
+    Generate one complete report for the Streamlit App.
+    """
 
-        from datetime import datetime
-        import traceback
+    from datetime import datetime
+    import traceback
 
-        report = {
-            "generated_at": datetime.now().isoformat(),
-            "guardian": {},
-            "health": {},
-            "diagnostics": {},
-            "scan": {},
-            "recommendation": {},
-            "modules": {},
-            "issues": [],
-            "summary": {}
-        }
+    report = {
+        "generated_at": datetime.now().isoformat(),
+        "guardian": {},
+        "health": {},
+        "diagnostics": {},
+        "scan": {},
+        "recommendation": {},
+        "modules": {},
+        "issues": [],
+        "summary": {}
+    }
 
     # Guardian Dashboard
     try:
@@ -652,6 +652,16 @@ def dashboard_report(self):
     except Exception as e:
         report["issues"].append({
             "module": "ProjectScanner",
+            "error": type(e).__name__,
+            "message": str(e)
+        })
+
+    # AI Recommendation
+    try:
+        report["recommendation"] = self.ai_recommendation()
+    except Exception as e:
+        report["issues"].append({
+            "module": "AIRecommendation",
             "error": type(e).__name__,
             "message": str(e)
         })
