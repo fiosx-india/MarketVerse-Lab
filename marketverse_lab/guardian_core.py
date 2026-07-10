@@ -1,4 +1,4 @@
-"""
+."""
 MarketVerse Lab
 guardian_core.py
 
@@ -693,15 +693,6 @@ def app_report(self):
                 "message": str(e)
             })
 
-    report["summary"] = {
-        "guardian_ready": self.is_ready(),
-        "health_percent": report["health"].get("health_percent", 0),
-        "total_modules": len(report["modules"]),
-        "total_issues": len(report["issues"])
-    }
-
-    return report
-    
     # ==========================================
     # App Status
     # ==========================================
@@ -714,19 +705,17 @@ def app_report(self):
         "generated_at": report["generated_at"]
     }
 
+    # ==========================================
+    # Summary
+    # ==========================================
+
     report["summary"] = {
         "guardian_ready": self.is_ready(),
-        "health_percent": report["health"].get(
-            "health_percent", 0
-        ),
+        "health_percent": report["health"].get("health_percent", 0),
         "total_modules": len(report["modules"]),
         "total_issues": len(report["issues"]),
         "generated_at": report["generated_at"],
-        "status": (
-            "READY"
-            if self.is_ready()
-            else "WARNING"
-        )
+        "status": "READY" if self.is_ready() else "WARNING"
     }
 
     return report
