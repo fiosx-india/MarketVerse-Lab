@@ -289,10 +289,6 @@ class GuardianCore:
     # Dashboard Report
     # ----------------------------------------
 
-    # ----------------------------------------
-    # Dashboard Report
-    # ----------------------------------------
-
     def dashboard_report(self):
 
         return {
