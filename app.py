@@ -302,3 +302,24 @@ if st.button("📄 Generate Guardian Report"):
             mime="application/json"
 
         )
+
+if st.button("📄 Generate Guardian Report"):
+
+    report = guardian.dashboard_report()
+
+    report_text = str(report)
+
+    st.subheader("Guardian Report")
+
+    st.text_area(
+        "Report",
+        report_text,
+        height=400
+    )
+
+    st.download_button(
+        label="⬇ Download Guardian Report",
+        data=report_text,
+        file_name="guardian_report.txt",
+        mime="text/plain"
+    )
