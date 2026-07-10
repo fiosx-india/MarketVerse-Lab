@@ -701,3 +701,32 @@ def app_report(self):
     }
 
     return report
+    
+    # ==========================================
+    # App Status
+    # ==========================================
+
+    report["app"] = {
+        "display": True,
+        "download": True,
+        "preview": True,
+        "generated": True,
+        "generated_at": report["generated_at"]
+    }
+
+    report["summary"] = {
+        "guardian_ready": self.is_ready(),
+        "health_percent": report["health"].get(
+            "health_percent", 0
+        ),
+        "total_modules": len(report["modules"]),
+        "total_issues": len(report["issues"]),
+        "generated_at": report["generated_at"],
+        "status": (
+            "READY"
+            if self.is_ready()
+            else "WARNING"
+        )
+    }
+
+    return report
