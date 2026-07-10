@@ -89,7 +89,7 @@ class GuardianCore:
             self.auto_patch_engine
         )
 
-         self.ai_assistant.connect_project_memory(
+        self.ai_assistant.connect_project_memory(
              self.project_memory
          )
 
