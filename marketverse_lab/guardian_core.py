@@ -247,55 +247,75 @@ class GuardianCore:
         self.workflow_engine.connect_live_monitor(
             self.live_monitor
         )
+        
+# ----------------------------------------
+# Scan Project
+# ----------------------------------------
 
-    # ----------------------------------------
-    # Scan Project
-    # ----------------------------------------
+def scan_project(
+    self,
+    root="."
+):
 
-    def scan_project(
-        self,
-        root="."
-    ):
+    report = {}
 
-        report = {}
+    report["errors"] = (
+        self.error_intelligence.report()
+        if self.error_intelligence is not None
+        else {
+            "status": "ErrorIntelligence not connected."
+        }
+    )
 
-        if self.error_intelligence is not None:
+    report["blueprint"] = (
+        self.blueprint.report()
+        if self.blueprint is not None
+        else {
+            "status": "ProjectBlueprint not connected."
+        }
+    )
 
-            report["errors"] = (
-                self.error_intelligence.report()
-            )
+    report["mapping"] = (
+        self.mapper.report()
+        if self.mapper is not None
+        else {
+            "status": "ProjectMapper not connected."
+        }
+    )
 
-        else:
+    report["dependencies"] = (
+        self.dependency_graph.report()
+        if self.dependency_graph is not None
+        else {
+            "status": "DependencyGraph not connected."
+        }
+    )
 
-            report["errors"] = {
-                "status": "ErrorIntelligence not connected."
-            }
+    report["integration"] = (
+        self.integration_checker.report()
+        if self.integration_checker is not None
+        else {
+            "status": "IntegrationChecker not connected."
+        }
+    )
 
-        report["blueprint"] = (
-            self.blueprint.report()
-        )
+    report["knowledge"] = (
+        self.knowledge_base.report()
+        if self.knowledge_base is not None
+        else {
+            "status": "KnowledgeBase not connected."
+        }
+    )
 
-        report["mapping"] = (
-            self.mapper.report()
-        )
+    report["memory"] = (
+        self.project_memory.report()
+        if self.project_memory is not None
+        else {
+            "status": "ProjectMemory not connected."
+        }
+    )
 
-        report["dependencies"] = (
-            self.dependency_graph.report()
-        )
-
-        report["integration"] = (
-            self.integration_checker.report()
-        )
-
-        report["knowledge"] = (
-            self.knowledge_base.report()
-        )
-
-        report["memory"] = (
-            self.project_memory.report()
-        )
-
-        return report
+    return report
 
     # ----------------------------------------
     # Dashboard Report
