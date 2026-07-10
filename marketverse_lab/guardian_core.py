@@ -21,10 +21,10 @@ from .live_monitor import LiveMonitor
 from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
 
+
 class GuardianCore:
 
     def __init__(self):
-
         # Core Modules
         self.blueprint = ProjectBlueprint()
         self.mapper = ProjectMapper()
@@ -39,7 +39,8 @@ class GuardianCore:
         self.live_monitor = LiveMonitor()
         self.workflow_engine = WorkflowEngine()
         self.ai_assistant = AIAssistant()
-        
+
+        # Connect all modules
         self._connect_modules()
 
     # ----------------------------------------
@@ -49,7 +50,6 @@ class GuardianCore:
     def _connect_modules(self):
 
         modules = [
-
             self.integration_checker,
             self.error_intelligence,
             self.knowledge_base,
@@ -58,8 +58,7 @@ class GuardianCore:
             self.project_memory,
             self.live_monitor,
             self.workflow_engine,
-            self.ai_assistant
-            
+            self.ai_assistant,
         ]
 
         for module in modules:
@@ -78,6 +77,10 @@ class GuardianCore:
                     f"{module.__class__.__name__} -> {e}"
                 )
                 continue
+
+        # ----------------------------------------
+        # AI Assistant Connections
+        # ----------------------------------------
 
         self.ai_assistant.connect_guardian(self)
 
@@ -109,6 +112,10 @@ class GuardianCore:
             self.knowledge_base
         )
 
+        # ----------------------------------------
+        # Integration Checker Connections
+        # ----------------------------------------
+
         self.integration_checker.connect_mapper(
             self.mapper
         )
@@ -125,6 +132,10 @@ class GuardianCore:
             self.error_intelligence
         )
 
+        # ----------------------------------------
+        # Change Planner Connections
+        # ----------------------------------------
+
         self.change_planner.connect_integration_checker(
             self.integration_checker
         )
@@ -136,6 +147,10 @@ class GuardianCore:
         self.change_planner.connect_knowledge_base(
             self.knowledge_base
         )
+
+        # ----------------------------------------
+        # Auto Patch Engine Connections
+        # ----------------------------------------
 
         self.auto_patch_engine.connect_integration_checker(
             self.integration_checker
@@ -153,6 +168,10 @@ class GuardianCore:
             self.change_planner
         )
 
+        # ----------------------------------------
+        # Project Memory Connections
+        # ----------------------------------------
+
         self.project_memory.connect_integration_checker(
             self.integration_checker
         )
@@ -168,7 +187,7 @@ class GuardianCore:
         self.project_memory.connect_change_planner(
             self.change_planner
         )
-                 
+
         self.project_memory.connect_auto_patch_engine(
             self.auto_patch_engine
         )
@@ -238,7 +257,6 @@ class GuardianCore:
         root="."
     ):
 
-
         report = {}
 
         report["blueprint"] = self.blueprint.report()
@@ -266,6 +284,11 @@ class GuardianCore:
         )
 
         return report
+
+    # ----------------------------------------
+    # Dashboard Report
+    # ----------------------------------------
+
     # ----------------------------------------
     # Dashboard Report
     # ----------------------------------------
@@ -278,6 +301,7 @@ class GuardianCore:
             "health": 100,
             "status": "Ready"
         }
+
     # ----------------------------------------
     # Plan Change
     # ----------------------------------------
@@ -304,12 +328,9 @@ class GuardianCore:
         code
     ):
 
-        backup = self.auto_patch_engine.backup_file(
-            file
-        )
+        backup = self.auto_patch_engine.backup_file(file)
 
         if not backup.success:
-
             return backup
 
         result = self.auto_patch_engine.insert_code(
@@ -325,6 +346,7 @@ class GuardianCore:
         )
 
         return result
+
     # ----------------------------------------
     # Auto Scan
     # ----------------------------------------
@@ -353,7 +375,7 @@ class GuardianCore:
             "change_planner": self.change_planner.is_ready(),
             "auto_patch_engine": self.auto_patch_engine.is_ready(),
             "project_memory": self.project_memory.is_ready(),
-           "live_monitor": self.live_monitor.is_ready(),
+            "live_monitor": self.live_monitor.is_ready(),
             "workflow_engine": self.workflow_engine.is_ready(),
             "ai_assistant": self.ai_assistant.is_ready(),
         }
@@ -420,36 +442,32 @@ class GuardianCore:
 
     __repr__ = __str__
 
-# ----------------------------------------
-# Dashboard Report
-# ----------------------------------------
+    # ----------------------------------------
+    # Dashboard Report
+    # ----------------------------------------
 
-def dashboard_report(self):
+    def dashboard_report(self):
 
-    diagnostics = self.diagnostics()
-    health = self.health_report()
-    scan = self.scan_project()
-    ai = self.ai_recommendation()
+        diagnostics = self.diagnostics()
+        health = self.health_report()
+        scan = self.scan_project()
+        ai = self.ai_recommendation()
 
-    ready_modules = [
-        name for name, state in diagnostics.items()
-        if state
-    ]
+        ready_modules = [
+            name for name, state in diagnostics.items()
+            if state
+        ]
 
-    pending_modules = [
-        name for name, state in diagnostics.items()
-        if not state
-    ]
+        pending_modules = [
+            name for name, state in diagnostics.items()
+            if not state
+        ]
 
-    total_modules = health["total_modules"]
-    ready_count = health["ready_modules"]
-    pending_count = total_modules - ready_count
+        total_modules = health["total_modules"]
+        ready_count = health["ready_modules"]
+        pending_count = total_modules - ready_count
 
-    return {
-
-        # =================================================
-        # Guardian Information
-        # =================================================
+        return {
 
         "name": "Guardian Core",
         "version": "1.0.0",
@@ -466,13 +484,9 @@ def dashboard_report(self):
         # =================================================
 
         "health": health["health_percent"],
-
         "health_report": health,
-
         "ready_modules": ready_count,
-
         "pending_modules": pending_count,
-
         "total_modules": total_modules,
 
         # =================================================
@@ -480,9 +494,7 @@ def dashboard_report(self):
         # =================================================
 
         "modules": diagnostics,
-
         "ready_list": ready_modules,
-
         "pending_list": pending_modules,
 
         # =================================================
@@ -490,7 +502,6 @@ def dashboard_report(self):
         # =================================================
 
         "scan_report": scan,
-
         "last_scan": "Live",
 
         # =================================================
@@ -511,19 +522,14 @@ def dashboard_report(self):
         # =================================================
 
         "statistics": {
-
             "health_percent": health["health_percent"],
-
             "ready_modules": ready_count,
-
             "pending_modules": pending_count,
-
             "total_modules": total_modules,
-
             "ready_percent": round(
                 (ready_count / total_modules) * 100,
                 2
-            ) if total_modules else 0
+            ) if total_modules else 0,
         },
 
         # =================================================
@@ -533,15 +539,11 @@ def dashboard_report(self):
         "live": {
 
             "guardian": True,
-
             "scanner": True,
 
             "blueprint": self.blueprint.is_ready(),
-
             "mapper": self.mapper.is_ready(),
-
             "locator": self.locator.is_ready(),
-
             "dependency_graph": self.dependency_graph.is_ready(),
 
             "integration_checker":
@@ -580,20 +582,18 @@ def dashboard_report(self):
         "summary": {
 
             "online": self.is_ready(),
-
             "healthy": health["health_percent"] >= 80,
-
             "warnings": pending_count,
-
             "errors": 0
 
         }
 
     }
 
-  # ======================================================
-  # Send Complete Report to App
-  # ======================================================
+    # ======================================================
+    # Send Complete Report to App
+    # ======================================================
+
     def app_report(self):
         """
         Generate one complete report for the Streamlit App.
@@ -617,6 +617,7 @@ def dashboard_report(self):
         # Guardian Dashboard
         try:
             report["guardian"] = self.dashboard_report()
+
         except Exception as e:
             report["issues"].append({
                 "module": "GuardianCore",
@@ -665,56 +666,65 @@ def dashboard_report(self):
                 "message": str(e)
             })
 
-    # Automatically collect every module report
-    for name, obj in self.__dict__.items():
+        # ==========================================
+        # Automatically collect every module report
+        # ==========================================
 
-        try:
+        for name, obj in self.__dict__.items():
 
-            if hasattr(obj, "report"):
-                report["modules"][name] = obj.report()
+            try:
 
-            elif hasattr(obj, "diagnostics"):
-                report["modules"][name] = obj.diagnostics()
+                if hasattr(obj, "report"):
+                    report["modules"][name] = obj.report()
 
-            elif hasattr(obj, "health_report"):
-                report["modules"][name] = obj.health_report()
+                elif hasattr(obj, "diagnostics"):
+                    report["modules"][name] = obj.diagnostics()
 
-            elif hasattr(obj, "is_ready"):
-                report["modules"][name] = {
-                    "ready": obj.is_ready()
-                }
+                elif hasattr(obj, "health_report"):
+                    report["modules"][name] = obj.health_report()
 
-        except Exception as e:
+                elif hasattr(obj, "is_ready"):
+                    report["modules"][name] = {
+                        "ready": obj.is_ready()
+                    }
 
-            report["issues"].append({
-                "module": name,
-                "error": type(e).__name__,
-                "message": str(e)
-            })
+            except Exception as e:
 
-    # ==========================================
-    # App Status
-    # ==========================================
+                report["issues"].append({
+                    "module": name,
+                    "error": type(e).__name__,
+                    "message": str(e)
+                })
 
-    report["app"] = {
-        "display": True,
-        "download": True,
-        "preview": True,
-        "generated": True,
-        "generated_at": report["generated_at"]
-    }
+        # ==========================================
+        # App Status
+        # ==========================================
 
-    # ==========================================
-    # Summary
-    # ==========================================
+        report["app"] = {
+            "display": True,
+            "download": True,
+            "preview": True,
+            "generated": True,
+            "generated_at": report["generated_at"]
+        }
 
-    report["summary"] = {
-        "guardian_ready": self.is_ready(),
-        "health_percent": report["health"].get("health_percent", 0),
-        "total_modules": len(report["modules"]),
-        "total_issues": len(report["issues"]),
-        "generated_at": report["generated_at"],
-        "status": "READY" if self.is_ready() else "WARNING"
-    }
+        # ==========================================
+        # Summary
+        # ==========================================
 
-    return report
+        report["summary"] = {
+            "guardian_ready": self.is_ready(),
+            "health_percent": report["health"].get(
+                "health_percent", 0
+            ),
+            "total_modules": len(report["modules"]),
+            "total_issues": len(report["issues"]),
+            "generated_at": report["generated_at"],
+            "status": (
+                "READY"
+                if self.is_ready()
+                else "WARNING"
+            )
+        }
+
+        return report
