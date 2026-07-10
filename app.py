@@ -279,3 +279,27 @@ except Exception as e:
 
     st.error("🔴 Guardian Core Error")
     st.code(str(e))
+
+# ========================================
+# Guardian Diagnostic Report
+# ========================================
+
+if st.button("📄 Generate Guardian Report"):
+
+    report_file = guardian.export_diagnostic_report()
+
+    st.success("Guardian report generated successfully.")
+
+    with open(report_file, "rb") as f:
+
+        st.download_button(
+
+            label="⬇ Download Guardian Report",
+
+            data=f,
+
+            file_name="guardian_report.json",
+
+            mime="application/json"
+
+        )
