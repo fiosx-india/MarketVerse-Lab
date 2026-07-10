@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 
 st.set_page_config(
     page_title="MarketVerse Lab",
@@ -278,12 +279,16 @@ except AttributeError as e:
 except Exception as e:
 
     st.error("🔴 Guardian Core Error")
+    st.code(str(e))
 
 if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
+    if "guardian" not in locals():
+        st.error("Guardian Core is not initialized.")
+        st.stop()
+
     try:
 
-        # Get complete report from Guardian Core
         report = guardian.app_report()
 
         report_text = json.dumps(
