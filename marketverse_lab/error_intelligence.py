@@ -285,6 +285,46 @@ class ErrorIntelligence:
             auto_fixable=False
         )
 
+# ----------------------------------------
+# Connection Validation
+# ----------------------------------------
+
+def validate_connections(self):
+
+    missing = []
+
+    if self.blueprint is None:
+        missing.append("ProjectBlueprint")
+
+    if self.mapper is None:
+        missing.append("ProjectMapper")
+
+    if self.code_locator is None:
+        missing.append("CodeLocator")
+
+    if self.dependency_graph is None:
+        missing.append("DependencyGraph")
+
+    if self.integration_checker is None:
+        missing.append("IntegrationChecker")
+
+    if missing:
+
+        self.register(
+            file="SYSTEM",
+            line=0,
+            error_type="ConnectionError",
+            severity="CRITICAL",
+            message=f"Missing connections: {', '.join(missing)}",
+            suggestion="Connect missing modules before execution.",
+            auto_fixable=False
+        )
+
+    return {
+        "success": len(missing) == 0,
+        "missing": missing
+    }
+    
     # ----------------------------------------
     # Priority Sort
     # ----------------------------------------
