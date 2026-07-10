@@ -595,86 +595,76 @@ def dashboard_report(self):
     # Send Complete Report to App
     # ======================================================
 
-    def app_report(self):
-    """
-    Generate one complete report for the Streamlit App.
-    """
+        def app_report(self):
+        """
+        Generate one complete report for the Streamlit App.
+        """
 
-    from datetime import datetime
-    import traceback
+        from datetime import datetime
+        import traceback
 
-    report = {
-        "generated_at": datetime.now().isoformat(),
-        "guardian": {},
-        "health": {},
-        "diagnostics": {},
-        "scan": {},
-        "recommendation": {},
-        "modules": {},
-        "issues": [],
-        "summary": {}
-    }
+        report = {
+            "generated_at": datetime.now().isoformat(),
+            "guardian": {},
+            "health": {},
+            "diagnostics": {},
+            "scan": {},
+            "recommendation": {},
+            "modules": {},
+            "issues": [],
+            "summary": {}
+        }
 
-    # Guardian Dashboard
-    try:
-        report["guardian"] = self.dashboard_report()
-    except Exception as e:
-        report["issues"].append({
-            "module": "GuardianCore",
-            "error": type(e).__name__,
-            "message": str(e),
-            "traceback": traceback.format_exc()
-        })
+        # Guardian Dashboard
+        try:
+            report["guardian"] = self.dashboard_report()
+        except Exception as e:
+            report["issues"].append({
+                "module": "GuardianCore",
+                "error": type(e).__name__,
+                "message": str(e),
+                "traceback": traceback.format_exc()
+            })
 
-    # Health
-    try:
-        report["health"] = self.health_report()
-    except Exception as e:
-        report["issues"].append({
-            "module": "Health",
-            "error": type(e).__name__,
-            "message": str(e)
-        })
+        # Health
+        try:
+            report["health"] = self.health_report()
+        except Exception as e:
+            report["issues"].append({
+                "module": "Health",
+                "error": type(e).__name__,
+                "message": str(e)
+            })
 
-    # Diagnostics
-    try:
-        report["diagnostics"] = self.diagnostics()
-    except Exception as e:
-        report["issues"].append({
-            "module": "Diagnostics",
-            "error": type(e).__name__,
-            "message": str(e)
-        })
+        # Diagnostics
+        try:
+            report["diagnostics"] = self.diagnostics()
+        except Exception as e:
+            report["issues"].append({
+                "module": "Diagnostics",
+                "error": type(e).__name__,
+                "message": str(e)
+            })
 
-    # Project Scan
-    try:
-        report["scan"] = self.scan_project()
-    except Exception as e:
-        report["issues"].append({
-            "module": "ProjectScanner",
-            "error": type(e).__name__,
-            "message": str(e)
-        })
+        # Project Scan
+        try:
+            report["scan"] = self.scan_project()
+        except Exception as e:
+            report["issues"].append({
+                "module": "ProjectScanner",
+                "error": type(e).__name__,
+                "message": str(e)
+            })
 
-    # AI Recommendation
-    try:
-        report["recommendation"] = self.ai_recommendation()
-    except Exception as e:
-        report["issues"].append({
-            "module": "AIRecommendation",
-            "error": type(e).__name__,
-            "message": str(e)
-        })
-
-    # AI Recommendation
-    try:
-        report["recommendation"] = self.ai_recommendation()
-    except Exception as e:
-        report["issues"].append({
-            "module": "AIRecommendation",
-            "error": type(e).__name__,
-            "message": str(e)
-        })
+        # AI Recommendation
+        try:
+            report["recommendation"] = self.ai_recommendation()
+        except Exception as e:
+            report["issues"].append({
+                "module": "AIRecommendation",
+                "error": type(e).__name__,
+                "message": str(e)
+            })
 
     # Automatically collect every module report
     for name, obj in self.__dict__.items():
