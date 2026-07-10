@@ -1,4 +1,4 @@
-."""
+"""
 MarketVerse Lab
 guardian_core.py
 
