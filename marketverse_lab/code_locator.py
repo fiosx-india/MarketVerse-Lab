@@ -299,3 +299,14 @@ class CodeLocator:
         )
 
     __repr__ = __str__
+
+    # ----------------------------------------
+    # Ready Check
+    # ----------------------------------------
+
+    def is_ready(self):
+
+        return (
+            self.blueprint is not None
+            and self.mapper is not None
+        )
