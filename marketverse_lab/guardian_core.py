@@ -590,3 +590,38 @@ def dashboard_report(self):
         }
 
     }
+
+# ----------------------------------------
+# Export Diagnostic Report
+# ----------------------------------------
+
+def export_diagnostic_report(self, output_file="guardian_report.json"):
+
+    import json
+    from datetime import datetime
+
+    report = {
+
+        "generated_at": datetime.now().isoformat(),
+
+        "guardian": self.dashboard_report(),
+
+        "health": self.health_report(),
+
+        "diagnostics": self.diagnostics(),
+
+        "scan": self.scan_project(),
+
+        "recommendation": self.ai_recommendation()
+
+    }
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(
+            report,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
+    return output_file
