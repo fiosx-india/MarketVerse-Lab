@@ -324,7 +324,7 @@ class ErrorIntelligence:
         "success": len(missing) == 0,
         "missing": missing
     }
-    
+
     # ----------------------------------------
     # Priority Sort
     # ----------------------------------------
