@@ -710,6 +710,13 @@ class GuardianCore:
                 })
 
         # ==========================================
+        # Guardian Validation & Score
+        # ==========================================
+
+        report["validation"] = self.guardian_validation()
+        report["score"] = self.guardian_score()
+
+        # ==========================================
         # App Status
         # ==========================================
 
