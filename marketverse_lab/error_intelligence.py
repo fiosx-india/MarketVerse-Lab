@@ -320,11 +320,11 @@ class ErrorIntelligence:
             auto_fixable=False
         )
 
-      return {
-          "success": len(missing) == 0,
-          "missing": missing
-       }
-
+    return {
+        "success": len(missing) == 0,
+        "missing": missing
+    }
+    
     # ----------------------------------------
     # Priority Sort
     # ----------------------------------------
