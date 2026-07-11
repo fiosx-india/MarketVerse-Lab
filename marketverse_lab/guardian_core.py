@@ -746,7 +746,9 @@ class GuardianCore:
                 else "WARNING"
             )
         }
- return report
+        
+    return report
+    
 # =====================================================
 # Guardian Structural Validation
 # =====================================================
