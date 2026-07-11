@@ -95,7 +95,23 @@ class DependencyGraph:
                     self.nodes[imported].imported_by.append(file_path)
 
         return True
+    # ----------------------------------------
+    # Build Dependency Graph
+    # ----------------------------------------
 
+    def build(self):
+
+        if self.mapper is None:
+            return False
+
+        self.nodes.clear()
+
+        for file_path in self.mapper.files.keys():
+            self.register_file(file_path)
+
+        self.build_reverse_dependencies()
+
+        return True
     # ----------------------------------------
     # Scan Project Imports
     # ----------------------------------------
