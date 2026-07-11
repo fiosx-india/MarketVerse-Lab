@@ -747,13 +747,13 @@ class GuardianCore:
             )
         }
 
-        return report
+   return report
 
 # =====================================================
 # Guardian Structural Validation
 # =====================================================
 
-def structure_report(self):
+   def structure_report(self):
 
     report = {
         "placement": [],
@@ -835,15 +835,15 @@ def structure_report(self):
 
         report["wrong_files"].append(item)
 
-    return report
+   return report
 
 # =====================================================
 # Guardian Validation
 # =====================================================
 
-def guardian_validation(self):
+   def guardian_validation(self):
 
-    return {
+       return {
 
         "structure": self.structure_report(),
 
@@ -864,7 +864,7 @@ def guardian_validation(self):
 # Guardian Score
 # =====================================================
 
-def guardian_score(self):
+   def guardian_score(self):
 
     validation = self.guardian_validation()
 
