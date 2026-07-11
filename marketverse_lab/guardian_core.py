@@ -790,7 +790,7 @@ class GuardianCore:
 
         for file, functions in expected.items():
 
-            current = self.project_mapper.function_list(file)
+            current = self.mapper.function_list(file)
 
             for index, func in enumerate(functions):
 
@@ -829,7 +829,7 @@ class GuardianCore:
         # Wrong File Detection
         # ----------------------------------------
 
-        wrong = self.project_mapper.find_wrong_files()
+        wrong = self.mapper.find_wrong_files()
 
         for item in wrong:
 
