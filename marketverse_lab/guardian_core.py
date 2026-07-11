@@ -44,22 +44,22 @@ class GuardianCore:
         self._connect_modules()
         
         modules = [
-       ("project_mapper", "Project Mapper"),
-       ("code_locator", "Code Locator"),
-       ("dependency_graph", "Dependency Graph"),
-       ("integration_checker", "Integration Checker"),
-       ("error_intelligence", "Error Intelligence"),
-       ("knowledge_base", "Knowledge Base"),
-       ("change_planner", "Change Planner"),
-       ("auto_patch_engine", "Auto Patch Engine"),
-       ("project_memory", "Project Memory"),
-       ("live_monitor", "Live Monitor"),
-       ("workflow_engine", "Workflow Engine"),
-       ("ai_assistant", "AI Assistant"),
-   ]
+            ("project_mapper", "Project Mapper"),
+            ("code_locator", "Code Locator"),
+            ("dependency_graph", "Dependency Graph"),
+            ("integration_checker", "Integration Checker"),
+            ("error_intelligence", "Error Intelligence"),
+            ("knowledge_base", "Knowledge Base"),
+            ("change_planner", "Change Planner"),
+            ("auto_patch_engine", "Auto Patch Engine"),
+            ("project_memory", "Project Memory"),
+            ("live_monitor", "Live Monitor"),
+            ("workflow_engine", "Workflow Engine"),
+            ("ai_assistant", "AI Assistant"),
+        ]
 
-    for name, description in modules:
-        self.blueprint.register_module(name, description)
+        for name, description in modules:
+            self.blueprint.register_module(name, description)
        
         # Build Blueprint
         self.blueprint.build(".")
