@@ -252,7 +252,7 @@ class GuardianCore:
   # Scan Project
   # ----------------------------------------
 
-  def scan_project(
+    def scan_project(
       self,
       root="."
   ):
