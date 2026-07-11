@@ -751,7 +751,7 @@ class GuardianCore:
 # =====================================================
 # Guardian Structural Validation
 # =====================================================
-   def structure_report(self):
+def structure_report(self):
 
     report = {
         "placement": [],
