@@ -42,7 +42,6 @@ class GuardianCore:
 
         # Connect all modules
         self._connect_modules()
-        
        modules = [
        ("project_mapper", "Project Mapper"),
        ("code_locator", "Code Locator"),
