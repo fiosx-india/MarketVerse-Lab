@@ -747,12 +747,10 @@ class GuardianCore:
             )
         }
 
-     return report
-
+    return report
 # =====================================================
 # Guardian Structural Validation
 # =====================================================
-
    def structure_report(self):
 
     report = {
