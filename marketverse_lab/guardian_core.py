@@ -58,8 +58,8 @@ class GuardianCore:
        ("ai_assistant", "AI Assistant"),
    ]
 
-   for name, description in modules:
-       self.blueprint.register_module(name, description)
+    for name, description in modules:
+        self.blueprint.register_module(name, description)
        
         # Build Blueprint
         self.blueprint.build(".")
