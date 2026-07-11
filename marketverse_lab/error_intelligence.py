@@ -320,7 +320,7 @@ class ErrorIntelligence:
             auto_fixable=False
         )
 
-      return {
+       return {
         "success": len(missing) == 0,
         "missing": missing
     }
