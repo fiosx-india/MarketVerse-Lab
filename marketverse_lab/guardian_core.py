@@ -42,6 +42,10 @@ class GuardianCore:
 
         # Connect all modules
         self._connect_modules()
+        
+        # Initialize Project
+        self.mapper.build(".")
+        self.live_monitor.scan_folder(".")
 
     # ----------------------------------------
     # Connect Everything
@@ -256,6 +260,9 @@ class GuardianCore:
         self,
         root="."
     ):
+
+        self.mapper.build(root)
+        self.live_monitor.scan_folder(root)
 
         report = {}
 
