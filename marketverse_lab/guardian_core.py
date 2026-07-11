@@ -746,146 +746,148 @@ class GuardianCore:
                 else "WARNING"
             )
         }
-        
-    return report
-    
-# =====================================================
-# Guardian Structural Validation
-# =====================================================
-def structure_report(self):
 
-    report = {
-        "placement": [],
-        "wrong_files": [],
-        "wrong_position": [],
-        "summary": {
-            "green": 0,
-            "red": 0
+        return report
+
+    # =====================================================
+    # Guardian Structural Validation
+    # =====================================================
+
+    def structure_report(self):
+
+        report = {
+            "placement": [],
+            "wrong_files": [],
+            "wrong_position": [],
+            "summary": {
+                "green": 0,
+                "red": 0
+            }
         }
-    }
 
-    expected = {
+        expected = {
 
-        "guardian_core.py": [
-            "__init__",
-            "_connect_modules",
-            "scan_project",
-            "dashboard_report",
-            "plan_change",
-            "apply_patch",
-            "auto_scan",
-            "diagnostics",
-            "health_report",
-            "ai_recommendation",
-            "is_ready",
-            "app_report"
-        ]
+            "guardian_core.py": [
+                "__init__",
+                "_connect_modules",
+                "scan_project",
+                "dashboard_report",
+                "plan_change",
+                "apply_patch",
+                "auto_scan",
+                "diagnostics",
+                "health_report",
+                "ai_recommendation",
+                "is_ready",
+                "app_report"
+            ]
 
-    }
+        }
 
-    # ----------------------------------------
-    # Check Placement
-    # ----------------------------------------
+        # ----------------------------------------
+        # Check Placement
+        # ----------------------------------------
 
-    for file, functions in expected.items():
+        for file, functions in expected.items():
 
-        current = self.project_mapper.function_list(file)
+            current = self.project_mapper.function_list(file)
 
-        for index, func in enumerate(functions):
+            for index, func in enumerate(functions):
 
-            if func not in current:
+                if func not in current:
 
-                report["placement"].append({
-                    "status": "RED",
-                    "function": func,
-                    "reason": "Missing"
-                })
+                    report["placement"].append({
+                        "status": "RED",
+                        "function": func,
+                        "reason": "Missing"
+                    })
 
-                report["summary"]["red"] += 1
+                    report["summary"]["red"] += 1
 
-                continue
+                    continue
 
-            if current.index(func) == index:
+                if current.index(func) == index:
 
-                report["placement"].append({
-                    "status": "GREEN",
-                    "function": func
-                })
+                    report["placement"].append({
+                        "status": "GREEN",
+                        "function": func
+                    })
 
-                report["summary"]["green"] += 1
+                    report["summary"]["green"] += 1
 
-            else:
+                else:
 
-                report["placement"].append({
-                    "status": "RED",
-                    "function": func,
-                    "reason": "Wrong Position"
-                })
+                    report["placement"].append({
+                        "status": "RED",
+                        "function": func,
+                        "reason": "Wrong Position"
+                    })
 
-                report["summary"]["red"] += 1
+                    report["summary"]["red"] += 1
 
-    # ----------------------------------------
-    # Wrong File Detection
-    # ----------------------------------------
+        # ----------------------------------------
+        # Wrong File Detection
+        # ----------------------------------------
 
-    wrong = self.project_mapper.find_wrong_files()
+        wrong = self.project_mapper.find_wrong_files()
 
-    for item in wrong:
+        for item in wrong:
 
-        report["wrong_files"].append(item)
+            report["wrong_files"].append(item)
 
-    return report
-# =====================================================
-# Guardian Validation
-# =====================================================
+        return report
 
-def guardian_validation(self):
+    # =====================================================
+    # Guardian Validation
+    # =====================================================
 
-       return {
+    def guardian_validation(self):
 
-        "structure": self.structure_report(),
+        return {
 
-        "diagnostics": self.diagnostics(),
+            "structure": self.structure_report(),
 
-        "health": self.health_report(),
+            "diagnostics": self.diagnostics(),
 
-        "ready": self.is_ready(),
+            "health": self.health_report(),
 
-        "status": (
-            "GREEN"
-            if self.is_ready()
-            else "RED"
-        )
-    }
+            "ready": self.is_ready(),
 
-# =====================================================
-# Guardian Score
-# =====================================================
+            "status": (
+                "GREEN"
+                if self.is_ready()
+                else "RED"
+            )
+        }
 
-def guardian_score(self):
+    # =====================================================
+    # Guardian Score
+    # =====================================================
 
-    validation = self.guardian_validation()
+    def guardian_score(self):
 
-    score = validation["health"]["health_percent"]
+        validation = self.guardian_validation()
 
-    if validation["structure"]["summary"]["red"] > 0:
-        score -= validation["structure"]["summary"]["red"] * 2
+        score = validation["health"]["health_percent"]
 
-    if score < 0:
-        score = 0
+        if validation["structure"]["summary"]["red"] > 0:
+            score -= validation["structure"]["summary"]["red"] * 2
 
-    return {
+        if score < 0:
+            score = 0
 
-        "score": score,
+        return {
 
-        "signal": (
-            "GREEN"
-            if score >= 90
-            else "YELLOW"
-            if score >= 70
-            else "RED"
-        ),
+            "score": score,
 
-        "validation": validation
+            "signal": (
+                "GREEN"
+                if score >= 90
+                else "YELLOW"
+                if score >= 70
+                else "RED"
+            ),
 
-    }
+            "validation": validation
+
+        }
