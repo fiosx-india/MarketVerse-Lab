@@ -319,6 +319,34 @@ if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
             st.json(report)
 
         # ==========================================
+        # Guardian Validation
+        # ==========================================
+
+        if "validation" in report:
+
+            st.subheader("🛡 Guardian Validation")
+            st.json(report["validation"])
+
+        # ==========================================
+        # Guardian Score
+        # ==========================================
+
+        if "score" in report:
+
+            st.subheader("📊 Guardian Score")
+
+            score = report["score"]
+
+            st.metric(
+                "Guardian Score",
+                score["score"]
+            )
+
+            st.success(
+                f"Signal : {score['signal']}"
+            )
+
+        # ==========================================
         # Download Buttons
         # ==========================================
 
