@@ -293,38 +293,38 @@ class ErrorIntelligence:
 
         missing = []
 
-    if self.blueprint is None:
-        missing.append("ProjectBlueprint")
+        if self.blueprint is None:
+            missing.append("ProjectBlueprint")
 
-    if self.mapper is None:
-        missing.append("ProjectMapper")
+        if self.mapper is None:
+            missing.append("ProjectMapper")
 
-    if self.code_locator is None:
-        missing.append("CodeLocator")
+        if self.code_locator is None:
+            missing.append("CodeLocator")
 
-    if self.dependency_graph is None:
-        missing.append("DependencyGraph")
+        if self.dependency_graph is None:
+            missing.append("DependencyGraph")
 
-    if self.integration_checker is None:
-        missing.append("IntegrationChecker")
+        if self.integration_checker is None:
+            missing.append("IntegrationChecker")
 
-    if missing:
+        if missing:
 
-        self.register(
-            file="SYSTEM",
-            line=0,
-            error_type="ConnectionError",
-            severity="CRITICAL",
-            message=f"Missing connections: {', '.join(missing)}",
-            suggestion="Connect missing modules before execution.",
-            auto_fixable=False
-        )
+            self.register(
+                file="SYSTEM",
+                line=0,
+                error_type="ConnectionError",
+                severity="CRITICAL",
+                message=f"Missing connections: {', '.join(missing)}",
+                suggestion="Connect missing modules before execution.",
+                auto_fixable=False
+            )
 
-    return {
-        "success": len(missing) == 0,
-        "missing": missing
-    }
-    
+        return {
+            "success": len(missing) == 0,
+            "missing": missing
+        }
+
     # ----------------------------------------
     # Priority Sort
     # ----------------------------------------
