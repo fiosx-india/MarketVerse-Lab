@@ -282,6 +282,43 @@ class ProjectMapper:
     __repr__ = __str__
 
     # ----------------------------------------
+    # Function List
+    # ----------------------------------------
+
+    def function_list(self, filename):
+
+        import ast
+
+        node = self.find_file(filename)
+
+        if node is None or self.root is None:
+            return []
+
+        file_path = self.root / node.path
+
+        try:
+
+            with open(file_path, "r", encoding="utf-8") as f:
+                tree = ast.parse(f.read())
+
+            return [
+                item.name
+                for item in tree.body
+                if isinstance(item, ast.FunctionDef)
+            ]
+
+        except Exception:
+            return []
+
+    # ----------------------------------------
+    # Wrong File Detection
+    # ----------------------------------------
+
+    def find_wrong_files(self):
+
+        return []
+
+    # ----------------------------------------
     # Ready Check
     # ----------------------------------------
 
