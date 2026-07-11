@@ -285,13 +285,13 @@ class ErrorIntelligence:
             auto_fixable=False
         )
 
-# ----------------------------------------
-# Connection Validation
-# ----------------------------------------
+    # ----------------------------------------
+    # Connection Validation
+    # ----------------------------------------
 
-def validate_connections(self):
+    def validate_connections(self):
 
-    missing = []
+        missing = []
 
     if self.blueprint is None:
         missing.append("ProjectBlueprint")
