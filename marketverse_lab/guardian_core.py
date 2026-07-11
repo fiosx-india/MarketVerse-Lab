@@ -829,3 +829,58 @@ def structure_report(self):
         report["wrong_files"].append(item)
 
     return report
+
+# =====================================================
+# Guardian Validation
+# =====================================================
+
+def guardian_validation(self):
+
+    return {
+
+        "structure": self.structure_report(),
+
+        "diagnostics": self.diagnostics(),
+
+        "health": self.health_report(),
+
+        "ready": self.is_ready(),
+
+        "status": (
+            "GREEN"
+            if self.is_ready()
+            else "RED"
+        )
+    }
+
+# =====================================================
+# Guardian Score
+# =====================================================
+
+def guardian_score(self):
+
+    validation = self.guardian_validation()
+
+    score = validation["health"]["health_percent"]
+
+    if validation["structure"]["summary"]["red"] > 0:
+        score -= validation["structure"]["summary"]["red"] * 2
+
+    if score < 0:
+        score = 0
+
+    return {
+
+        "score": score,
+
+        "signal": (
+            "GREEN"
+            if score >= 90
+            else "YELLOW"
+            if score >= 70
+            else "RED"
+        ),
+
+        "validation": validation
+
+    }
