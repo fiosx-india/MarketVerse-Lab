@@ -833,8 +833,7 @@ def structure_report(self):
 
         report["wrong_files"].append(item)
 
-   return report
-
+    return report
 # =====================================================
 # Guardian Validation
 # =====================================================
@@ -883,7 +882,7 @@ def structure_report(self):
             if score >= 90
             else "YELLOW"
             if score >= 70
-        else "RED"
+            else "RED"
         ),
 
         "validation": validation
