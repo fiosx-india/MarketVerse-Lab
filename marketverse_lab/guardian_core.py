@@ -56,7 +56,13 @@ class GuardianCore:
         self.blueprint.connect("integration_checker", self.integration_checker)
         self.blueprint.connect("error_intelligence", self.error_intelligence)
         self.blueprint.connect("knowledge_base", self.knowledge_base)
-
+        self.blueprint.connect("change_planner", self.change_planner)
+        self.blueprint.connect("auto_patch_engine", self.auto_patch_engine)
+        self.blueprint.connect("project_memory", self.project_memory)
+        self.blueprint.connect("live_monitor", self.live_monitor)
+        self.blueprint.connect("workflow_engine", self.workflow_engine)
+        self.blueprint.connect("ai_assistant", self.ai_assistant)
+        
         # Connect Locator
         self.locator.connect_blueprint(self.blueprint)
         self.locator.connect_mapper(self.mapper)
