@@ -741,3 +741,91 @@ class GuardianCore:
         }
 
         return report
+
+# =====================================================
+# Guardian Structural Validation
+# =====================================================
+
+def structure_report(self):
+
+    report = {
+        "placement": [],
+        "wrong_files": [],
+        "wrong_position": [],
+        "summary": {
+            "green": 0,
+            "red": 0
+        }
+    }
+
+    expected = {
+
+        "guardian_core.py": [
+            "__init__",
+            "_connect_modules",
+            "scan_project",
+            "dashboard_report",
+            "plan_change",
+            "apply_patch",
+            "auto_scan",
+            "diagnostics",
+            "health_report",
+            "ai_recommendation",
+            "is_ready",
+            "app_report"
+        ]
+
+    }
+
+    # ----------------------------------------
+    # Check Placement
+    # ----------------------------------------
+
+    for file, functions in expected.items():
+
+        current = self.project_mapper.function_list(file)
+
+        for index, func in enumerate(functions):
+
+            if func not in current:
+
+                report["placement"].append({
+                    "status": "RED",
+                    "function": func,
+                    "reason": "Missing"
+                })
+
+                report["summary"]["red"] += 1
+
+                continue
+
+            if current.index(func) == index:
+
+                report["placement"].append({
+                    "status": "GREEN",
+                    "function": func
+                })
+
+                report["summary"]["green"] += 1
+
+            else:
+
+                report["placement"].append({
+                    "status": "RED",
+                    "function": func,
+                    "reason": "Wrong Position"
+                })
+
+                report["summary"]["red"] += 1
+
+    # ----------------------------------------
+    # Wrong File Detection
+    # ----------------------------------------
+
+    wrong = self.project_mapper.find_wrong_files()
+
+    for item in wrong:
+
+        report["wrong_files"].append(item)
+
+    return report
