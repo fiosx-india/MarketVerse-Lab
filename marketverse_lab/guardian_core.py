@@ -48,12 +48,21 @@ class GuardianCore:
 
         # Scan Project
         self.mapper.build(".")
+        
+        # Connect Blueprint
+        self.blueprint.connect("project_mapper", self.mapper)
+        self.blueprint.connect("code_locator", self.locator)
+        self.blueprint.connect("dependency_graph", self.dependency_graph)
+        self.blueprint.connect("integration_checker", self.integration_checker)
+        self.blueprint.connect("error_intelligence", self.error_intelligence)
+        self.blueprint.connect("knowledge_base", self.knowledge_base)
 
         # Connect Locator
         self.locator.connect_blueprint(self.blueprint)
         self.locator.connect_mapper(self.mapper)
 
         # Build Dependency Graph
+        self.dependency_graph.connect_blueprint(self.blueprint)
         self.dependency_graph.connect_mapper(self.mapper)
         self.dependency_graph.build()
 
