@@ -883,7 +883,7 @@ def structure_report(self):
             if score >= 90
             else "YELLOW"
             if score >= 70
-            else "RED"
+        else "RED"
         ),
 
         "validation": validation
