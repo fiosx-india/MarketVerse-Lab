@@ -861,7 +861,7 @@ def guardian_validation(self):
 # Guardian Score
 # =====================================================
 
-   def guardian_score(self):
+def guardian_score(self):
 
     validation = self.guardian_validation()
 
