@@ -309,19 +309,7 @@ class GuardianCore:
         )
 
         return report
-    # ----------------------------------------
-    # Dashboard Report
-    # ----------------------------------------
-
-    def dashboard_report(self):
-
-        return {
-            "name": "Guardian Core",
-            "version": "1.0.0",
-            "health": 100,
-            "status": "Ready"
-        }
-
+    
     # ----------------------------------------
     # Plan Change
     # ----------------------------------------
