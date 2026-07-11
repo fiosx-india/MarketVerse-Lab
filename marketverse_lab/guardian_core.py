@@ -43,8 +43,21 @@ class GuardianCore:
         # Connect all modules
         self._connect_modules()
         
-        # Initialize Project
+        # Build Blueprint
+        self.blueprint.build(".")
+
+        # Scan Project
         self.mapper.build(".")
+
+        # Connect Locator
+        self.locator.connect_blueprint(self.blueprint)
+        self.locator.connect_mapper(self.mapper)
+
+        # Build Dependency Graph
+        self.dependency_graph.connect_mapper(self.mapper)
+        self.dependency_graph.build()
+
+        # Scan Monitor
         self.live_monitor.scan_folder(".")
 
     # ----------------------------------------
