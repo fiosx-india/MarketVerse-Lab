@@ -272,18 +272,18 @@ try:
      GUARDIAN CORE REPORT
 ==============================
 
-Guardian Name   : {report['guardian'].get('name', 'Guardian Core')}
-Version         : {report['guardian'].get('version', '1.0.0')}
+Guardian Name   : {report["guardian"]["name"]}
+Version         : {report["guardian"]["version"]}
 
-Status          : {report['guardian'].get('status', 'Unknown')}
-Health          : {report['guardian'].get('health', 0)}%
+Status          : {report["guardian"]["status"]}
+Health          : {report["guardian"]["health"]}%
 
-Ready Modules   : {report['guardian'].get('ready_modules', 0)}
-Total Modules   : {report['guardian'].get('total_modules', 0)}
+Ready Modules   : {report["guardian"]["ready_modules"]}
+Total Modules   : {report["guardian"]["total_modules"]}
 
-Recommendation  : {report['guardian'].get('recommendation', '-')}
+Recommendation  : {report["guardian"]["recommendation"]}
 
-Last Scan       : {report['generated_at']}
+Last Scan       : {report["generated_at"]}
 
 ==============================
 MODULE STATUS
