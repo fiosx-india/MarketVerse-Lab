@@ -50,14 +50,14 @@ st.json({
 "AI":"🟢 Ready"
 })
 
----------------- GUARDIAN ----------------
+# ---------------- GUARDIAN ----------------
 
 elif menu == "🤖 Guardian":
 
 st.header("Guardian")
 st.info("Guardian Engine Ready")
 
----------------- PROJECT SCANNER ----------------
+# ---------------- PROJECT SCANNER ----------------
 
 elif menu == "📂 Project Scanner":
 
@@ -66,7 +66,7 @@ st.header("Project Scanner")
 if st.button("🔍 Scan Project"):
 st.info("Scanner Module will run here.")
 
----------------- REPORT ----------------
+# ---------------- REPORT ----------------
 
 elif menu == "📄 Reports":
 
@@ -78,45 +78,41 @@ st.info("Report Generator Module")
 if st.button("Download Report"):
 st.success("Report Ready")
 
----------------- TEST ----------------
+# ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
 
 st.header("Testing")
 st.info("Testing Environment")
 
----------------- LOGS ----------------
+# ---------------- LOGS ----------------
 
 elif menu == "📜 Logs":
 
 st.header("Logs")
 st.info("System Logs")
 
----------------- SETTINGS ----------------
+# ---------------- SETTINGS ----------------
 
 elif menu == "⚙ Settings":
 
 st.header("Settings")
 st.info("Configuration")
 
-============================
-
-SCORE REPORT
-
-============================
+# ============================
+# SCORE REPORT
+# ============================
 
 st.divider()
 st.subheader("📊 Score Report")
 
 st.info("Score Report is integrated into Guardian Core.")
 
-st.success("✅ Score System Ready")
+st.success("✅ Score System 
 
-==========================================================
-
-GUARDIAN CORE DASHBOARD
-
-==========================================================
+# ==========================================================
+# GUARDIAN CORE DASHBOARD
+# ==========================================================          
 
 st.divider()
 st.subheader("🛡️ Guardian Core")
@@ -129,7 +125,7 @@ report = guardian.dashboard_report()
 
 st.success("✅ Guardian Core Connected")
 
----------------- Basic Information ----------------
+# ---------------- Basic Information ----------------
 
 col1, col2 = st.columns(2)
 
@@ -147,7 +143,7 @@ report.get("version", "1.0.0")
 
 st.divider()
 
----------------- Health Metrics ----------------
+# ---------------- Health Metrics ----------------
 
 col1, col2, col3 = st.columns(3)
 
@@ -171,14 +167,14 @@ report["status"]
 
 st.divider()
 
----------------- Recommendation ----------------
+# ---------------- Recommendation ----------------
 
 st.subheader("🤖 AI Recommendation")
 st.info(report["recommendation"])
 
 st.divider()
 
----------------- Module Status ----------------
+# ---------------- Module Status ----------------
 
 st.subheader("📋 Module Status")
 
@@ -195,7 +191,7 @@ st.table(module_table)
 
 st.divider()
 
----------------- Project Scan ----------------
+# ---------------- Project Scan ----------------
 
 if "scan_report" in report:
 
@@ -203,7 +199,7 @@ st.subheader("📂 Project Scan")
 
 st.json(report["scan_report"])
 
----------------- AI Recommendation Report ----------------
+# ---------------- AI Recommendation Report
 
 if "ai_recommendation" in report:
 
@@ -213,7 +209,7 @@ st.json(report["ai_recommendation"])
 
 st.divider()
 
----------------- Full Guardian Report ----------------
+# ---------------- Full Guardian Report ----------------
 
 report_text = f"""
 
