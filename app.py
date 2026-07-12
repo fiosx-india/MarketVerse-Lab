@@ -61,60 +61,59 @@ elif menu == "🤖 Guardian":
 
 elif menu == "📂 Project Scanner":
 
+    from marketverse_lab.guardian_core import GuardianCore
+
     st.header("Project Scanner")
+
+    c1, c2, c3 = st.columns(3)
 
     with c1:
 
-    if st.button("🧹 Clear Reports"):
+        if st.button("🧹 Clear Reports"):
 
-        try:
+            try:
 
-            guardian = GuardianCore()
+                guardian = GuardianCore()
 
-            guardian.project_memory.reset()
+                guardian.project_memory.reset()
 
-            st.success("✅ Reports Cleared")
+                st.success("✅ Reports Cleared")
 
-        except Exception as e:
+            except Exception as e:
 
-            st.error(str(e))
+                st.error(str(e))
 
+    with c2:
 
-with c2:
+        if st.button("🗑 Clear Backup"):
 
-    if st.button("🗑 Clear Backup"):
+            st.info("Backup Manager is not implemented in GuardianCore yet.")
 
-        st.info("Backup Manager is not implemented in GuardianCore yet.")
+    with c3:
 
+        if st.button("📋 Clear Logs"):
 
-with c3:
-
-    if st.button("📋 Clear Logs"):
-
-        st.info("Log Manager is not implemented in GuardianCore yet.")
-
-    if st.button("🔍 Scan Project"):
-
-        try:
-
-            guardian = GuardianCore()
-
-            scan_report = guardian.scan_project()
-
-            st.success("✅ Project Scan Completed")
-
-            st.subheader("📂 Scan Report")
-
-            st.json(scan_report)
-
-        except Exception as e:
-
-            st.error("❌ Project Scan Failed")
-
-            st.code(str(e))
+            st.info("Log Manager is not implemented in GuardianCore yet.")
 
         if st.button("🔍 Scan Project"):
-            st.info("Scanner Module will run here.")
+
+            try:
+
+                guardian = GuardianCore()
+
+                scan_report = guardian.scan_project()
+
+                st.success("✅ Project Scan Completed")
+
+                st.subheader("📂 Scan Report")
+
+                st.json(scan_report)
+
+            except Exception as e:
+
+                st.error("❌ Project Scan Failed")
+
+                st.code(str(e))
             
 # ---------------- REPORT ----------------
 
