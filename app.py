@@ -30,15 +30,14 @@ st.divider()
 # ---------------- HOME ----------------
 
 if menu == "🏠 Home":
+    st.success("MarketVerse Lab Running Successfully")
 
-st.success("MarketVerse Lab Running Successfully")
+    col1, col2, col3, col4 = st.columns(4)
 
-col1,col2,col3,col4 = st.columns(4)
-
-col1.metric("📁 Files","--")
-col2.metric("📂 Folders","--")
-col3.metric("❤️ Health","--")
-col4.metric("⚠ Errors","0")
+    col1.metric("📁 Files", "--")
+    col2.metric("📂 Folders", "--")
+    col3.metric("❤️ Health", "--")
+    col4.metric("⚠ Errors", "0")
 
 st.divider()
 
