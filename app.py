@@ -290,10 +290,13 @@ MODULE STATUS
 ==============================
 
 """
-
 for module, state in report["guardian"]["modules"].items():
 
-    ready = state.get("ready", False) if isinstance(state, dict) else bool(state)
+    ready = (
+        state.get("ready", False)
+        if isinstance(state, dict)
+        else bool(state)
+    )
 
     report_text += (
         f"{module:<30}"
