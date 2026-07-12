@@ -2,9 +2,9 @@ import streamlit as st
 import json
 
 st.set_page_config(
-page_title="MarketVerse Lab",
-page_icon="🚀",
-layout="wide"
+    page_title="MarketVerse Lab",
+    page_icon="🚀",
+    layout="wide"
 )
 
 st.title("🚀 MarketVerse Lab")
@@ -13,16 +13,16 @@ st.caption("Guardian Development Platform")
 st.sidebar.title("🛡 Guardian")
 
 menu = st.sidebar.radio(
-"Select Module",
-[
-"🏠 Home",
-"🤖 Guardian",
-"📂 Project Scanner",
-"📄 Reports",
-"🧪 Testing",
-"📜 Logs",
-"⚙ Settings"
-]
+    "Select Module",
+    [
+        "🏠 Home",
+        "🤖 Guardian",
+        "📂 Project Scanner",
+        "📄 Reports",
+        "🧪 Testing",
+        "📜 Logs",
+        "⚙ Settings"
+    ]
 )
 
 st.divider()
@@ -39,65 +39,65 @@ if menu == "🏠 Home":
     col3.metric("❤️ Health", "--")
     col4.metric("⚠ Errors", "0")
 
-st.divider()
+    st.divider()
 
-st.subheader("📋 System Status")
+    st.subheader("📋 System Status")
 
-st.json({
-"Guardian":"🟢 Ready",
-"Scanner":"🟢 Ready",
-"Reports":"🟢 Ready",
-"AI":"🟢 Ready"
-})
+    st.json({
+        "Guardian": "🟢 Ready",
+        "Scanner": "🟢 Ready",
+        "Reports": "🟢 Ready",
+        "AI": "🟢 Ready"
+    })
 
 # ---------------- GUARDIAN ----------------
 
 elif menu == "🤖 Guardian":
 
-st.header("Guardian")
-st.info("Guardian Engine Ready")
+    st.header("Guardian")
+    st.info("Guardian Engine Ready")
 
 # ---------------- PROJECT SCANNER ----------------
 
 elif menu == "📂 Project Scanner":
 
-st.header("Project Scanner")
+    st.header("Project Scanner")
 
-if st.button("🔍 Scan Project"):
-st.info("Scanner Module will run here.")
+    if st.button("🔍 Scan Project"):
+        st.info("Scanner Module will run here.")
 
 # ---------------- REPORT ----------------
 
 elif menu == "📄 Reports":
 
-st.header("Project Report")
+    st.header("Project Report")
 
-if st.button("Generate Report"):
-st.info("Report Generator Module")
+    if st.button("Generate Report"):
+        st.info("Report Generator Module")
 
-if st.button("Download Report"):
-st.success("Report Ready")
+    if st.button("Download Report"):
+        st.success("Report Ready")
 
 # ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
 
-st.header("Testing")
-st.info("Testing Environment")
+    st.header("Testing")
+    st.info("Testing Environment")
 
 # ---------------- LOGS ----------------
 
 elif menu == "📜 Logs":
 
-st.header("Logs")
-st.info("System Logs")
+    st.header("Logs")
+    st.info("System Logs")
 
 # ---------------- SETTINGS ----------------
 
 elif menu == "⚙ Settings":
 
-st.header("Settings")
-st.info("Configuration")
+    st.header("Settings")
+    st.info("Configuration")
 
 # ============================
 # SCORE REPORT
@@ -112,112 +112,112 @@ st.success("✅ Score System Ready")
 
 # ==========================================================
 # GUARDIAN CORE DASHBOARD
-# ==========================================================          
+# ==========================================================
 
 st.divider()
 st.subheader("🛡️ Guardian Core")
 
 try:
-from marketverse_lab.guardian_core import GuardianCore
+    from marketverse_lab.guardian_core import GuardianCore
 
-guardian = GuardianCore()
-report = guardian.dashboard_report()
+    guardian = GuardianCore()
+    report = guardian.dashboard_report()
 
-st.success("✅ Guardian Core Connected")
+    st.success("✅ Guardian Core Connected")
 
-# ---------------- Basic Information ----------------
+    # ---------------- Basic Information ----------------
 
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-with col1:
-st.metric(
-"🛡️ Guardian",
-report.get("name", "Guardian Core")
-)
+    with col1:
+        st.metric(
+            "🛡️ Guardian",
+            report.get("name", "Guardian Core")
+        )
 
-with col2:
-st.metric(
-"📦 Version",
-report.get("version", "1.0.0")
-)
+    with col2:
+        st.metric(
+            "📦 Version",
+            report.get("version", "1.0.0")
+        )
 
-st.divider()
+    st.divider()
 
-# ---------------- Health Metrics ----------------
+    # ---------------- Health Metrics ----------------
 
-col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-with col1:
-st.metric(
-"❤️ Health",
-f"{report['health']}%"
-)
+    with col1:
+        st.metric(
+            "❤️ Health",
+            f"{report['health']}%"
+        )
 
-with col2:
-st.metric(
-"🧩 Ready Modules",
-f"{report['ready_modules']}/{report['total_modules']}"
-)
+    with col2:
+        st.metric(
+            "🧩 Ready Modules",
+            f"{report['ready_modules']}/{report['total_modules']}"
+        )
 
-with col3:
-st.metric(
-"📡 Status",
-report["status"]
-)
+    with col3:
+        st.metric(
+            "📡 Status",
+            report["status"]
+        )
 
-st.divider()
+    st.divider()
 
-# ---------------- Recommendation ----------------
+    # ---------------- Recommendation ----------------
 
-st.subheader("🤖 AI Recommendation")
-st.info(report["recommendation"])
+    st.subheader("🤖 AI Recommendation")
+    st.info(report["recommendation"])
 
-st.divider()
+    st.divider()
 
-# ---------------- Module Status ----------------
+    # ---------------- Module Status ----------------
 
-st.subheader("📋 Module Status")
+    st.subheader("📋 Module Status")
 
-module_table = []
+    module_table = []
 
-for module, state in report["modules"].items():
+    for module, state in report["modules"].items():
 
-module_table.append({    
-    "Module": module,    
-    "Status": "✅ Ready" if state else "❌ Waiting"    
-})
+        module_table.append({
+            "Module": module,
+            "Status": "✅ Ready" if state else "❌ Waiting"
+        })
 
-st.table(module_table)
+    st.table(module_table)
 
-st.divider()
+    st.divider()
 
-# ---------------- Project Scan ----------------
+    # ---------------- Project Scan ----------------
 
-if "scan_report" in report:
+    if "scan_report" in report:
 
-st.subheader("📂 Project Scan")    
+        st.subheader("📂 Project Scan")
 
-st.json(report["scan_report"])
+        st.json(report["scan_report"])
 
-# ---------------- AI Recommendation Report
+    # ---------------- AI Recommendation Report ----------------
 
-if "ai_recommendation" in report:
+    if "ai_recommendation" in report:
 
-st.subheader("🧠 AI Analysis")    
+        st.subheader("🧠 AI Analysis")
 
-st.json(report["ai_recommendation"])
+        st.json(report["ai_recommendation"])
 
-st.divider()
+    st.divider()
 
-# ---------------- Full Guardian Report ----------------
+    # ---------------- Full Guardian Report ----------------
 
-report_text = f"""
-
+    report_text = f"""
 ==============================
 GUARDIAN CORE REPORT
+==============================
 
-Guardian Name   : {report.get('name','Guardian Core')}
-Version         : {report.get('version','1.0.0')}
+Guardian Name   : {report.get('name', 'Guardian Core')}
+Version         : {report.get('version', '1.0.0')}
 
 Status          : {report['status']}
 Health          : {report['health']}%
@@ -231,141 +231,142 @@ Last Scan       : {report['last_scan']}
 
 ==============================
 MODULE STATUS
+==============================
 
 """
 
-for module, state in report["modules"].items():
+    for module, state in report["modules"].items():
 
-report_text += (    
-    f"{module:<30}"    
-    f"{'✅ Ready' if state else '❌ Waiting'}\n"    
-)
+        report_text += (
+            f"{module:<30}"
+            f"{'✅ Ready' if state else '❌ Waiting'}\n"
+        )
 
-report_text += "\n==============================\n"
-report_text += "Generated by Guardian Core\n"
-report_text += "MarketVerse Lab\n"
+    report_text += "\n==============================\n"
+    report_text += "Generated by Guardian Core\n"
+    report_text += "MarketVerse Lab\n"
 
-st.subheader("📄 Guardian Report")
+    st.subheader("📄 Guardian Report")
 
-st.text_area(
-"Guardian Core Report",
-report_text,
-height=350
-)
+    st.text_area(
+        "Guardian Core Report",
+        report_text,
+        height=350
+    )
 
-st.code(
-report_text,
-language="text"
-)
+    st.code(
+        report_text,
+        language="text"
+    )
 
-st.download_button(
-label="📥 Download Guardian Report",
-data=report_text,
-file_name="guardian_core_report.txt",
-mime="text/plain"
-)
+    st.download_button(
+        label="📥 Download Guardian Report",
+        data=report_text,
+        file_name="guardian_core_report.txt",
+        mime="text/plain"
+    )
 
 except ModuleNotFoundError as e:
 
-st.warning("🟡 Guardian Core Module Not Found")
-st.code(str(e))
+    st.warning("🟡 Guardian Core Module Not Found")
+    st.code(str(e))
 
 except AttributeError as e:
 
-st.warning("🟡 dashboard_report() not available")
-st.code(str(e))
+    st.warning("🟡 dashboard_report() not available")
+    st.code(str(e))
 
 except Exception as e:
 
-st.error("🔴 Guardian Core Error")
-st.code(str(e))
+    st.error("🔴 Guardian Core Error")
+    st.code(str(e))
 
 if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
-if "guardian" not in locals():
-st.error("Guardian Core is not initialized.")
-st.stop()
+    if "guardian" not in locals():
+        st.error("Guardian Core is not initialized.")
+        st.stop()
 
-try:
+    try:
 
-report = guardian.app_report()    
+        report = guardian.app_report()
 
-report_text = json.dumps(    
-    report,    
-    indent=4,    
-    ensure_ascii=False    
-)    
+        report_text = json.dumps(
+            report,
+            indent=4,
+            ensure_ascii=False
+        )
 
-st.success("✅ Guardian Report Generated Successfully")    
+        st.success("✅ Guardian Report Generated Successfully")
 
-# ==========================================    
-# Report Preview    
-# ==========================================    
+        # ==========================================
+        # Report Preview
+        # ==========================================
 
-st.subheader("📄 Report Preview")    
+        st.subheader("📄 Report Preview")
 
-st.text_area(    
-    "Guardian Diagnostic Report",    
-    report_text,    
-    height=500    
-)    
+        st.text_area(
+            "Guardian Diagnostic Report",
+            report_text,
+            height=500
+        )
 
-# ==========================================    
-# Expandable JSON View    
-# ==========================================    
+        # ==========================================
+        # Expandable JSON View
+        # ==========================================
 
-with st.expander("🔍 Open Full Report", expanded=False):    
-    st.json(report)    
+        with st.expander("🔍 Open Full Report", expanded=False):
+            st.json(report)
 
-# ==========================================    
-# Guardian Validation    
-# ==========================================    
+        # ==========================================
+        # Guardian Validation
+        # ==========================================
 
-if "validation" in report:    
+        if "validation" in report:
 
-    st.subheader("🛡 Guardian Validation")    
-    st.json(report["validation"])    
+            st.subheader("🛡 Guardian Validation")
+            st.json(report["validation"])
 
-# ==========================================    
-# Guardian Score    
-# ==========================================    
+        # ==========================================
+        # Guardian Score
+        # ==========================================
 
-if "score" in report:    
+        if "score" in report:
 
-    st.subheader("📊 Guardian Score")    
+            st.subheader("📊 Guardian Score")
 
-    score = report["score"]    
+            score = report["score"]
 
-    st.metric(    
-        "Guardian Score",    
-        score["score"]    
-    )    
+            st.metric(
+                "Guardian Score",
+                score["score"]
+            )
 
-    st.success(    
-        f"Signal : {score['signal']}"    
-    )    
+            st.success(
+                f"Signal : {score['signal']}"
+            )
 
-# ==========================================    
-# Download Buttons    
-# ==========================================    
+        # ==========================================
+        # Download Buttons
+        # ==========================================
 
-st.download_button(    
-    label="⬇ Download Guardian Report (.json)",    
-    data=report_text,    
-    file_name="guardian_report.json",    
-    mime="application/json",    
-    key="guardian_download_json"    
-)    
+        st.download_button(
+            label="⬇ Download Guardian Report (.json)",
+            data=report_text,
+            file_name="guardian_report.json",
+            mime="application/json",
+            key="guardian_download_json"
+        )
 
-st.download_button(    
-    label="⬇ Download Guardian Report (.txt)",    
-    data=report_text,    
-    file_name="guardian_report.txt",    
-    mime="text/plain",    
-    key="guardian_download_txt"    
-)
+        st.download_button(
+            label="⬇ Download Guardian Report (.txt)",
+            data=report_text,
+            file_name="guardian_report.txt",
+            mime="text/plain",
+            key="guardian_download_txt"
+        )
 
-except Exception as e:
+    except Exception as e:
 
-st.error("❌ Failed to Generate Guardian Report")    
-st.code(str(e))
+        st.error("❌ Failed to Generate Guardian Report")
+        st.code(str(e))
