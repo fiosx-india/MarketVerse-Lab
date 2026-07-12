@@ -64,6 +64,9 @@ class GuardianCore:
        
         # Build Blueprint
         self.blueprint.build(".")
+        print(self.blueprint.summary())
+        print(self.blueprint.validate())
+        print(self.blueprint.integrity_check())
 
         # Scan Project
         self.mapper.build(".")
