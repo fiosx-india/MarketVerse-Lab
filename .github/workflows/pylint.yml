@@ -46,7 +46,7 @@ MODULE STATUS
 
 """
 
-    for module, state in report["guardian"]["modules"].items():
+    for module, state in report["guardian"]["modules"].items()p
 
         ready = (
             state.get("ready", False)
