@@ -188,13 +188,13 @@ try:
     with col1:
         st.metric(
             "🛡️ Guardian",
-            report["guardian"].get("name", "Guardian Core")
+            report["guardian"]["name"]
         )
 
     with col2:
         st.metric(
             "📦 Version",
-            report["guardian"].get("version", "1.0.0")
+            report["guardian"]["version"]
         )
 
     st.divider()
@@ -272,18 +272,18 @@ try:
      GUARDIAN CORE REPORT
 ==============================
 
-Guardian Name   : {report.get('name','Guardian Core')}
-Version         : {report.get('version','1.0.0')}
+Guardian Name   : {report['guardian'].get('name', 'Guardian Core')}
+Version         : {report['guardian'].get('version', '1.0.0')}
 
-Status          : {report['status']}
-Health          : {report['health']}%
+Status          : {report['guardian'].get('status', 'Unknown')}
+Health          : {report['guardian'].get('health', 0)}%
 
-Ready Modules   : {report['ready_modules']}
-Total Modules   : {report['total_modules']}
+Ready Modules   : {report['guardian'].get('ready_modules', 0)}
+Total Modules   : {report['guardian'].get('total_modules', 0)}
 
-Recommendation  : {report['recommendation']}
+Recommendation  : {report['guardian'].get('recommendation', '-')}
 
-Last Scan       : {report['last_scan']}
+Last Scan       : {report['generated_at']}
 
 ==============================
 MODULE STATUS
