@@ -781,7 +781,8 @@ class GuardianCore:
             "generated": True,
             "generated_at": report["generated_at"]
         }
-
+        self._last_scan = report
+        
         # ==========================================
         # Summary
         # ==========================================
