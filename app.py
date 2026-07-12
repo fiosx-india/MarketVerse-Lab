@@ -67,8 +67,8 @@ elif menu == "📂 Project Scanner":
     st.header("Project Scanner")
 
     guardian._last_scan = None
-        report = guardian.scan_project(".")
-        st.info("Scanner Module will run here.")
+    report = guardian.scan_project(".")
+    st.info("Scanner Module will run here.")
 
 # ---------------- REPORT ----------------
 
