@@ -211,8 +211,8 @@ try:
 
     with col2:
         st.metric(
-            "🧩 Ready Modules",
-            f"{report['guardian']['ready_modules']}/{report['guardian']['total_modules']}"
+    "🧩 Ready Modules",
+    f"{report['guardian']['ready_modules']}/{report['guardian']['total_modules']}"
         )
 
     with col3:
@@ -236,7 +236,7 @@ try:
 
     module_table = []
 
-    for module, state in report["modules"].items():
+    for module, state in report["guardian"]["modules"].items():
 
         module_table.append({
             "Module": module,
