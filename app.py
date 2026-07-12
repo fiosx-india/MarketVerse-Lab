@@ -27,7 +27,7 @@ menu = st.sidebar.radio(
 
 st.divider()
 
----------------- HOME ----------------
+# ---------------- HOME ----------------
 
 if menu == "🏠 Home":
 
