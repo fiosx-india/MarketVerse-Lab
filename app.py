@@ -291,7 +291,12 @@ MODULE STATUS
 
 """
 
-    for module, state in report["modules"].items():
+    for module, state in report["guardian"]["modules"].items():
+
+    report_text += (
+        f"{module:<30}"
+        f"{'✅ Ready' if state else '❌ Waiting'}\n"
+    )
 
         report_text += (
             f"{module:<30}"
