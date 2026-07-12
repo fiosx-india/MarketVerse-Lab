@@ -39,7 +39,8 @@ class GuardianCore:
         self.live_monitor = LiveMonitor()
         self.workflow_engine = WorkflowEngine()
         self.ai_assistant = AIAssistant()
-
+        self._initialized = False
+        self._last_scan = None
         # Connect all modules
         self._connect_modules()
         
