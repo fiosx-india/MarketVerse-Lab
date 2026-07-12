@@ -166,9 +166,20 @@ try:
     from marketverse_lab.guardian_core import GuardianCore
 
     guardian = GuardianCore()
-    report = guardian.dashboard_report()
+    report = guardian.app_report()
 
     st.success("✅ Guardian Core Connected")
+    score = report.get("score", {})
+
+    st.metric(
+        "Guardian Score",
+        f"{score.get('score', 0)}%"
+    )
+
+    st.write(
+        "Signal:",
+        score.get("signal", "UNKNOWN")
+    )
 
     # ---------------- Basic Information ----------------
 
@@ -177,13 +188,13 @@ try:
     with col1:
         st.metric(
             "🛡️ Guardian",
-            report.get("name", "Guardian Core")
+            report["guardian"].get("name", "Guardian Core")
         )
 
     with col2:
         st.metric(
             "📦 Version",
-            report.get("version", "1.0.0")
+            report["guardian"].get("version", "1.0.0")
         )
 
     st.divider()
@@ -195,19 +206,19 @@ try:
     with col1:
         st.metric(
             "❤️ Health",
-            f"{report['health']}%"
+            f"{report['guardian']['health']}%"
         )
 
     with col2:
         st.metric(
             "🧩 Ready Modules",
-            f"{report['ready_modules']}/{report['total_modules']}"
+            f"{report['guardian']['ready_modules']}/{report['guardian']['total_modules']}"
         )
 
     with col3:
         st.metric(
             "📡 Status",
-            report["status"]
+            report["guardian"]["status"]
         )
 
     st.divider()
@@ -215,7 +226,7 @@ try:
     # ---------------- Recommendation ----------------
 
     st.subheader("🤖 AI Recommendation")
-    st.info(report["recommendation"])
+    st.json(report["recommendation"])
 
     st.divider()
 
