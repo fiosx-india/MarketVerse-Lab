@@ -101,7 +101,50 @@ elif menu == "⚙ Settings":
 
     st.header("Settings")
     st.info("Configuration")
+        st.divider()
+    st.subheader("💾 Auto Report Storage")
 
+    auto_save = st.checkbox(
+        "Enable Automatic Report Saving",
+        value=True
+    )
+
+    interval = st.selectbox(
+        "Save Interval",
+        [
+            "5 Minutes",
+            "15 Minutes",
+            "30 Minutes",
+            "1 Hour"
+        ],
+        index=3
+    )
+
+    report_folder = st.text_input(
+        "Report Folder",
+        value="reports"
+    )
+
+    if auto_save:
+        os.makedirs(report_folder, exist_ok=True)
+        st.success(f"✅ Auto Save Enabled ({interval})")
+        report_file = os.path.join(report_folder, "latest_report.json")
+
+    if "report" in locals():
+        with open(report_file, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=4, ensure_ascii=False, default=str)
+
+    if st.button("💾 Save Settings"):
+        settings = {
+            "auto_save": auto_save,
+            "interval": interval,
+            "report_folder": report_folder
+        }
+
+        with open("settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
+
+        st.success("Settings Saved Successfully")
 # ============================
 # SCORE REPORT
 # ============================
