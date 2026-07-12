@@ -931,16 +931,24 @@ class GuardianCore:
 
         return {
 
-            "score": score,
+    "score": round(score, 2),
 
-            "signal": (
-                "GREEN"
-                if score >= 90
-                else "YELLOW"
-                if score >= 70
-                else "RED"
-            ),
+    "signal": (
+        "🟢 GREEN"
+        if score >= 90
+        else "🟡 YELLOW"
+        if score >= 70
+        else "🔴 RED"
+    ),
 
-            "validation": validation
+    "health_percent": validation["health"]["health_percent"],
 
-        }
+    "ready_modules": validation["health"]["ready_modules"],
+
+    "total_modules": validation["health"]["total_modules"],
+
+    "structure_errors": validation["structure"]["summary"]["red"],
+
+    "validation": validation
+
+}
