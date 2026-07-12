@@ -10,6 +10,9 @@ st.set_page_config(
 )
 
 st.title("🚀 MarketVerse Lab")
+from marketverse_lab.guardian_core import GuardianCore
+
+guardian = GuardianCore()
 st.caption("Guardian Development Platform")
 
 st.sidebar.title("🛡 Guardian")
