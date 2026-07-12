@@ -101,7 +101,7 @@ elif menu == "⚙ Settings":
 
     st.header("Settings")
     st.info("Configuration")
-        st.divider()
+    st.divider()
     st.subheader("💾 Auto Report Storage")
 
     auto_save = st.checkbox(
