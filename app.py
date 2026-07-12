@@ -108,7 +108,7 @@ st.subheader("📊 Score Report")
 
 st.info("Score Report is integrated into Guardian Core.")
 
-st.success("✅ Score System 
+st.success("✅ Score System Ready")
 
 # ==========================================================
 # GUARDIAN CORE DASHBOARD
