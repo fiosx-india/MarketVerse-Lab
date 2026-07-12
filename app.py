@@ -130,9 +130,9 @@ elif menu == "⚙ Settings":
         st.success(f"✅ Auto Save Enabled ({interval})")
         report_file = os.path.join(report_folder, "latest_report.json")
 
-    if "report" in locals():
-        with open(report_file, "w", encoding="utf-8") as f:
-            json.dump(report, f, indent=4, ensure_ascii=False, default=str)
+        if "report" in locals():
+            with open(report_file, "w", encoding="utf-8") as f:
+                json.dump(report, f, indent=4, ensure_ascii=False, default=str)
 
     if st.button("💾 Save Settings"):
         settings = {
