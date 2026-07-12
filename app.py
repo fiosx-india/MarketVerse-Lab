@@ -63,84 +63,55 @@ elif menu == "📂 Project Scanner":
 
     st.header("Project Scanner")
 
-    st.subheader("⚙️ Project Scan Settings")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        scan_enabled = st.toggle(
-            "Project Scan",
-            value=True
-        )
-
-        auto_scan = st.toggle(
-            "Auto Scan",
-            value=True
-        )
-
-        auto_clear = st.toggle(
-            "Auto Clear Reports",
-            value=False
-        )
-
-        auto_backup = st.toggle(
-            "Auto Backup",
-            value=False
-        )
-
-        live_monitor = st.toggle(
-            "Live Monitor",
-            value=True
-        )
-
-    with col2:
-
-        report_limit = st.selectbox(
-            "Report Line Limit",
-            [100, 500, 1000, 1500, 5000],
-            index=3
-        )
-
-        download_limit = st.selectbox(
-            "Download Line Limit",
-            [100, 500, 1000, 1500, 5000],
-            index=3
-        )
-
-        copy_limit = st.selectbox(
-            "Copy Line Limit",
-            [100, 500, 1000, 1500],
-            index=2
-        )
-
-        keep_reports = st.selectbox(
-            "Keep Last Reports",
-            [1, 5, 10, 20],
-            index=1
-        )
-
-        clear_time = st.selectbox(
-            "Auto Delete Reports",
-            ["Never", "1 Hour", "6 Hours", "24 Hours"],
-            index=1
-        )
-
-    st.divider()
-
-    c1, c2, c3 = st.columns(3)
-
     with c1:
-        if st.button("🧹 Clear Reports"):
-            st.success("Reports Cleared")
 
-    with c2:
-        if st.button("🗑 Clear Backup"):
-            st.success("Backups Cleared")
+    if st.button("🧹 Clear Reports"):
 
-    with c3:
-        if st.button("📋 Clear Logs"):
-            st.success("Logs Cleared")
+        try:
+
+            guardian = GuardianCore()
+
+            guardian.project_memory.reset()
+
+            st.success("✅ Reports Cleared")
+
+        except Exception as e:
+
+            st.error(str(e))
+
+
+with c2:
+
+    if st.button("🗑 Clear Backup"):
+
+        st.info("Backup Manager is not implemented in GuardianCore yet.")
+
+
+with c3:
+
+    if st.button("📋 Clear Logs"):
+
+        st.info("Log Manager is not implemented in GuardianCore yet.")
+
+    if st.button("🔍 Scan Project"):
+
+        try:
+
+            guardian = GuardianCore()
+
+            scan_report = guardian.scan_project()
+
+            st.success("✅ Project Scan Completed")
+
+            st.subheader("📂 Scan Report")
+
+            st.json(scan_report)
+
+        except Exception as e:
+
+            st.error("❌ Project Scan Failed")
+
+            st.code(str(e))
 
         if st.button("🔍 Scan Project"):
             st.info("Scanner Module will run here.")
