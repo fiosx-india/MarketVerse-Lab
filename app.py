@@ -72,9 +72,10 @@ if menu == "🛡 Guardian":
     st.header("Guardian")
     st.info("Guardian Engine Ready")
 
+
 # ---------------- PROJECT SCANNER ----------------
 
-elif menu == "📂 Project Scanner":
+if menu == "📂 Project Scanner":
 
     from marketverse_lab.guardian_core import GuardianCore
     import traceback
