@@ -31,12 +31,27 @@ st.divider()
 
 if menu == "🏠 Home":
     st.success("MarketVerse Lab Running Successfully")
-
+    
     col1, col2, col3, col4 = st.columns(4)
 
-    col1.metric("📁 Files", "--")
-    col2.metric("📂 Folders", "--")
-    col3.metric("❤️ Health", "--")
+try:
+    from marketverse_lab.guardian_core import GuardianCore
+
+    guardian = GuardianCore()
+    report = guardian.app_report()
+
+    scan = report["scan"]
+    health = report["health"]
+
+    col1.metric("📁 Files", scan["files"])
+    col2.metric("📂 Folders", scan["folders"])
+    col3.metric("❤️ Health", f'{health["health_percent"]}%')
+    col4.metric("⚠ Errors", len(report["issues"]))
+
+except Exception:
+    col1.metric("📁 Files", "0")
+    col2.metric("📂 Folders", "0")
+    col3.metric("❤️ Health", "0%")
     col4.metric("⚠ Errors", "0")
 
     st.divider()
