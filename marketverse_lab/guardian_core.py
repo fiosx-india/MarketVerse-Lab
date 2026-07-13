@@ -343,7 +343,14 @@ class GuardianCore:
         report["mapping"] = (
             self.mapper.report()
             if self.mapper is not None
-            else {"status": "ProjectMapper not connected."}
+            else {
+                "summary": {
+                    "files": 0,
+                    "folders": 0,
+                    "python_files": 0,
+                },
+                "status": "ProjectMapper not connected."
+            }
         )
 
         report["dependencies"] = (
