@@ -71,7 +71,8 @@ if menu == "🏠 Home":
 
 elif menu == "🤖 Guardian":
 
-    st.info("Guardian Engine Ready")
+    st.divider()
+    st.subheader("🛡️ Guardian Core")
 
 # ---------------- PROJECT SCANNER ----------------
 
@@ -332,7 +333,7 @@ elif menu == "🤖 Guardian":
 
     module_table = []
 
-    for module, state in report["modules"].items():
+    except ModuleNotFoundError:
 
         module_table.append({
             "Module": module,
