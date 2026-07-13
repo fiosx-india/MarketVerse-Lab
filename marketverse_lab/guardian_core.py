@@ -755,25 +755,24 @@ class GuardianCore:
         # Automatically collect every module report
         # ==========================================
 
+        report["modules"] = {}
+
         for name, obj in self.__dict__.items():
+            try:
+                report["modules"][name] = {
+                    "ready": (
+                        obj.is_ready()
+                        if hasattr(obj, "is_ready")
+                        else False
+                    ),
+                    "type": obj.__class__.__name__
+                }
 
-    try:
-
-        report["modules"][name] = {
-            "ready": (
-                obj.is_ready()
-                if hasattr(obj, "is_ready")
-                else False
-            ),
-            "type": obj.__class__.__name__
-        }
-
-    except Exception:
-
-        report["modules"][name] = {
-            "ready": False,
-            "type": "Unknown"
-        }
+            except Exception:
+                report["modules"][name] = {
+                    "ready": False,
+                    "type": "Unknown"
+                }
 
         # ==========================================
         # Guardian Validation & Score
