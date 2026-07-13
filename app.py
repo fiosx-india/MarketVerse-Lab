@@ -63,8 +63,9 @@ elif menu == "📂 Project Scanner":
     from marketverse_lab.guardian_core import GuardianCore
     import traceback
 
-    st.header("📂 Project Scanner")
+    guardian = GuardianCore()
 
+    st.header("📂 Project Scanner")
     st.subheader("⚙️ Project Scan Settings")
 
     col1, col2 = st.columns(2)
@@ -110,47 +111,6 @@ elif menu == "📂 Project Scanner":
         )
 
     st.divider()
-    c1, c2, c3 = st.columns(3)
-
-with c1:
-    if st.button("🧹 Clear Reports"):
-        try:
-            guardian.project_memory.reset()
-            st.success("✅ Reports Cleared")
-        except Exception:
-            st.error("❌ Failed to Clear Reports")
-            st.code(traceback.format_exc())
-
-with c2:
-    if st.button("🗑 Clear Backup"):
-        try:
-            if hasattr(guardian.auto_patch_engine, "reset"):
-                guardian.auto_patch_engine.reset()
-                st.success("✅ Backup History Cleared")
-            else:
-                st.info("Backup Manager is not implemented yet.")
-        except Exception:
-            st.error("❌ Failed to Clear Backup")
-            st.code(traceback.format_exc())
-
-with c3:
-    if st.button("📋 Clear Logs"):
-        try:
-            guardian.live_monitor.reset()
-            st.success("✅ Logs Cleared")
-        except Exception:
-            st.error("❌ Failed to Clear Logs")
-            st.code(traceback.format_exc())
-
-    if st.button("🔍 Scan Project"):
-        try:
-            report = guardian.app_report()
-            st.success("✅ Project Scan Completed")
-            st.subheader("📂 Guardian Report")
-            st.json(report)
-        except Exception:
-            st.error("❌ Project Scan Failed")
-            st.code(traceback.format_exc())
 
     c1, c2, c3 = st.columns(3)
 
@@ -159,50 +119,87 @@ with c3:
         if st.button("🧹 Clear Reports"):
 
             try:
-
-                guardian = GuardianCore()
-
                 guardian.project_memory.reset()
-
                 st.success("✅ Reports Cleared")
-
             except Exception:
-
                 st.error("❌ Failed to Clear Reports")
-
                 st.code(traceback.format_exc())
 
     with c2:
 
         if st.button("🗑 Clear Backup"):
 
-            st.info("Backup Manager is not implemented yet.")
+            try:
+                if hasattr(guardian.auto_patch_engine, "reset"):
+                    guardian.auto_patch_engine.reset()
+                    st.success("✅ Backup History Cleared")
+                else:
+                    st.info("Backup Manager is not implemented yet.")
+            except Exception:
+                st.error("❌ Failed to Clear Backup")
+                st.code(traceback.format_exc())
 
     with c3:
 
         if st.button("📋 Clear Logs"):
 
-            st.info("Log Manager is not implemented yet.")
-
-        if st.button("🔍 Scan Project"):
-
             try:
-
-                guardian = GuardianCore()
-
-                scan_report = guardian.scan_project()
-
-                st.success("✅ Project Scan Completed")
-
-                st.subheader("📂 Scan Report")
-
-                st.json(scan_report)
-
+                if hasattr(guardian.live_monitor, "reset"):
+                    guardian.live_monitor.reset()
+                    st.success("✅ Logs Cleared")
+                else:
+                    st.info("Log Manager is not implemented yet.")
             except Exception:
-
-                st.error("❌ Project Scan Failed")
-
+                st.error("❌ Failed to Clear Logs")
                 st.code(traceback.format_exc())
+
+    st.divider()
+
+    if st.button("🔍 Scan Project", use_container_width=True):
+
+        try:
+
+            report = guardian.app_report()
+
+            st.success("✅ Project Scan Completed")
+
+            score = report["score"]
+
+            st.subheader("📊 Guardian Score")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            col1.metric(
+                "Guardian Score",
+                score["score"]
+            )
+
+            col2.metric(
+                "Signal",
+                score["signal"]
+            )
+
+            col3.metric(
+                "Health",
+                f'{score["health_percent"]}%'
+            )
+
+            col4.metric(
+                "Modules",
+                f'{score["ready_modules"]}/{score["total_modules"]}'
+            )
+
+            st.divider()
+
+            st.subheader("📂 Guardian Report")
+
+            st.json(report)
+
+        except Exception:
+
+            st.error("❌ Project Scan Failed")
+
+            st.code(traceback.format_exc())
             
 # ---------------- REPORT ----------------
 
