@@ -301,15 +301,24 @@ class ProjectMapper:
             with open(file_path, "r", encoding="utf-8") as f:
                 tree = ast.parse(f.read())
 
-            return [
-                item.name
-                for item in tree.body
-                if isinstance(item, ast.FunctionDef)
-            ]
+            functions = []
+
+            for item in tree.body:
+
+                if isinstance(item, ast.FunctionDef):
+                    functions.append(item.name)
+
+                elif isinstance(item, ast.ClassDef):
+
+                    for member in item.body:
+
+                        if isinstance(member, ast.FunctionDef):
+                            functions.append(member.name)
+
+            return functions
 
         except Exception:
             return []
-
     # ----------------------------------------
     # Wrong File Detection
     # ----------------------------------------
