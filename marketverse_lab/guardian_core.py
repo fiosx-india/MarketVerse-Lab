@@ -339,7 +339,6 @@ class GuardianCore:
             if self.blueprint is not None
             else {"status": "ProjectBlueprint not connected."}
         )
-
         report["mapping"] = (
             self.mapper.report()
             if self.mapper is not None
@@ -349,9 +348,17 @@ class GuardianCore:
                     "folders": 0,
                     "python_files": 0,
                 },
-                "status": "ProjectMapper not connected."
+                "status": "ProjectMapper not connected.",
             }
         )
+
+        summary = report["mapping"].get("summary", {})
+
+        report["mapping"]["summary"] = {
+            "files": summary.get("files", 0),
+            "folders": summary.get("folders", 0),
+            "python_files": summary.get("python_files", 0),
+        }
 
         report["dependencies"] = (
             self.dependency_graph.report()
