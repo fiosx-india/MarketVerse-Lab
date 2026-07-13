@@ -527,10 +527,4 @@ if st.button(
             mime="text/plain",
             key="guardian_download_txt"
         )
-
-    for module, state in report["modules"].items():
-
-    module_table.append({
-        "Module": module,
-        "Status": "✅ Ready" if state else "❌ Waiting"
-    })
+        
