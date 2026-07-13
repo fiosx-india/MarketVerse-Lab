@@ -325,7 +325,6 @@ class ProjectMapper:
 
         
     def function_list(self):
-        ...
         except Exception:
             return []
 
@@ -334,7 +333,6 @@ class ProjectMapper:
     # ----------------------------------------
 
     def build_code_index(self):
-        ...
         return True
 
 
