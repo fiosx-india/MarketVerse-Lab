@@ -71,7 +71,6 @@ if menu == "🏠 Home":
 
 elif menu == "🤖 Guardian":
 
-    st.header("🤖 Guardian")
     st.info("Guardian Engine Ready")
 
 # ---------------- PROJECT SCANNER ----------------
@@ -360,11 +359,13 @@ elif menu == "🤖 Guardian":
 
     st.divider()
 
-    # ---------------- Full Guardian Report ----------------
-    
+report_text = f"""
 ==============================
 GUARDIAN CORE REPORT
 ==============================
+
+...
+"""
 
 Guardian Name   : {report.get('name', 'Guardian Core')}
 Version         : {report.get('version', '1.0.0')}
