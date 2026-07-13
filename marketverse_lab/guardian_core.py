@@ -742,29 +742,23 @@ class GuardianCore:
 
         for name, obj in self.__dict__.items():
 
-            try:
+    try:
 
-                if hasattr(obj, "report"):
-                    report["modules"][name] = obj.report()
+        report["modules"][name] = {
+            "ready": (
+                obj.is_ready()
+                if hasattr(obj, "is_ready")
+                else False
+            ),
+            "type": obj.__class__.__name__
+        }
 
-                elif hasattr(obj, "diagnostics"):
-                    report["modules"][name] = obj.diagnostics()
+    except Exception:
 
-                elif hasattr(obj, "health_report"):
-                    report["modules"][name] = obj.health_report()
-
-                elif hasattr(obj, "is_ready"):
-                    report["modules"][name] = {
-                        "ready": obj.is_ready()
-                    }
-
-            except Exception as e:
-
-                report["issues"].append({
-                    "module": name,
-                    "error": type(e).__name__,
-                    "message": str(e)
-                })
+        report["modules"][name] = {
+            "ready": False,
+            "type": "Unknown"
+        }
 
         # ==========================================
         # Guardian Validation & Score
