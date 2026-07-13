@@ -73,6 +73,7 @@ elif menu == "🤖 Guardian":
     st.info("Guardian Engine Ready")
 
 # ---------------- PROJECT SCANNER ----------------
+
 elif menu == "📂 Project Scanner":
 
     from marketverse_lab.guardian_core import GuardianCore
