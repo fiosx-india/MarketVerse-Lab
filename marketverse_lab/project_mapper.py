@@ -48,6 +48,11 @@ class ProjectMapper:
         self.test_runner = None
         self.release_checker = None
 
+        # AI Mapping Database
+        self.class_index = {}
+        self.function_index = {}
+        self.import_index = {}
+
     # ----------------------------------------
 
     def connect_blueprint(self, blueprint):
@@ -134,6 +139,7 @@ class ProjectMapper:
         self.map_folders()
         self.map_files()
         self.build_relationships()
+        self.build_code_index()
 
         return True
 
@@ -317,8 +323,21 @@ class ProjectMapper:
 
             return functions
 
+        
+    def function_list(self):
+        ...
         except Exception:
             return []
+
+    # ----------------------------------------
+    # Build Code Index
+    # ----------------------------------------
+
+    def build_code_index(self):
+        ...
+        return True
+
+
     # ----------------------------------------
     # Wrong File Detection
     # ----------------------------------------
