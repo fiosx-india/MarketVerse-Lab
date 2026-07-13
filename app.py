@@ -67,7 +67,7 @@ except Exception:
 
 # ---------------- GUARDIAN ----------------
 
-elif menu == "🤖 Guardian":
+if menu == "🛡 Guardian":
 
     st.header("Guardian")
     st.info("Guardian Engine Ready")
