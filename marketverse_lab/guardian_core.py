@@ -718,7 +718,15 @@ class GuardianCore:
 
         # Project Scan
         try:
-            report["scan"] = self.scan_project()
+            scan = self.scan_project()
+
+            report["scan"] = {
+                "files": scan.get("mapping", {}).get("summary", {}).get("files", 0),
+                 "folders": scan.get("mapping", {}).get("summary", {}).get("folders", 0),
+                "python_files": scan.get("mapping", {}).get("summary", {}).get("python_files", 0),
+                "health": "OK"
+            }
+
         except Exception as e:
             report["issues"].append({
                 "module": "ProjectScanner",
