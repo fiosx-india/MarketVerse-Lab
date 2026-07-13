@@ -60,10 +60,14 @@ class GuardianCore:
         ]
 
         for name, description in modules:
-            self.blueprint.register_module(name, description)
+        self.blueprint.register_module(name, description)
+        self.blueprint.enable_module(name)
        
         # Build Blueprint
-        self.blueprint.build(".")
+        from pathlib import Path
+
+        project_root = Path(__file__).resolve().parent
+        self.blueprint.build(project_root)
         print(self.blueprint.is_ready())
         print(self.blueprint.module_status())
         print(self.blueprint.summary())
