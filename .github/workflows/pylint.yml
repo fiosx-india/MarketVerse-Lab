@@ -74,10 +74,6 @@ elif menu == "🤖 Guardian":
     st.divider()
     st.subheader("🛡️ Guardian Core")
 
-# ---------------- PROJECT SCANNER ----------------
-
-elif menu == "📂 Project Scanner":
-
     from marketverse_lab.guardian_core import GuardianCore
     import traceback
 
