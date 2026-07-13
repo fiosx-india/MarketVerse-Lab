@@ -957,7 +957,12 @@ class GuardianCore:
     "validation": validation
 
 }
+        
+# ----------------------------------------
+# Action Buttons
+# ----------------------------------------
 
+guardian = GuardianCore()
 
 c1, c2, c3 = st.columns(3)
 
@@ -968,19 +973,21 @@ with c1:
 
 with c2:
     if st.button("🗑 Clear Backup"):
-        guardian.auto_patch_engine.reset()
-        st.success("✅ Backup History Cleared")
+        if hasattr(guardian.auto_patch_engine, "reset"):
+            guardian.auto_patch_engine.reset()
+            st.success("✅ Backup History Cleared")
+        else:
+            st.warning("⚠ Backup Engine reset() not available.")
 
 with c3:
     if st.button("📋 Clear Logs"):
         guardian.live_monitor.reset()
         st.success("✅ Live Monitor Logs Cleared")
 
-    if st.button("🔍 Scan Project"):
-        with st.spinner("Scanning Project..."):
-            report = guardian.app_report()
+if st.button("🔍 Scan Project"):
+    with st.spinner("Scanning Project..."):
+        report = guardian.app_report()
 
-        st.success("✅ Project Scan Completed")
-
-        st.subheader("📂 Guardian Report")
-        st.json(report)
+    st.success("✅ Project Scan Completed")
+    st.subheader("📂 Guardian Report")
+    st.json(report)
