@@ -261,8 +261,6 @@ elif menu == "⚙ Settings":
 # GUARDIAN CORE DASHBOARD
 # ==========================================================
 
-elif menu == "🤖 Guardian":
-
     st.divider()
     st.subheader("🛡️ Guardian Core")
 
@@ -329,12 +327,12 @@ elif menu == "🤖 Guardian":
 
     module_table = []
 
-    except ModuleNotFoundError:
+    for module, state in report["modules"].items():
 
-        module_table.append({
-            "Module": module,
-            "Status": "✅ Ready" if state else "❌ Waiting"
-        })
+    module_table.append({
+        "Module": module,
+        "Status": "✅ Ready" if state else "❌ Waiting"
+    })
 
     st.table(module_table)
 
@@ -364,18 +362,19 @@ report_text = f"""
 ...
 """
 
-Guardian Name   : {report.get('name', 'Guardian Core')}
-Version         : {report.get('version', '1.0.0')}
+report_text = f"""
+Guardian Name    : {report.get('name', 'Guardian Core')}
+Version          : {report.get('version', '1.0.0')}
 
-Status          : {report['status']}
-Health          : {report['health']}%
+Status           : {report['status']}
+Health           : {report['health']}%
 
-Ready Modules   : {report['ready_modules']}
-Total Modules   : {report['total_modules']}
+Ready Modules    : {report['ready_modules']}
+Total Modules    : {report['total_modules']}
 
-Recommendation  : {report['recommendation']}
+Recommendation   : {report['recommendation']}
 
-Last Scan       : {report['last_scan']}
+Last Scan        : {report['last_scan']}
 
 ==============================
 MODULE STATUS
@@ -529,7 +528,9 @@ if st.button(
             key="guardian_download_txt"
         )
 
-    except Exception as e:
+    for module, state in report["modules"].items():
 
-        st.error("❌ Failed to Generate Guardian Report")
-        st.code(str(e))
+    module_table.append({
+        "Module": module,
+        "Status": "✅ Ready" if state else "❌ Waiting"
+    })
