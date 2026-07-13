@@ -957,37 +957,45 @@ class GuardianCore:
     "validation": validation
 
 }
-        
-# ----------------------------------------
-# Action Buttons
-# ----------------------------------------
-
-guardian = GuardianCore()
 
 c1, c2, c3 = st.columns(3)
 
 with c1:
     if st.button("🧹 Clear Reports"):
-        guardian.project_memory.reset()
-        st.success("✅ Reports Cleared")
+        try:
+            guardian.project_memory.reset()
+            st.success("✅ Reports Cleared")
+        except Exception:
+            st.error("❌ Failed to Clear Reports")
+            st.code(traceback.format_exc())
 
 with c2:
     if st.button("🗑 Clear Backup"):
-        if hasattr(guardian.auto_patch_engine, "reset"):
-            guardian.auto_patch_engine.reset()
-            st.success("✅ Backup History Cleared")
-        else:
-            st.warning("⚠ Backup Engine reset() not available.")
+        try:
+            if hasattr(guardian.auto_patch_engine, "reset"):
+                guardian.auto_patch_engine.reset()
+                st.success("✅ Backup History Cleared")
+            else:
+                st.info("Backup Manager is not implemented yet.")
+        except Exception:
+            st.error("❌ Failed to Clear Backup")
+            st.code(traceback.format_exc())
 
 with c3:
     if st.button("📋 Clear Logs"):
-        guardian.live_monitor.reset()
-        st.success("✅ Live Monitor Logs Cleared")
+        try:
+            guardian.live_monitor.reset()
+            st.success("✅ Logs Cleared")
+        except Exception:
+            st.error("❌ Failed to Clear Logs")
+            st.code(traceback.format_exc())
 
-if st.button("🔍 Scan Project"):
-    with st.spinner("Scanning Project..."):
-        report = guardian.app_report()
-
-    st.success("✅ Project Scan Completed")
-    st.subheader("📂 Guardian Report")
-    st.json(report)
+    if st.button("🔍 Scan Project"):
+        try:
+            report = guardian.app_report()
+            st.success("✅ Project Scan Completed")
+            st.subheader("📂 Guardian Report")
+            st.json(report)
+        except Exception:
+            st.error("❌ Project Scan Failed")
+            st.code(traceback.format_exc())
