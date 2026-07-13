@@ -64,6 +64,8 @@ class GuardianCore:
        
         # Build Blueprint
         self.blueprint.build(".")
+        print(self.blueprint.is_ready())
+        print(self.blueprint.module_status())
         print(self.blueprint.summary())
         print(self.blueprint.validate())
         print(self.blueprint.integrity_check())
