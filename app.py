@@ -71,8 +71,7 @@ if menu == "🛡 Guardian":
 
     st.header("Guardian")
     st.info("Guardian Engine Ready")
-
-
+    
 # ---------------- PROJECT SCANNER ----------------
     
 if menu == "📂 Project Scanner":
