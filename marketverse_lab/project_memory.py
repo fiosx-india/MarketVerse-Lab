@@ -271,7 +271,7 @@ class ProjectMemory:
             action="AI_NOTE",
             description=note
         )
-        
+
     # ----------------------------------------
     # Timeline
     # ----------------------------------------
