@@ -412,21 +412,23 @@ st.download_button(
     file_name="guardian_core_report.txt",  
     mime="text/plain"  
 )
+try:
+    from marketverse_lab.guardian_core import GuardianCore
+    guardian = GuardianCore()
+    report = guardian.dashboard_report()
+    st.success("✅ Guardian Core Connected")
 
 except ModuleNotFoundError as e:
-
-st.warning("🟡 Guardian Core Module Not Found")  
-st.code(str(e))
+    st.warning("🟡 Guardian Core Module Not Found")
+    st.code(str(e))
 
 except AttributeError as e:
-
-st.warning("🟡 dashboard_report() not available")  
-st.code(str(e))
+    st.warning("🟡 dashboard_report() not available")
+    st.code(str(e))
 
 except Exception as e:
-
-st.error("🔴 Guardian Core Error")  
-st.code(str(e))
+    st.error("🔴 Guardian Core Error")
+    st.code(str(e))
 
 if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
 
