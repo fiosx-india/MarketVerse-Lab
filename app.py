@@ -76,11 +76,7 @@ if menu == "🛡 Guardian":
 # ---------------- PROJECT SCANNER ----------------
     
 if menu == "📂 Project Scanner":
-
-    from marketverse_lab.guardian_core import GuardianCore
-    import traceback
-
-    guardian = GuardianCore()
+    
 
     st.header("📂 Project Scanner")
 
