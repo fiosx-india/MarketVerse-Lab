@@ -267,27 +267,28 @@ class ProjectMapper:
             "files": list(self.files.keys())
         }
 
+
     # ----------------------------------------
     # Reset Mapper
     # ----------------------------------------
 
     def reset(self):
 
-    self.root = None
+        self.root = None
 
-    self.files.clear()
-    self.folders.clear()
+        self.files.clear()
+        self.folders.clear()
 
-    self.class_index.clear()
-    self.function_index.clear()
-    self.import_index.clear()
+        self.class_index.clear()
+        self.function_index.clear()
+        self.import_index.clear()
 
-    return True
+        return True
 
     # ----------------------------------------
     # String Representation
     # ----------------------------------------
-
+    
     def __str__(self):
 
         return (
