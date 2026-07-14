@@ -345,6 +345,8 @@ elif menu == "⚙ Settings":
         st.info("No module information available.")
 
     st.divider()
+    
+try:
 
     # ---------------- Project Summary ----------------
 
@@ -369,3 +371,4 @@ except AttributeError as e:
 except Exception as e:
     st.error("🔴 Guardian Core Error")
     st.code(str(e))
+
