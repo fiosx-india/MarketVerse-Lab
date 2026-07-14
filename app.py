@@ -307,6 +307,12 @@ elif menu == "⚙ Settings":
     st.header("Settings")
     st.info("Configuration")
 
+try:
+    from marketverse_lab.guardian_core import GuardianCore
+
+    guardian = GuardianCore()
+    report = guardian.app_report()
+
     # ---------------- Health Metrics ----------------
 
     col1, col2, col3 = st.columns(3)
@@ -345,8 +351,6 @@ elif menu == "⚙ Settings":
         st.info("No module information available.")
 
     st.divider()
-    
-try:
 
     # ---------------- Project Summary ----------------
 
@@ -365,10 +369,9 @@ except ModuleNotFoundError as e:
     st.code(str(e))
 
 except AttributeError as e:
-    st.warning("🟡 dashboard_report() not available")
+    st.warning("🟡 app_report() not available")
     st.code(str(e))
 
-except Exception as e:
+except Exception:
     st.error("🔴 Guardian Core Error")
-    st.code(str(e))
-
+    st.code(traceback.format_exc())
