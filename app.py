@@ -516,7 +516,7 @@ except Exception as e:
     st.error("❌ Failed to Generate Guardian Report")
     # சரியான முறை:
     st.code(str(e), language='python')
-    
+
 on:
   push:
     branches:
@@ -537,3 +537,4 @@ jobs:
       - name: Compile Python files
         run: |
           python -m compileall .
+
