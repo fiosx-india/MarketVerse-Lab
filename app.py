@@ -268,15 +268,16 @@ else:
 
 # ---------------- REPORT ----------------
 
-elif menu == "📄 Reports":
+if menu == "📄 Reports":
 
     st.header("Project Report")
 
-    if st.button("Generate Report"):
+    if st.button("📄 Generate Report"):
         st.info("Report Generator Module")
 
-    if st.button("Download Report"):
+    if st.button("⬇️ Download Report"):
         st.success("Report Ready")
+        
 # ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
