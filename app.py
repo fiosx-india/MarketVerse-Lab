@@ -27,7 +27,7 @@ menu = st.sidebar.radio(
 
 st.divider()
 
----------------- HOME ----------------
+# ---------------- HOME ---------------- #
 
 if menu == "🏠 Home":
 
@@ -66,14 +66,14 @@ st.json({
     "AI": "🟢 Ready"  
 })
 
----------------- GUARDIAN ----------------
+# ---------------- GUARDIAN ---------------- #
 
 if menu == "🛡 Guardian":
 
 st.header("Guardian")  
 st.info("Guardian Engine Ready")
 
----------------- PROJECT SCANNER ----------------
+# ---------------- PROJECT SCANNER ---------------- #
 
 if menu == "📂 Project Scanner":
 
@@ -218,7 +218,7 @@ if st.button("🔍 Scan Project", use_container_width=True):
 
         st.code(traceback.format_exc())
 
----------------- REPORT ----------------
+# ---------------- REPORT ---------------- #
 
 elif menu == "📄 Reports":
 
@@ -230,21 +230,21 @@ if st.button("Generate Report"):
 if st.button("Download Report"):  
     st.success("Report Ready")
 
----------------- TEST ----------------
+# ---------------- TEST ---------------- #
 
 elif menu == "🧪 Testing":
 
 st.header("Testing")  
 st.info("Testing Environment")
 
----------------- LOGS ----------------
+# ---------------- LOGS ---------------- #
 
 elif menu == "📜 Logs":
 
 st.header("Logs")  
 st.info("System Logs")
 
----------------- SETTINGS ----------------
+# ---------------- SETTINGS ---------------- #
 
 elif menu == "⚙ Settings":
 
@@ -281,7 +281,7 @@ report = guardian.dashboard_report()
 
 st.success("✅ Guardian Core Connected")  
 
-# ---------------- Basic Information ----------------  
+# ---------------- Basic Information ---------------- #  
 
 col1, col2 = st.columns(2)  
 
@@ -299,7 +299,7 @@ with col2:
 
 st.divider()  
 
-# ---------------- Health Metrics ----------------  
+# ---------------- Health Metrics ---------------- # 
 
 col1, col2, col3 = st.columns(3)  
 
@@ -323,14 +323,14 @@ with col3:
 
 st.divider()  
 
-# ---------------- Recommendation ----------------  
+# ---------------- Recommendation ----------------#  
 
 st.subheader("🤖 AI Recommendation")  
 st.info(report["recommendation"])  
 
 st.divider()  
 
-# ---------------- Module Status ----------------  
+# ---------------- Module Status ---------------- # 
 
 st.subheader("📋 Module Status")  
 
@@ -347,7 +347,7 @@ st.table(module_table)
 
 st.divider()  
 
-# ---------------- Project Scan ----------------  
+# ---------------- Project Scan ---------------- # 
 
 if "scan_report" in report:  
 
@@ -355,7 +355,7 @@ if "scan_report" in report:
 
     st.json(report["scan_report"])  
 
-# ---------------- AI Recommendation Report ----------------  
+# ---------------- AI Recommendation Report ---------------- # 
 
 if "ai_recommendation" in report:  
 
@@ -365,7 +365,7 @@ if "ai_recommendation" in report:
 
 st.divider()  
 
-# ---------------- Full Guardian Report ----------------  
+# ---------------- Full Guardian Report ---------------- # 
 
 report_text = f"""
 
@@ -466,7 +466,7 @@ try:
         height=500  
     )  
 
-    # ==========================================  
+    # ========================================== 
     # Expandable JSON View  
     # ==========================================  
 
