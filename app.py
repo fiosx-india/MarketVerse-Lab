@@ -431,11 +431,9 @@ except Exception as e:
     st.code(str(e))
 
 if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
-
-if "guardian" not in locals():  
-    st.error("Guardian Core is not initialized.")  
-    st.stop()  
-
+    if "guardian" not in locals():  
+        st.error("Guardian Core is not initialized.")  
+        st.stop()
 try:  
 
     report = guardian.app_report()  
