@@ -30,11 +30,9 @@ st.divider()
 # ---------------- HOME ---------------- #
 
 if menu == "🏠 Home":
-
-st.success("MarketVerse Lab Running Successfully")  
-
-col1, col2, col3, col4 = st.columns(4)  
-
+    st.success("MarketVerse Lab Running Successfully")  
+    col1, col2, col3, col4 = st.columns(4)
+    
 try:  
     from marketverse_lab.guardian_core import GuardianCore  
 
