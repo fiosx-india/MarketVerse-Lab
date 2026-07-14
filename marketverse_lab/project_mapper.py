@@ -9,7 +9,7 @@ categorizes folders, files and modules.
 
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Dict, List
+from typing import List
 
 
 @dataclass
@@ -267,11 +267,16 @@ class ProjectMapper:
 
     def reset(self):
 
-        self.root = None
-        self.files.clear()
-        self.folders.clear()
+    self.root = None
 
-        return True
+    self.files.clear()
+    self.folders.clear()
+
+    self.class_index.clear()
+    self.function_index.clear()
+    self.import_index.clear()
+
+    return True
 
     # ----------------------------------------
     # String Representation
