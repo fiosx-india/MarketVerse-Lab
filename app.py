@@ -83,10 +83,20 @@ if menu == "📂 Project Scanner":
     guardian = GuardianCore()
 
     st.header("📂 Project Scanner")
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "⚙️ Settings",
+    "🔍 Scan",
+    "📊 Report",
+    "📜 Logs",
+    "🤖 AI"
+])
+
+with tab1:
+
     st.subheader("⚙️ Project Scan Settings")
 
     col1, col2 = st.columns(2)
-
 with col1:
 
     scan_enabled = st.toggle(
