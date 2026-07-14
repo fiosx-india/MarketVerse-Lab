@@ -217,8 +217,7 @@ if st.button("🔍 Scan Project", use_container_width=True):
 # ---------------- REPORT ---------------- #
 
 elif menu == "📄 Reports":
-
-st.header("Project Report")  
+    st.header("Project Report")
 
 if st.button("Generate Report"):  
     st.info("Report Generator Module")  
