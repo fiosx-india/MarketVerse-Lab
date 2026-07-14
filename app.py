@@ -512,12 +512,11 @@ try:
         mime="text/plain",  
         key="guardian_download_txt"  
     )  
-
-except Exception as e:  
-
-    st.error("❌ Failed to Generate Guardian Report")  
-    st.code(str(e))name: Python Check
-
+except Exception as e:
+    st.error("❌ Failed to Generate Guardian Report")
+    # சரியான முறை:
+    st.code(str(e), language='python')
+    
 on:
   push:
     branches:
