@@ -262,8 +262,11 @@ st.success("✅ Score System Ready")
 st.divider()
 st.subheader("🛡️ Guardian Core")
 
-try:
-from marketverse_lab.guardian_core import GuardianCore
+    try:
+        from marketverse_lab.guardian_core import GuardianCore
+    except Exception as e:
+        st.error(f"Error: {e}")
+
 
 guardian = GuardianCore()  
 report = guardian.dashboard_report()  
