@@ -395,14 +395,21 @@ class ProjectMapper:
                 continue
 
         return True
-
     # ----------------------------------------
-    # Wrong File Detection
+    # Build Project
     # ----------------------------------------
 
-    def find_wrong_files(self):
+    def build(self, root="."):
 
-        return []
+        if not self.scan(root):
+            return False
+
+        self.map_folders()
+        self.map_files()
+        self.build_relationships()
+        self.build_code_index()
+
+        return True
 
     # ----------------------------------------
     # Ready Check
