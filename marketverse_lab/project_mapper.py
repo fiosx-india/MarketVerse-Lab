@@ -323,38 +323,6 @@ class ProjectMapper:
 
             return functions
 
-    def function_list(self, filename):
-
-        import ast
-
-        node = self.find_file(filename)
-
-        if node is None or self.root is None:
-            return []
-
-        file_path = self.root / node.path
-
-        try:
-
-            with open(file_path, "r", encoding="utf-8") as f:
-                tree = ast.parse(f.read())
-
-            functions = []
-
-            for item in tree.body:
-
-                if isinstance(item, ast.FunctionDef):
-                    functions.append(item.name)
-
-                elif isinstance(item, ast.ClassDef):
-
-                    for member in item.body:
-
-                        if isinstance(member, ast.FunctionDef):
-                            functions.append(member.name)
-
-            return functions
-
         except Exception:
             return []
 
