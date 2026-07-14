@@ -399,24 +399,6 @@ try:
 
     # ---------------- Project Scan ----------------
 
-    if "scan_report" in report:
-
-        st.subheader("📂 Project Scan")
-
-        st.json(report["scan_report"])
-
-    # ---------------- AI Recommendation Report ----------------
-
-    if "ai_recommendation" in report:
-
-        st.subheader("🧠 AI Analysis")
-
-        st.json(report["ai_recommendation"])
-
-    st.divider()
-
-    # ---------------- Full Guardian Report ----------------
-
     report_text = f"""
 ==============================
 GUARDIAN CORE REPORT
