@@ -369,8 +369,3 @@ except AttributeError as e:
 except Exception as e:
     st.error("🔴 Guardian Core Error")
     st.code(str(e))
-
-    except Exception as e:
-
-        st.error("❌ Failed to Generate Guardian Report")
-        st.code(str(e))
