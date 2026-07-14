@@ -87,96 +87,144 @@ if menu == "📂 Project Scanner":
 
     col1, col2 = st.columns(2)
 
-    with col1:
+with col1:
 
-        scan_enabled = st.toggle("Project Scan", value=True)
-        auto_scan = st.toggle("Auto Scan", value=True)
-        auto_clear = st.toggle("Auto Clear Reports", value=False)
-        auto_backup = st.toggle("Auto Backup", value=False)
-        live_monitor = st.toggle("Live Monitor", value=True)
+    scan_enabled = st.toggle(
+        "Project Scan",
+        value=True
+    )
 
-    with col2:
+    auto_scan = st.toggle(
+        "Auto Scan",
+        value=True
+    )
 
-        report_limit = st.selectbox(
-            "Report Line Limit",
-            [100, 500, 1000, 1500, 5000],
-            index=2
-        )
+    auto_refresh = st.toggle(
+        "Auto Refresh After Expiry",
+        value=True
+    )
 
-        download_limit = st.selectbox(
-            "Download Line Limit",
-            [100, 500, 1000, 1500, 5000],
-            index=2
-        )
+    force_scan = st.toggle(
+        "Force Full Scan",
+        value=False
+    )
 
-        copy_limit = st.selectbox(
-            "Copy Line Limit",
-            [100, 500, 1000, 1500],
-            index=2
-        )
+    live_monitor = st.toggle(
+        "Live Monitor",
+        value=True
+    )
 
-        keep_reports = st.selectbox(
-            "Keep Last Reports",
-            [1, 5, 10, 20],
-            index=3
-        )
+with col2:
 
-        clear_time = st.selectbox(
-            "Auto Delete Reports",
-            ["Never", "1 Hour", "6 Hours", "24 Hours"],
-            index=2
-        )
+    report_expiry = st.selectbox(
+        "Report Expiry",
+        [
+            "1 Hour",
+            "2 Hours",
+            "6 Hours",
+            "12 Hours"
+        ],
+        index=3
+    )
 
-    st.divider()
+    scan_interval = st.selectbox(
+        "Scan Interval",
+        [
+            "Manual",
+            "1 Hour",
+            "2 Hours",
+            "6 Hours",
+            "12 Hours"
+        ],
+        index=0
+    )
 
-    c1, c2, c3 = st.columns(3)
+    keep_reports = st.selectbox(
+        "Keep Reports",
+        [
+            1,
+            5,
+            10,
+            20
+        ],
+        index=1
+    )
 
-    with c1:
+    download_format = st.selectbox(
+        "Download Format",
+        [
+            "JSON",
+            "TXT",
+            "Both"
+        ],
+        index=2
+    )
 
-        if st.button("🧹 Clear Reports"):
+    report_view = st.selectbox(
+        "Report View",
+        [
+            "Summary",
+            "Detailed"
+        ],
+        index=0
+    )
 
-            try:
-                guardian.project_memory.reset()
-                st.success("✅ Reports Cleared")
-            except Exception:
-                st.error("❌ Failed to Clear Reports")
-                st.code(traceback.format_exc())
+st.divider()
 
-    with c2:
+c1, c2, c3 = st.columns(3)
 
-        if st.button("🗑 Clear Backup"):
+with c1:
 
-            try:
-                if hasattr(guardian.auto_patch_engine, "reset"):
-                    guardian.auto_patch_engine.reset()
-                    st.success("✅ Backup History Cleared")
-                else:
-                    st.info("Backup Manager is not implemented yet.")
-            except Exception:
-                st.error("❌ Failed to Clear Backup")
-                st.code(traceback.format_exc())
+    if st.button("🗑 Clear Expired Reports", use_container_width=True):
 
-    with c3:
+        try:
+            guardian.project_memory.reset()
+            st.success("✅ Expired Reports Cleared")
+        except Exception:
+            st.error("❌ Failed to Clear Reports")
+            st.code(traceback.format_exc())
 
-        if st.button("📋 Clear Logs"):
+with c2:
 
-            try:
-                if hasattr(guardian.live_monitor, "reset"):
-                    guardian.live_monitor.reset()
-                    st.success("✅ Logs Cleared")
-                else:
-                    st.info("Log Manager is not implemented yet.")
-            except Exception:
-                st.error("❌ Failed to Clear Logs")
-                st.code(traceback.format_exc())
+    if st.button("♻ Reset Scanner Cache", use_container_width=True):
 
-    st.divider()
+        try:
+
+            if hasattr(guardian, "_last_scan"):
+                guardian._last_scan = None
+
+            st.success("✅ Scanner Cache Reset")
+
+        except Exception:
+            st.error("❌ Failed to Reset Cache")
+            st.code(traceback.format_exc())
+
+with c3:
+
+    if st.button("🧹 Clear Logs", use_container_width=True):
+
+        try:
+
+            if hasattr(guardian.live_monitor, "reset"):
+                guardian.live_monitor.reset()
+
+            st.success("✅ Logs Cleared")
+
+        except Exception:
+            st.error("❌ Failed to Clear Logs")
+            st.code(traceback.format_exc())
+
+st.divider()
+
+if scan_enabled:
 
     if st.button("🔍 Scan Project", use_container_width=True):
 
         try:
 
-            report = guardian.app_report()
+            with st.spinner("🔍 Scanning Project..."):
+
+                report = guardian.app_report()
 
             st.success("✅ Project Scan Completed")
 
@@ -186,21 +234,9 @@ if menu == "📂 Project Scanner":
 
             col1, col2, col3, col4 = st.columns(4)
 
-            col1.metric(
-                "Guardian Score",
-                score["score"]
-            )
-
-            col2.metric(
-                "Signal",
-                score["signal"]
-            )
-
-            col3.metric(
-                "Health",
-                f'{score["health_percent"]}%'
-            )
-
+            col1.metric("Guardian Score", score["score"])
+            col2.metric("Signal", score["signal"])
+            col3.metric("Health", f'{score["health_percent"]}%')
             col4.metric(
                 "Modules",
                 f'{score["ready_modules"]}/{score["total_modules"]}'
@@ -208,16 +244,27 @@ if menu == "📂 Project Scanner":
 
             st.divider()
 
-            st.subheader("📂 Guardian Report")
+            if report_view == "Summary":
 
-            st.json(report)
+                st.subheader("📋 Report Summary")
+
+                st.json(report["summary"])
+
+            else:
+
+                st.subheader("📂 Guardian Report")
+
+                st.json(report)
 
         except Exception:
 
             st.error("❌ Project Scan Failed")
 
             st.code(traceback.format_exc())
-            
+
+else:
+
+    st.warning("⚠ Project Scan is Disabled.")
 # ---------------- REPORT ----------------
 
 elif menu == "📄 Reports":
