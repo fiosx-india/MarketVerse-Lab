@@ -228,8 +228,8 @@ if st.button("Download Report"):
 # ---------------- TEST ---------------- #
 
 elif menu == "🧪 Testing":
-     st.header("Testing")  
-     st.info("Testing Environment")
+    st.header("Testing")  
+    st.info("Testing Environment")
 
 # ---------------- LOGS ---------------- #
 
