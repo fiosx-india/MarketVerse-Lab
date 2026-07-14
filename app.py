@@ -67,9 +67,8 @@ st.json({
 # ---------------- GUARDIAN ---------------- #
 
 if menu == "🛡 Guardian":
-
-st.header("Guardian")  
-st.info("Guardian Engine Ready")
+    st.header("Guardian")  
+    st.info("Guardian Engine Ready")
 
 # ---------------- PROJECT SCANNER ---------------- #
 
