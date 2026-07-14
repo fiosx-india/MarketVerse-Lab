@@ -265,19 +265,20 @@ class ProjectMemory:
         file,
         note
     ):
-
         return self.record_change(
             file=file,
             action="AI_NOTE",
             description=note
         )
 
+
     # ----------------------------------------
     # Timeline
     # ----------------------------------------
 
-    def timeline(self):
-
+    def timeline(
+        self
+    ):
         return sorted(
             self.history,
             key=lambda item: item.timestamp
