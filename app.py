@@ -244,11 +244,9 @@ elif menu == "⚙ Settings":
     st.header("Settings")  
     st.info("Configuration")
 
-============================
-
-SCORE REPORT
-
-============================
+# ============================
+# SCORE REPORT
+# ============================
 
 st.divider()
 st.subheader("📊 Score Report")
@@ -257,11 +255,9 @@ st.info("Score Report is integrated into Guardian Core.")
 
 st.success("✅ Score System Ready")
 
-==========================================================
-
-GUARDIAN CORE DASHBOARD
-
-==========================================================
+# ==========================================================
+# GUARDIAN CORE DASHBOARD
+# ==========================================================
 
 st.divider()
 st.subheader("🛡️ Guardian Core")
