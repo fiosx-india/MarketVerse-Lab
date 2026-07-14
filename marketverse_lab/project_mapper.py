@@ -323,8 +323,38 @@ class ProjectMapper:
 
             return functions
 
-        
-    def function_list(self):
+    def function_list(self, filename):
+
+        import ast
+
+        node = self.find_file(filename)
+
+        if node is None or self.root is None:
+            return []
+
+        file_path = self.root / node.path
+
+        try:
+
+            with open(file_path, "r", encoding="utf-8") as f:
+                tree = ast.parse(f.read())
+
+            functions = []
+
+            for item in tree.body:
+
+                if isinstance(item, ast.FunctionDef):
+                    functions.append(item.name)
+
+                elif isinstance(item, ast.ClassDef):
+
+                    for member in item.body:
+
+                        if isinstance(member, ast.FunctionDef):
+                            functions.append(member.name)
+
+            return functions
+
         except Exception:
             return []
 
@@ -333,8 +363,58 @@ class ProjectMapper:
     # ----------------------------------------
 
     def build_code_index(self):
-        return True
 
+        import ast
+
+        self.class_index.clear()
+        self.function_index.clear()
+        self.import_index.clear()
+
+        if self.root is None:
+            return False
+
+        for path, node in self.files.items():
+
+            if node.file_type != ".py":
+                continue
+
+            file_path = self.root / node.path
+
+            try:
+
+                with open(file_path, "r", encoding="utf-8") as f:
+                    tree = ast.parse(f.read())
+
+                classes = []
+                functions = []
+                imports = []
+
+                for item in tree.body:
+
+                    if isinstance(item, ast.ClassDef):
+                        classes.append(item.name)
+
+                    elif isinstance(item, ast.FunctionDef):
+                        functions.append(item.name)
+
+                    elif isinstance(item, ast.Import):
+
+                        for alias in item.names:
+                            imports.append(alias.name)
+
+                    elif isinstance(item, ast.ImportFrom):
+
+                        if item.module:
+                            imports.append(item.module)
+
+                self.class_index[path] = classes
+                self.function_index[path] = functions
+                self.import_index[path] = imports
+
+            except Exception:
+                continue
+
+        return True
 
     # ----------------------------------------
     # Wrong File Detection
