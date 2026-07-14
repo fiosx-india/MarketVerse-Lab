@@ -265,6 +265,7 @@ if scan_enabled:
 else:
 
     st.warning("⚠ Project Scan is Disabled.")
+
 # ---------------- REPORT ----------------
 
 elif menu == "📄 Reports":
@@ -276,7 +277,6 @@ elif menu == "📄 Reports":
 
     if st.button("Download Report"):
         st.success("Report Ready")
-
 # ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
