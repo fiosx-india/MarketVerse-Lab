@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import traceback
 
 st.set_page_config(
     page_title="MarketVerse Lab",
@@ -65,211 +66,213 @@ if menu == "🏠 Home":
         "Reports": "🟢 Ready",
         "AI": "🟢 Ready"
     })
+
 # ---------------- GUARDIAN ----------------
 
 if menu == "🛡 Guardian":
 
     st.header("Guardian")
     st.info("Guardian Engine Ready")
-    
+
 # ---------------- PROJECT SCANNER ----------------
-    
+
 if menu == "📂 Project Scanner":
-    
 
     st.header("📂 Project Scanner")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "⚙️ Settings",
-    "🔍 Scan",
-    "📊 Report",
-    "📜 Logs",
-    "🤖 AI"
-])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "⚙️ Settings",
+        "🔍 Scan",
+        "📊 Report",
+        "📜 Logs",
+        "🤖 AI"
+    ])
 
-with tab1:
+    with tab1:
 
-    st.subheader("⚙️ Project Scan Settings")
+        st.subheader("⚙️ Project Scan Settings")
 
-    col1, col2 = st.columns(2)
-with col1:
+        col1, col2 = st.columns(2)
 
-    scan_enabled = st.toggle(
-        "Project Scan",
-        value=True
-    )
+        with col1:
 
-    auto_scan = st.toggle(
-        "Auto Scan",
-        value=True
-    )
-
-    auto_refresh = st.toggle(
-        "Auto Refresh After Expiry",
-        value=True
-    )
-
-    force_scan = st.toggle(
-        "Force Full Scan",
-        value=False
-    )
-
-    live_monitor = st.toggle(
-        "Live Monitor",
-        value=True
-    )
-
-with col2:
-
-    report_expiry = st.selectbox(
-        "Report Expiry",
-        [
-            "1 Hour",
-            "2 Hours",
-            "6 Hours",
-            "12 Hours"
-        ],
-        index=3
-    )
-
-    scan_interval = st.selectbox(
-        "Scan Interval",
-        [
-            "Manual",
-            "1 Hour",
-            "2 Hours",
-            "6 Hours",
-            "12 Hours"
-        ],
-        index=0
-    )
-
-    keep_reports = st.selectbox(
-        "Keep Reports",
-        [
-            1,
-            5,
-            10,
-            20
-        ],
-        index=1
-    )
-
-    download_format = st.selectbox(
-        "Download Format",
-        [
-            "JSON",
-            "TXT",
-            "Both"
-        ],
-        index=2
-    )
-
-    report_view = st.selectbox(
-        "Report View",
-        [
-            "Summary",
-            "Detailed"
-        ],
-        index=0
-    )
-
-st.divider()
-
-c1, c2, c3 = st.columns(3)
-
-with c1:
-
-    if st.button("🗑 Clear Expired Reports", use_container_width=True):
-
-        try:
-            guardian.project_memory.reset()
-            st.success("✅ Expired Reports Cleared")
-        except Exception:
-            st.error("❌ Failed to Clear Reports")
-            st.code(traceback.format_exc())
-
-with c2:
-
-    if st.button("♻ Reset Scanner Cache", use_container_width=True):
-
-        try:
-
-            if hasattr(guardian, "_last_scan"):
-                guardian._last_scan = None
-
-            st.success("✅ Scanner Cache Reset")
-
-        except Exception:
-            st.error("❌ Failed to Reset Cache")
-            st.code(traceback.format_exc())
-
-with c3:
-
-    if st.button("🧹 Clear Logs", use_container_width=True):
-
-        try:
-
-            if hasattr(guardian.live_monitor, "reset"):
-                guardian.live_monitor.reset()
-
-            st.success("✅ Logs Cleared")
-
-        except Exception:
-            st.error("❌ Failed to Clear Logs")
-            st.code(traceback.format_exc())
-
-st.divider()
-
-if scan_enabled:
-
-    if st.button("🔍 Scan Project", use_container_width=True):
-
-        try:
-
-            with st.spinner("🔍 Scanning Project..."):
-
-                report = guardian.app_report()
-
-            st.success("✅ Project Scan Completed")
-
-            score = report["score"]
-
-            st.subheader("📊 Guardian Score")
-
-            col1, col2, col3, col4 = st.columns(4)
-
-            col1.metric("Guardian Score", score["score"])
-            col2.metric("Signal", score["signal"])
-            col3.metric("Health", f'{score["health_percent"]}%')
-            col4.metric(
-                "Modules",
-                f'{score["ready_modules"]}/{score["total_modules"]}'
+            scan_enabled = st.toggle(
+                "Project Scan",
+                value=True
             )
 
-            st.divider()
+            auto_scan = st.toggle(
+                "Auto Scan",
+                value=True
+            )
 
-            if report_view == "Summary":
+            auto_refresh = st.toggle(
+                "Auto Refresh After Expiry",
+                value=True
+            )
 
-                st.subheader("📋 Report Summary")
+            force_scan = st.toggle(
+                "Force Full Scan",
+                value=False
+            )
 
-                st.json(report["summary"])
+            live_monitor = st.toggle(
+                "Live Monitor",
+                value=True
+            )
 
-            else:
+        with col2:
 
-                st.subheader("📂 Guardian Report")
+            report_expiry = st.selectbox(
+                "Report Expiry",
+                [
+                    "1 Hour",
+                    "2 Hours",
+                    "6 Hours",
+                    "12 Hours"
+                ],
+                index=3
+            )
 
-                st.json(report)
+            scan_interval = st.selectbox(
+                "Scan Interval",
+                [
+                    "Manual",
+                    "1 Hour",
+                    "2 Hours",
+                    "6 Hours",
+                    "12 Hours"
+                ],
+                index=0
+            )
 
-        except Exception:
+            keep_reports = st.selectbox(
+                "Keep Reports",
+                [
+                    1,
+                    5,
+                    10,
+                    20
+                ],
+                index=1
+            )
 
-            st.error("❌ Project Scan Failed")
+            download_format = st.selectbox(
+                "Download Format",
+                [
+                    "JSON",
+                    "TXT",
+                    "Both"
+                ],
+                index=2
+            )
 
-            st.code(traceback.format_exc())
+            report_view = st.selectbox(
+                "Report View",
+                [
+                    "Summary",
+                    "Detailed"
+                ],
+                index=0
+            )
 
-else:
+    st.divider()
 
-    st.warning("⚠ Project Scan is Disabled.")
+    from marketverse_lab.guardian_core import GuardianCore
+
+    guardian = GuardianCore()
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+
+        if st.button("🗑 Clear Expired Reports", use_container_width=True):
+
+            try:
+                guardian.project_memory.reset()
+                st.success("✅ Expired Reports Cleared")
+            except Exception:
+                st.error("❌ Failed to Clear Reports")
+                st.code(traceback.format_exc())
+
+    with c2:
+
+        if st.button("♻ Reset Scanner Cache", use_container_width=True):
+
+            try:
+
+                if hasattr(guardian, "_last_scan"):
+                    guardian._last_scan = None
+
+                st.success("✅ Scanner Cache Reset")
+
+            except Exception:
+                st.error("❌ Failed to Reset Cache")
+                st.code(traceback.format_exc())
+
+    with c3:
+
+        if st.button("🧹 Clear Logs", use_container_width=True):
+
+            try:
+
+                if hasattr(guardian.live_monitor, "reset"):
+                    guardian.live_monitor.reset()
+
+                st.success("✅ Logs Cleared")
+
+            except Exception:
+                st.error("❌ Failed to Clear Logs")
+                st.code(traceback.format_exc())
+
+    st.divider()
+
+    if scan_enabled:
+
+        if st.button("🔍 Scan Project", use_container_width=True):
+
+            try:
+
+                with st.spinner("🔍 Scanning Project..."):
+
+                    report = guardian.app_report()
+
+                st.success("✅ Project Scan Completed")
+
+                score = report["score"]
+
+                st.subheader("📊 Guardian Score")
+
+                col1, col2, col3, col4 = st.columns(4)
+
+                col1.metric("Guardian Score", score["score"])
+                col2.metric("Signal", score["signal"])
+                col3.metric("Health", f'{score["health_percent"]}%')
+                col4.metric(
+                    "Modules",
+                    f'{score["ready_modules"]}/{score["total_modules"]}'
+                )
+
+                st.divider()
+
+                if report_view == "Summary" and "summary" in report:
+
+                    st.subheader("📋 Report Summary")
+                    st.json(report["summary"])
+
+                else:
+
+                    st.subheader("📂 Guardian Report")
+                    st.json(report)
+
+            except Exception:
+
+                st.error("❌ Project Scan Failed")
+                st.code(traceback.format_exc())
+
+    else:
+
+        st.warning("⚠ Project Scan is Disabled.")
 
 # ---------------- REPORT ----------------
 
@@ -282,7 +285,7 @@ if menu == "📄 Reports":
 
     if st.button("⬇️ Download Report"):
         st.success("Report Ready")
-        
+
 # ---------------- TEST ----------------
 
 elif menu == "🧪 Testing":
@@ -304,78 +307,23 @@ elif menu == "⚙ Settings":
     st.header("Settings")
     st.info("Configuration")
 
-# ============================
-# SCORE REPORT
-# ============================
-
-st.divider()
-st.subheader("📊 Score Report")
-
-st.info("Score Report is integrated into Guardian Core.")
-
-st.success("✅ Score System Ready")
-
-# ==========================================================
-# GUARDIAN CORE DASHBOARD
-# ==========================================================
-
-st.divider()
-st.subheader("🛡️ Guardian Core")
-
-try:
-    from marketverse_lab.guardian_core import GuardianCore
-
-    guardian = GuardianCore()
-    report = guardian.dashboard_report()
-
-    st.success("✅ Guardian Core Connected")
-
-    # ---------------- Basic Information ----------------
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric(
-            "🛡️ Guardian",
-            report.get("name", "Guardian Core")
-        )
-
-    with col2:
-        st.metric(
-            "📦 Version",
-            report.get("version", "1.0.0")
-        )
-
-    st.divider()
-
     # ---------------- Health Metrics ----------------
 
     col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.metric(
-            "❤️ Health",
-            f"{report['health']}%"
-        )
-
-    with col2:
-        st.metric(
-            "🧩 Ready Modules",
-            f"{report['ready_modules']}/{report['total_modules']}"
-        )
-
-    with col3:
-        st.metric(
-            "📡 Status",
-            report["status"]
-        )
+    col1.metric("❤️ Health", f"{report.get('health', 0)}%")
+    col2.metric(
+        "🧩 Ready Modules",
+        f"{report.get('ready_modules', 0)}/{report.get('total_modules', 0)}"
+    )
+    col3.metric("📡 Status", report.get("status", "Unknown"))
 
     st.divider()
 
     # ---------------- Recommendation ----------------
 
     st.subheader("🤖 AI Recommendation")
-    st.info(report["recommendation"])
+    st.info(report.get("recommendation", "No recommendation available."))
 
     st.divider()
 
@@ -383,175 +331,44 @@ try:
 
     st.subheader("📋 Module Status")
 
-    module_table = []
-
-    for module, state in report["modules"].items():
-
-        module_table.append({
+    module_table = [
+        {
             "Module": module,
             "Status": "✅ Ready" if state else "❌ Waiting"
-        })
+        }
+        for module, state in report.get("modules", {}).items()
+    ]
 
-    st.table(module_table)
+    if module_table:
+        st.table(module_table)
+    else:
+        st.info("No module information available.")
 
     st.divider()
 
-    # ---------------- Project Scan ----------------
+    # ---------------- Project Summary ----------------
 
-    report_text = f"""
-==============================
-GUARDIAN CORE REPORT
-==============================
+    st.subheader("📄 Guardian Summary")
 
-Guardian Name   : {report.get('name', 'Guardian Core')}
-Version         : {report.get('version', '1.0.0')}
-
-Status          : {report['status']}
-Health          : {report['health']}%
-
-Ready Modules   : {report['ready_modules']}
-Total Modules   : {report['total_modules']}
-
-Recommendation  : {report['recommendation']}
-
-Last Scan       : {report['last_scan']}
-
-==============================
-MODULE STATUS
-==============================
-
-"""
-
-    for module, state in report["modules"].items():
-
-        report_text += (
-            f"{module:<30}"
-            f"{'✅ Ready' if state else '❌ Waiting'}\n"
-        )
-
-    report_text += "\n==============================\n"
-    report_text += "Generated by Guardian Core\n"
-    report_text += "MarketVerse Lab\n"
-
-    st.subheader("📄 Guardian Report")
-
-    st.text_area(
-        "Guardian Core Report",
-        report_text,
-        height=350
-    )
-
-    st.code(
-        report_text,
-        language="text"
-    )
-
-    st.download_button(
-        label="📥 Download Guardian Report",
-        data=report_text,
-        file_name="guardian_core_report.txt",
-        mime="text/plain"
-    )
+    st.json({
+        "Health": report.get("health", 0),
+        "Status": report.get("status", "Unknown"),
+        "Ready Modules": report.get("ready_modules", 0),
+        "Total Modules": report.get("total_modules", 0),
+        "Recommendation": report.get("recommendation", "")
+    })
 
 except ModuleNotFoundError as e:
-
     st.warning("🟡 Guardian Core Module Not Found")
     st.code(str(e))
 
 except AttributeError as e:
-
     st.warning("🟡 dashboard_report() not available")
     st.code(str(e))
 
 except Exception as e:
-
     st.error("🔴 Guardian Core Error")
     st.code(str(e))
-
-if st.button("📄 Generate Guardian Report", key="guardian_report_btn"):
-
-    if "guardian" not in locals():
-        st.error("Guardian Core is not initialized.")
-        st.stop()
-
-    try:
-
-        report = guardian.app_report()
-
-        report_text = json.dumps(
-            report,
-            indent=4,
-            ensure_ascii=False
-        )
-
-        st.success("✅ Guardian Report Generated Successfully")
-
-        # ==========================================
-        # Report Preview
-        # ==========================================
-
-        st.subheader("📄 Report Preview")
-
-        st.text_area(
-            "Guardian Diagnostic Report",
-            report_text,
-            height=500
-        )
-
-        # ==========================================
-        # Expandable JSON View
-        # ==========================================
-
-        with st.expander("🔍 Open Full Report", expanded=False):
-            st.json(report)
-
-        # ==========================================
-        # Guardian Validation
-        # ==========================================
-
-        if "validation" in report:
-
-            st.subheader("🛡 Guardian Validation")
-            st.json(report["validation"])
-
-        # ==========================================
-        # Guardian Score
-        # ==========================================
-
-        if "score" in report:
-
-            st.subheader("📊 Guardian Score")
-
-            score = report["score"]
-
-            st.metric(
-                "Guardian Score",
-                score["score"]
-            )
-
-            st.success(
-                f"Signal : {score['signal']}"
-            )
-
-        # ==========================================
-        # Download Buttons
-        # ==========================================
-
-        st.download_button(
-            label="⬇ Download Guardian Report (.json)",
-            data=report_text,
-            file_name="guardian_report.json",
-            mime="application/json",
-            key="guardian_download_json"
-        )
-
-        st.download_button(
-            label="⬇ Download Guardian Report (.txt)",
-            data=report_text,
-            file_name="guardian_report.txt",
-            mime="text/plain",
-            key="guardian_download_txt"
-        )
 
     except Exception as e:
 
