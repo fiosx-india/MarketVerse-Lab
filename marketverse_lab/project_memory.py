@@ -271,7 +271,7 @@ class ProjectMemory:
             action="AI_NOTE",
             description=note
         )
-
+        
     # ----------------------------------------
     # Timeline
     # ----------------------------------------
@@ -282,7 +282,6 @@ class ProjectMemory:
             self.history,
             key=lambda item: item.timestamp
         )
-
     # ----------------------------------------
     # Files Changed
     # ----------------------------------------
