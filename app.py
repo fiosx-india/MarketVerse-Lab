@@ -228,23 +228,21 @@ if st.button("Download Report"):
 # ---------------- TEST ---------------- #
 
 elif menu == "🧪 Testing":
-
-st.header("Testing")  
-st.info("Testing Environment")
+     st.header("Testing")  
+     st.info("Testing Environment")
 
 # ---------------- LOGS ---------------- #
 
 elif menu == "📜 Logs":
-
-st.header("Logs")  
-st.info("System Logs")
+     st.header("Logs")  
+     st.info("System Logs")
 
 # ---------------- SETTINGS ---------------- #
 
 elif menu == "⚙ Settings":
 
-st.header("Settings")  
-st.info("Configuration")
+    st.header("Settings")  
+    st.info("Configuration")
 
 ============================
 
