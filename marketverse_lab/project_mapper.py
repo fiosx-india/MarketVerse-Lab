@@ -129,20 +129,26 @@ class ProjectMapper:
         return True
 
     # ----------------------------------------
-    # Complete Mapping
+    # Scan Project
     # ----------------------------------------
 
-    def build(self, root="."):
+    def scan(self, root="."):
 
-        self.scan(root)
+        root = Path(root)
 
-        self.map_folders()
-        self.map_files()
-        self.build_relationships()
-        self.build_code_index()
+        if not root.exists():
+            return False
+
+        self.root = root
+
+        self.files.clear()
+        self.folders.clear()
+
+        self.class_index.clear()
+        self.function_index.clear()
+        self.import_index.clear()
 
         return True
-
     # ----------------------------------------
     # Statistics
     # ----------------------------------------
