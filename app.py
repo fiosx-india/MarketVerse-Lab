@@ -18,9 +18,12 @@ st.header("🗂️ Project Mapper")
 
 try:
     from marketverse_lab.project_mapper import ProjectMapper
+    from marketverse_lab.code_locator import CodeLocator
 
     mapper = ProjectMapper()
+    mapper.build(".")
 
+    locator = CodeLocator()
     locator.connect_mapper(mapper)
 
     if st.button("🔍 Scan Project"):
