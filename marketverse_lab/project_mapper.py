@@ -382,6 +382,7 @@ class ProjectMapper:
                 continue
 
         return True
+        
     # ----------------------------------------
     # Build Project
     # ----------------------------------------
@@ -407,21 +408,33 @@ class ProjectMapper:
         validation = self.validate()
 
         return validation["mapping_complete"]
+
     # ----------------------------------------
     # App Connection
     # ----------------------------------------
-
 
     def app_report(self):
 
         return self.report()
 
-
     # ----------------------------------------
     # App Ready
     # ----------------------------------------
 
-
     def app_ready(self):
 
         return self.is_ready()
+
+    # ----------------------------------------
+    # String Representation
+    # ----------------------------------------
+
+    def __str__(self):
+
+        return (
+            f"ProjectMapper("
+            f"Folders={len(self.folders)}, "
+            f"Files={len(self.files)})"
+        )
+
+    __repr__ = __str__
