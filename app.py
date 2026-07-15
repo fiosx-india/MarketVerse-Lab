@@ -20,19 +20,34 @@ try:
     from marketverse_lab.project_mapper import ProjectMapper
 
     mapper = ProjectMapper()
-
-    # Fast Scan (Stage 1)
-    mapper.scan(".")
-    mapper.map_folders()
-    mapper.map_files()
+    mapper.build(".")
 
     st.success("✅ Project Mapper Loaded")
 
-    if hasattr(mapper, "report"):
-        st.json(mapper.report())
+    report = mapper.report()
+
+    summary = report["summary"]
+    validation = report["diagnostics"]["validation"]
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("📁 Folders", summary["folders"])
+
+    with col2:
+        st.metric("📄 Files", summary["files"])
+
+    with col3:
+        st.metric("🐍 Python Files", summary["python_files"])
+
+    if validation["mapping_complete"]:
+        st.success("✅ Project Mapper Ready")
     else:
-        st.write(mapper)
+        st.warning("⚠️ Project Mapper Not Ready")
+
+    with st.expander("📋 Diagnostics"):
+        st.json(report)
 
 except Exception as e:
     st.error("❌ Project Mapper Failed")
-    st.exception(e)
+    st.code(str(e))
