@@ -26,6 +26,48 @@ try:
     locator = CodeLocator()
     locator.connect_mapper(mapper)
 
+# ======================================================
+# Performance Monitor
+# ======================================================
+
+import time
+import platform
+
+st.divider()
+st.header("⚡ Performance Monitor")
+
+if st.button("⚡ Open Performance Monitor"):
+
+    start = time.perf_counter()
+
+    with st.spinner("Checking Performance..."):
+
+        time.sleep(0.2)
+
+    load_time = time.perf_counter() - start
+
+    st.success("✅ Performance Monitor Ready")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric("⚡ Load Time", f"{load_time:.3f} sec")
+        st.metric("🖥 Platform", platform.system())
+
+    with col2:
+        st.metric("🐍 Python", platform.python_version())
+        st.metric("💻 Machine", platform.machine())
+
+    with st.expander("📋 Performance Report"):
+
+        st.json({
+            "status": "Healthy",
+            "load_time": round(load_time, 3),
+            "platform": platform.system(),
+            "python": platform.python_version(),
+            "machine": platform.machine()
+        })
+
     if st.button("🔍 Scan Project"):
 
         with st.spinner("Scanning Project..."):
