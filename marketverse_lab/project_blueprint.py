@@ -71,7 +71,7 @@ class ProjectBlueprint:
 
         root = Path(root)
 
-        self.project.project_name = root.name
+        self.project.project_name = "MarketVerse Lab"
         self.project.project_root = str(root)
         self.project.created_time = str(datetime.now())
 
