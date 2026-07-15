@@ -61,19 +61,6 @@ class ProjectMapper:
         return True
 
     # ----------------------------------------
-
-    def scan(self, root="."):
-
-        root = Path(root)
-
-        self.root = root
-
-        self.files.clear()
-        self.folders.clear()
-
-        return True
-
-    # ----------------------------------------
     # Folder Mapping
     # ----------------------------------------
 
