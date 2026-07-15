@@ -17,15 +17,14 @@ try:
     from marketverse_lab.project_blueprint import ProjectBlueprint
 
     blueprint = ProjectBlueprint()
+    blueprint.build(".")
 
-blueprint.build(".")
+    st.success("✅ Project Blueprint Loaded")
 
-st.success("✅ Project Blueprint Loaded")
-
-if hasattr(blueprint, "report"):
-    st.json(blueprint.report())
-else:
-    st.write(blueprint)
+    if hasattr(blueprint, "report"):
+        st.json(blueprint.report())
+    else:
+        st.write(blueprint)
 
 except Exception as e:
     st.error("❌ Project Blueprint Failed")
