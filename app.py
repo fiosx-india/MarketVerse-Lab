@@ -18,11 +18,9 @@ st.header("🗂️ Project Mapper")
 
 try:
     from marketverse_lab.project_mapper import ProjectMapper
-    from marketverse_lab.code_locator import CodeLocator
 
     mapper = ProjectMapper()
 
-    locator = CodeLocator()
     locator.connect_mapper(mapper)
 
     if st.button("🔍 Scan Project"):
@@ -62,3 +60,26 @@ try:
 except Exception as e:
     st.error("❌ Project Mapper Failed")
     st.code(str(e))
+
+# ======================================================
+# Code Locator Test
+# ======================================================
+
+st.divider()
+st.header("📍 Code Locator Test")
+
+try:
+    from marketverse_lab.code_locator import CodeLocator
+
+    st.success("✅ CodeLocator Import Success")
+
+    locator = CodeLocator()
+
+    st.success("✅ Object Created Successfully")
+
+    st.write(locator)
+
+except Exception as e:
+
+    st.error("❌ Code Locator Test Failed")
+    st.exception(e)
