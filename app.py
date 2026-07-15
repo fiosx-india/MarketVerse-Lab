@@ -72,4 +72,9 @@ st.divider()
 st.header("📍 Code Locator")
 
 if st.button("📍 Open Code Locator"):
+
     st.success("✅ Button Working")
+
+    st.write(locator)
+
+    st.json(locator.diagnostics())
