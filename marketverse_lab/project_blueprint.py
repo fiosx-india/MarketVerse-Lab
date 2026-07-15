@@ -339,14 +339,18 @@ class ProjectBlueprint:
 
     def report(self):
 
-        return {
-            "summary": self.summary(),
-            "integrity": self.integrity_check(),
-            "diagnostics": self.diagnostics(),
-            "module_status": self.module_status(),
-            "hooks": self.hook_status()
-        }
+    if not self.project.project_name:
+        self.build(".")
 
+    return {
+        "ready": self.is_ready(),
+        "summary": self.summary(),
+        "integrity": self.integrity_check(),
+        "diagnostics": self.diagnostics(),
+        "module_status": self.module_status(),
+        "hooks": self.hook_status()
+    }
+    
     # ------------------------------------------------------
     # String Representation
     # ------------------------------------------------------
