@@ -575,7 +575,29 @@ if guardian is not None:
 
         st.code(str(e))
 
+# ==========================================================
+# PROJECT BLUEPRINT TEST
+# ==========================================================
 
+st.divider()
+st.subheader("🧩 Project Blueprint Test")
+
+try:
+    from marketverse_lab.project_blueprint import ProjectBlueprint
+
+    blueprint = ProjectBlueprint()
+
+    st.success("✅ Project Blueprint Loaded")
+
+    st.write("Ready:", blueprint.is_ready())
+
+    if hasattr(blueprint, "summary"):
+        st.json(blueprint.summary())
+
+except Exception as e:
+    st.error("❌ Project Blueprint Error")
+    st.code(str(e))
+    
 # ==========================================================
 # FOOTER
 # ==========================================================
@@ -585,3 +607,5 @@ st.divider()
 st.caption(
     "🚀 MarketVerse Lab | Guardian Development Platform | Version 1.0.0"
           )
+
+
