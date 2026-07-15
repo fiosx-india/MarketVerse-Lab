@@ -336,7 +336,6 @@ class ProjectBlueprint:
     # ------------------------------------------------------
     # Complete Report
     # ------------------------------------------------------
-
     def report(self):
 
     if not self.project.project_name:
