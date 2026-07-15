@@ -21,7 +21,6 @@ try:
     from marketverse_lab.code_locator import CodeLocator
 
     mapper = ProjectMapper()
-    mapper.build(".")
 
     locator = CodeLocator()
     locator.connect_mapper(mapper)
