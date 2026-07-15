@@ -247,14 +247,11 @@ class ProjectMapper:
 
     def report(self):
 
-        return {
-            "summary": self.statistics(),
-            "diagnostics": self.diagnostics(),
-            "folders": list(self.folders.keys()),
-            "files": list(self.files.keys())
-        }
-
-
+    return {
+        "summary": self.statistics(),
+        "diagnostics": self.diagnostics()
+    }
+    
     # ----------------------------------------
     # Reset Mapper
     # ----------------------------------------
