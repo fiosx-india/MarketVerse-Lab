@@ -407,3 +407,21 @@ class ProjectMapper:
         validation = self.validate()
 
         return validation["mapping_complete"]
+    # ----------------------------------------
+    # App Connection
+    # ----------------------------------------
+
+
+    def app_report(self):
+
+        return self.report()
+
+
+    # ----------------------------------------
+    # App Ready
+    # ----------------------------------------
+
+
+    def app_ready(self):
+
+        return self.is_ready()
