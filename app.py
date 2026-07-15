@@ -65,24 +65,11 @@ except Exception as e:
     st.code(str(e))
 
 # ======================================================
-# Code Locator Test
+# Code Locator
 # ======================================================
 
 st.divider()
-st.header("📍 Code Locator Test")
+st.header("📍 Code Locator")
 
-try:
-    from marketverse_lab.code_locator import CodeLocator
-
-    st.success("✅ CodeLocator Import Success")
-
-    locator = CodeLocator()
-
-    st.success("✅ Object Created Successfully")
-
-    st.write(locator)
-
-except Exception as e:
-
-    st.error("❌ Code Locator Test Failed")
-    st.exception(e)
+if st.button("📍 Open Code Locator"):
+    st.success("✅ Button Working")
