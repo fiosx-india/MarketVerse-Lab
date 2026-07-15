@@ -348,9 +348,9 @@ class ProjectBlueprint:
         "integrity": self.integrity_check(),
         "diagnostics": self.diagnostics(),
         "module_status": self.module_status(),
-        "hooks": self.hook_status()
+        "hooks": self.hook_status(),
     }
-    
+
     # ------------------------------------------------------
     # String Representation
     # ------------------------------------------------------
