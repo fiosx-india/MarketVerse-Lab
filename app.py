@@ -20,7 +20,11 @@ try:
     from marketverse_lab.project_mapper import ProjectMapper
 
     mapper = ProjectMapper()
-    mapper.build(".")
+
+    # Fast Scan (Stage 1)
+    mapper.scan(".")
+    mapper.map_folders()
+    mapper.map_files()
 
     st.success("✅ Project Mapper Loaded")
 
@@ -31,4 +35,4 @@ try:
 
 except Exception as e:
     st.error("❌ Project Mapper Failed")
-    st.code(str(e))
+    st.exception(e)
