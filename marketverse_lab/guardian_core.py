@@ -66,7 +66,7 @@ class GuardianCore:
         # Build Blueprint
         from pathlib import Path
 
-        project_root = Path(__file__).resolve().parent
+        project_root = Path(__file__).resolve().parent.parent
         self.blueprint.build(project_root)
         print(self.blueprint.is_ready())
         print(self.blueprint.module_status())
