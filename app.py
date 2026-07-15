@@ -18,13 +18,14 @@ try:
 
     blueprint = ProjectBlueprint()
 
-    st.success("✅ Project Blueprint Loaded")
+blueprint.build(".")
 
-    if hasattr(blueprint, "report"):
-        st.json(blueprint.report())
+st.success("✅ Project Blueprint Loaded")
 
-    else:
-        st.write(blueprint)
+if hasattr(blueprint, "report"):
+    st.json(blueprint.report())
+else:
+    st.write(blueprint)
 
 except Exception as e:
     st.error("❌ Project Blueprint Failed")
