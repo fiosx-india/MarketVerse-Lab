@@ -342,8 +342,10 @@ class GuardianCore:
         self.mapper.build(root)
         self.live_monitor.scan_folder(root)
 
+        registry = self.file_registry.scan()
         health = self.health_engine.scan()
         cleanup = self.cleanup_engine.scan()
+
         report = {}
 
         report["errors"] = (
@@ -403,6 +405,7 @@ class GuardianCore:
         )
 
         report["health_engine"] = health
+        report["file_registry"] = self.file_registry.report()
         report["cleanup_engine"] = cleanup
 
         return report
