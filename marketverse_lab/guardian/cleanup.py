@@ -37,7 +37,7 @@ class CleanupEngine:
             "build",
             "dist",
         }
-      def scan(self):
+     def scan(self):
 
     unwanted = []
     pycache = []
