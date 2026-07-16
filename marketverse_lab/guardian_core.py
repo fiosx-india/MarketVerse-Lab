@@ -487,6 +487,11 @@ class GuardianCore:
             "live_monitor": self.live_monitor.is_ready(),
             "workflow_engine": self.workflow_engine.is_ready(),
             "ai_assistant": self.ai_assistant.is_ready(),
+            "constitution": self.constitution.is_ready(),
+            "health_engine": self.health_engine.is_ready(),
+            "cleanup_engine": self.cleanup_engine.is_ready(),
+            "file_registry": self.file_registry.is_ready(),
+            "change_report": self.change_report.is_ready(),
         }
 
     # ----------------------------------------
@@ -809,6 +814,12 @@ class GuardianCore:
         # ==========================================
         # Guardian Validation & Score
         # ==========================================
+
+        report["modules"]["constitution"] = self.constitution.report()
+        report["modules"]["health_engine"] = self.health_engine.report()
+        report["modules"]["cleanup_engine"] = self.cleanup_engine.report()
+        report["modules"]["file_registry"] = self.file_registry.report()
+        report["modules"]["change_report"] = self.change_report.report()
 
         report["validation"] = self.guardian_validation()
         report["score"] = self.guardian_score()
