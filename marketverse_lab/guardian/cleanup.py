@@ -37,27 +37,24 @@ class CleanupEngine:
             "build",
             "dist",
         }
-        
-    def scan(self):
+      def scan(self):
 
-        unwanted = []
-        pycache = []
+    unwanted = []
+    pycache = []
 
-        
-for pattern in self.patterns:
-    for file in self.project_root.rglob(pattern):
-        if any(folder in file.parts for folder in self.ignore_dirs):
+    for pattern in self.patterns:
+        for file in self.project_root.rglob(pattern):
+            if any(folder in file.parts for folder in self.ignore_dirs):
+                continue
+            unwanted.append(file)
+
+    for folder in self.project_root.rglob("__pycache__"):
+        if any(ignore in folder.parts for ignore in self.ignore_dirs):
             continue
-        unwanted.append(file)
-        
-pycache = []
+        pycache.append(folder)
 
-for folder in self.project_root.rglob("__pycache__"):
-    if any(ignore in folder.parts for ignore in self.ignore_dirs):
-        continue
-    pycache.append(folder)
+    self.report_data = {  
 
-        self.report_data = {
 
             "status": "PASS",
 
