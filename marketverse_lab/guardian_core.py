@@ -20,7 +20,11 @@ from .project_memory import ProjectMemory
 from .live_monitor import LiveMonitor
 from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
-
+from .guardian.constitution import GuardianConstitution
+from .guardian.health import HealthEngine
+from .guardian.cleanup import CleanupEngine
+from .guardian.registry import FileRegistry
+from .guardian.change_report import ChangeReport
 
 class GuardianCore:
 
@@ -41,6 +45,12 @@ class GuardianCore:
         self.ai_assistant = AIAssistant()
         self._initialized = False
         self._last_scan = None
+        # Guardian Foundation
+        self.constitution = GuardianConstitution()
+        self.health_engine = HealthEngine()
+        self.cleanup_engine = CleanupEngine()
+        self.file_registry = FileRegistry()
+        self.change_report = ChangeReport()
         # Connect all modules
         self._connect_modules()
         
