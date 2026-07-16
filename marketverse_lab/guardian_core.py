@@ -67,6 +67,12 @@ class GuardianCore:
             ("live_monitor", "Live Monitor"),
             ("workflow_engine", "Workflow Engine"),
             ("ai_assistant", "AI Assistant"),
+            ("constitution", "Guardian Constitution"),
+            ("health_engine", "Health Engine"),
+            ("cleanup_engine", "Cleanup Engine"),
+            ("file_registry", "File Registry"),
+            ("change_report", "Change Report"),
+            
         ]
 
         for name, description in modules:
@@ -100,6 +106,11 @@ class GuardianCore:
         self.blueprint.connect("live_monitor", self.live_monitor)
         self.blueprint.connect("workflow_engine", self.workflow_engine)
         self.blueprint.connect("ai_assistant", self.ai_assistant)
+        self.blueprint.connect("constitution", self.constitution)
+        self.blueprint.connect("health_engine", self.health_engine)
+        self.blueprint.connect("cleanup_engine", self.cleanup_engine)
+        self.blueprint.connect("file_registry", self.file_registry)
+        self.blueprint.connect("change_report", self.change_report)
         
         # Connect Locator
         self.locator.connect_blueprint(self.blueprint)
