@@ -140,6 +140,11 @@ class GuardianCore:
             self.live_monitor,
             self.workflow_engine,
             self.ai_assistant,
+            self.constitution,
+            self.health_engine,
+            self.cleanup_engine,
+            self.file_registry,
+            self.change_report,
         ]
 
         for module in modules:
