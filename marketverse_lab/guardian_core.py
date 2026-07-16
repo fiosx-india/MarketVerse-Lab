@@ -407,6 +407,7 @@ class GuardianCore:
         report["health_engine"] = health
         report["file_registry"] = self.file_registry.report()
         report["cleanup_engine"] = cleanup
+        report["change_report"] = self.change_report.report()
 
         return report
     
