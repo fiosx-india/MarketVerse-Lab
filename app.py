@@ -10,52 +10,59 @@ st.set_page_config(
 st.title("🚀 MarketVerse Lab")
 st.success("Stage 1 : Foundation Ready")
 
-# ======================================================
-# Project Mapper
-# ======================================================
+# ==========================================
+# Guardian Core Gate
+# ==========================================
 
 st.divider()
-st.header("🗂️ Project Mapper")
+st.header("🛡 Guardian Core")
 
 try:
-    from marketverse_lab.project_mapper import ProjectMapper
+    from marketverse_lab.guardian_core import GuardianCore
 
-    mapper = ProjectMapper()
+    guardian = GuardianCore()
 
-    if st.button("🔍 Scan Project"):
+    modules = [
+        ("Guardian Constitution", guardian.constitution),
+        ("Health Engine", guardian.health_engine),
+        ("File Registry", guardian.file_registry),
+        ("Cleanup Engine", guardian.cleanup_engine),
+        ("Change Report", guardian.change_report),
+    ]
 
-        with st.spinner("Scanning Project..."):
+    guardian_ready = True
 
-            mapper.scan(".")
-            mapper.map_folders()
-            mapper.map_files()
+    for name, module in modules:
 
-        st.success("✅ Project Scan Complete")
+        if hasattr(module, "scan"):
+            module.scan()
 
-        report = mapper.report()
+        report = {}
 
-        summary = report["summary"]
-        validation = report["diagnostics"]["validation"]
+        if hasattr(module, "report"):
+            report = module.report()
 
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.metric("📁 Folders", summary["folders"])
-
-        with col2:
-            st.metric("📄 Files", summary["files"])
-
-        with col3:
-            st.metric("🐍 Python Files", summary["python_files"])
-
-        if validation["mapping_complete"]:
-            st.success("✅ Project Ready")
+        if hasattr(module, "is_ready"):
+            ready = module.is_ready()
         else:
-            st.warning("⚠️ Project Not Ready")
+            ready = True
 
-        with st.expander("📋 Diagnostics"):
+        if ready:
+            st.success(f"✅ {name}")
+        else:
+            guardian_ready = False
+            st.error(f"❌ {name}")
+
+        with st.expander(f"{name} Report"):
             st.json(report)
 
+    if guardian_ready:
+        st.success("🛡 Guardian PASS")
+    else:
+        st.error("🛑 Guardian FAILED")
+        st.stop()
+
 except Exception as e:
-    st.error("❌ Project Mapper Failed")
+    st.error("Guardian Core Failed")
     st.code(str(e))
+    st.stop()
