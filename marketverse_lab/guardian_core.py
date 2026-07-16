@@ -75,23 +75,26 @@ class GuardianCore:
             
         ]
 
-        for name, description in modules:
-            self.blueprint.register_module(name, description)
-            self.blueprint.enable_module(name)
-       
-        # Build Blueprint
-        from pathlib import Path
+for name, description in modules:
+    self.blueprint.register_module(name, description)
+    self.blueprint.enable_module(name)
 
-        project_root = Path(__file__).resolve().parent.parent
-        self.blueprint.build(project_root)
-        print(self.blueprint.is_ready())
-        print(self.blueprint.module_status())
-        print(self.blueprint.summary())
-        print(self.blueprint.validate())
-        print(self.blueprint.integrity_check())
+# Build Blueprint
+from pathlib import Path
 
-        # Scan Project
-        self.mapper.build(".")
+project_root = Path(__file__).resolve().parent.parent
+self.blueprint.build(project_root)
+
+self.startup_report = {
+    "ready": self.blueprint.is_ready(),
+    "module_status": self.blueprint.module_status(),
+    "summary": self.blueprint.summary(),
+    "validation": self.blueprint.validate(),
+    "integrity": self.blueprint.integrity_check(),
+}
+
+# Scan Project
+self.mapper.build(".")
         
         # Connect Blueprint
         self.blueprint.connect("project_mapper", self.mapper)
