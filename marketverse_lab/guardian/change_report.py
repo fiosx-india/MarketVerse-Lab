@@ -56,7 +56,19 @@ class ChangeReport:
     def clear(self):
 
         self.changes.clear()
+        
+def connect_blueprint(self, blueprint):
+    self.blueprint = blueprint
 
+def connect_mapper(self, mapper):
+    self.mapper = mapper
+
+def connect_locator(self, locator):
+    self.locator = locator
+
+def connect_dependency_graph(self, dependency_graph):
+    self.dependency_graph = dependency_graph
+    
     def is_ready(self):
 
         return True
