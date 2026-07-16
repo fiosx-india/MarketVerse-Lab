@@ -342,6 +342,8 @@ class GuardianCore:
         self.mapper.build(root)
         self.live_monitor.scan_folder(root)
 
+        health = self.health_engine.scan()
+        cleanup = self.cleanup_engine.scan()
         report = {}
 
         report["errors"] = (
@@ -399,6 +401,9 @@ class GuardianCore:
             if self.project_memory is not None
             else {"status": "ProjectMemory not connected."}
         )
+
+        report["health_engine"] = health
+        report["cleanup_engine"] = cleanup
 
         return report
     
