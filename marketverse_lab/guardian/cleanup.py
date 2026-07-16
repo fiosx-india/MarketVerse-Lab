@@ -23,18 +23,39 @@ class CleanupEngine:
             "*.pyc",
             "*.log",
         ]
-
+        
+        self.ignore_dirs = {
+            "__pycache__",
+            ".git",
+            ".venv",
+            "venv",
+            "node_modules",
+            ".idea",
+            ".vscode",
+            ".pytest_cache",
+            ".mypy_cache",
+            "build",
+            "dist",
+        }
+        
     def scan(self):
 
         unwanted = []
         pycache = []
 
-        for pattern in self.patterns:
-            unwanted.extend(self.project_root.rglob(pattern))
+        
+for pattern in self.patterns:
+    for file in self.project_root.rglob(pattern):
+        if any(folder in file.parts for folder in self.ignore_dirs):
+            continue
+        unwanted.append(file)
+        
+pycache = []
 
-        pycache = list(
-            self.project_root.rglob("__pycache__")
-        )
+for folder in self.project_root.rglob("__pycache__"):
+    if any(ignore in folder.parts for ignore in self.ignore_dirs):
+        continue
+    pycache.append(folder)
 
         self.report_data = {
 
