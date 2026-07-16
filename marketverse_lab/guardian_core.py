@@ -74,27 +74,28 @@ class GuardianCore:
             ("change_report", "Change Report"),
             
         ]
+        
+        for name, description in modules:
+            self.blueprint.register_module(name, description)
+            self.blueprint.enable_module(name)
 
-for name, description in modules:
-    self.blueprint.register_module(name, description)
-    self.blueprint.enable_module(name)
+        # Build Blueprint
+        from pathlib import Path
 
-# Build Blueprint
-from pathlib import Path
+        project_root = Path(__file__).resolve().parent.parent
+        self.blueprint.build(project_root)
 
-project_root = Path(__file__).resolve().parent.parent
-self.blueprint.build(project_root)
+        self.startup_report = {
+            "ready": self.blueprint.is_ready(),
+            "module_status": self.blueprint.module_status(),
+            "summary": self.blueprint.summary(),
+            "validation": self.blueprint.validate(),
+            "integrity": self.blueprint.integrity_check(),
+        }
 
-self.startup_report = {
-    "ready": self.blueprint.is_ready(),
-    "module_status": self.blueprint.module_status(),
-    "summary": self.blueprint.summary(),
-    "validation": self.blueprint.validate(),
-    "integrity": self.blueprint.integrity_check(),
-}
+        # Scan Project
+        self.mapper.build(".")
 
-# Scan Project
-self.mapper.build(".")
         
         # Connect Blueprint
         self.blueprint.connect("project_mapper", self.mapper)
