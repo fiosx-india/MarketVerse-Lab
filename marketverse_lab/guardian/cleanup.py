@@ -11,38 +11,62 @@ from pathlib import Path
 class CleanupEngine:
 
     def __init__(self):
+
         self.project_root = Path(".")
         self.report_data = {}
 
-    def scan(self):
-
-        unwanted = []
-
-        patterns = [
+        self.patterns = [
             "*.bak",
             "*.old",
             "*.tmp",
             "*.copy",
-            "*.pyc"
+            "*.pyc",
+            "*.log",
         ]
 
-        for pattern in patterns:
+    def scan(self):
+
+        unwanted = []
+        pycache = []
+
+        for pattern in self.patterns:
             unwanted.extend(self.project_root.rglob(pattern))
 
-        pycache = list(self.project_root.rglob("__pycache__"))
+        pycache = list(
+            self.project_root.rglob("__pycache__")
+        )
 
         self.report_data = {
+
             "status": "PASS",
+
             "unwanted_files": len(unwanted),
+
             "pycache_folders": len(pycache),
-            "files": [str(f) for f in unwanted],
-            "folders": [str(f) for f in pycache],
+
+            "recommended_cleanup":
+                len(unwanted) + len(pycache),
+
+            "sample_files": [
+                str(f)
+                for f in unwanted[:10]
+            ],
+
+            "sample_folders": [
+                str(f)
+                for f in pycache[:10]
+            ],
+
+            "auto_cleanup": False
+
         }
 
         return self.report_data
 
     def report(self):
+
         return self.report_data
 
     def is_ready(self):
+
         return True
