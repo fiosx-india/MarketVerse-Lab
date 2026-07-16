@@ -9,7 +9,6 @@ from pathlib import Path
 
 
 class CleanupEngine:
-
     def __init__(self):
 
         self.project_root = Path(".")
@@ -23,7 +22,7 @@ class CleanupEngine:
             "*.pyc",
             "*.log",
         ]
-        
+
         self.ignore_dirs = {
             "__pycache__",
             ".git",
@@ -37,7 +36,7 @@ class CleanupEngine:
             "build",
             "dist",
         }
-        
+
     def scan(self):
 
         unwanted = []
@@ -55,28 +54,13 @@ class CleanupEngine:
             pycache.append(folder)
 
         self.report_data = {
-
             "status": "PASS",
-
             "unwanted_files": len(unwanted),
-
             "pycache_folders": len(pycache),
-
-            "recommended_cleanup":
-                len(unwanted) + len(pycache),
-
-            "sample_files": [
-                str(f)
-                for f in unwanted[:10]
-            ],
-
-            "sample_folders": [
-                str(f)
-                for f in pycache[:10]
-            ],
-
-            "auto_cleanup": False
-
+            "recommended_cleanup": len(unwanted) + len(pycache),
+            "sample_files": [str(f) for f in unwanted[:10]],
+            "sample_folders": [str(f) for f in pycache[:10]],
+            "auto_cleanup": False,
         }
 
         return self.report_data
