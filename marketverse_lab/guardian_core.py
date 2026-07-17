@@ -105,7 +105,11 @@ class GuardianCore:
         self.blueprint.connect("LiveMonitor", self.live_monitor)
         self.blueprint.connect("WorkflowEngine", self.workflow_engine)
         self.blueprint.connect("AIAssistant", self.ai_assistant)
-
+        
+        # Code Locator
+        self.locator.connect_blueprint(self.blueprint)
+        self.locator.connect_mapper(self.mapper)
+        
         # Live Monitor
         self.live_monitor.connect_guardian(self)
         self.live_monitor.connect_blueprint(self.blueprint)
