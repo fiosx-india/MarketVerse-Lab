@@ -131,7 +131,7 @@ class GuardianCore:
 
     def report(self):
         return self.blueprint.report()
-        
+
     def is_ready(self):
         return self.blueprint.is_ready()
 
@@ -179,7 +179,7 @@ class GuardianCore:
 
     def ai_recommendation(self):
         return self.error_intelligence.recommendations()
-        
+
     def knowledge_report(self):
         return self.knowledge_base.report()
 
@@ -188,7 +188,7 @@ class GuardianCore:
 
     def knowledge_statistics(self):
         return self.knowledge_base.statistics()
-        
+
     def change_report(self):
         return self.change_planner.report()
 
@@ -197,7 +197,7 @@ class GuardianCore:
 
     def plan_change(self, target_file, action):
         return self.change_planner.generate_plan(target_file, action)
-        
+
     def patch_report(self):
         return self.auto_patch_engine.report()
 
@@ -206,7 +206,7 @@ class GuardianCore:
 
     def apply_patch(self, file, line, code):
         return self.auto_patch_engine.insert_code(file, line, code)
-        
+
     def memory_report(self):
         return self.project_memory.report()
 
@@ -214,13 +214,8 @@ class GuardianCore:
         return self.project_memory.is_ready()
 
     def record_change(self, file, action, description, metadata=None):
-        return self.project_memory.record_change(
-            file,
-            action,
-            description,
-            metadata
-        )
-        
+        return self.project_memory.record_change(file, action, description, metadata)
+
     def monitor_report(self):
         return self.live_monitor.report()
 
