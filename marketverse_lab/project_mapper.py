@@ -92,29 +92,6 @@ class ProjectMapper:
 
         return self.folders
 
-
-    # ----------------------------------------
-    # Folder Mapping
-    # ----------------------------------------
-
-    def map_folders(self):
-
-        for folder in self.root.rglob("*"):
-
-            if any(part in SKIP_DIRS for part in folder.parts):
-                continue
-
-            if folder.is_dir():
-
-                relative = str(folder.relative_to(self.root))
-
-                self.folders[relative] = FolderNode(
-                    name=folder.name,
-                    path=relative
-                )
-
-        return self.folders
-
     # ----------------------------------------
     # File Mapping
     # ----------------------------------------
