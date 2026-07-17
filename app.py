@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(
@@ -23,11 +22,19 @@ try:
     guardian = GuardianCore()
 
     modules = [
-        ("Guardian Constitution", guardian.constitution),
-        ("Health Engine", guardian.health_engine),
-        ("File Registry", guardian.file_registry),
-        ("Cleanup Engine", guardian.cleanup_engine),
-        ("Change Report", guardian.change_report),
+        ("Project Blueprint", guardian.blueprint),
+        ("Project Mapper", guardian.mapper),
+        ("Code Locator", guardian.locator),
+        ("Dependency Graph", guardian.dependency_graph),
+        ("Integration Checker", guardian.integration_checker),
+        ("Error Intelligence", guardian.error_intelligence),
+        ("Knowledge Base", guardian.knowledge_base),
+        ("Change Planner", guardian.change_planner),
+        ("Auto Patch Engine", guardian.auto_patch_engine),
+        ("Project Memory", guardian.project_memory),
+        ("Live Monitor", guardian.live_monitor),
+        ("Workflow Engine", guardian.workflow_engine),
+        ("AI Assistant", guardian.ai_assistant),
     ]
 
     guardian_ready = True
