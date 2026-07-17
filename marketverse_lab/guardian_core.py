@@ -30,6 +30,7 @@ class GuardianCore:
         self.blueprint = ProjectBlueprint()
         self.locator = CodeLocator()
         self.mapper = ProjectMapper()
+        self.dependency_graph = DependencyGraph()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -137,3 +138,12 @@ class GuardianCore:
 
     def mapper_ready(self):
         return self.mapper.is_ready()
+
+    def build_dependency_graph(self):
+        return self.dependency_graph.build()
+
+    def dependency_report(self):
+        return self.dependency_graph.report()
+    
+    def dependency_ready(self):
+        return self.dependency_graph.is_ready()
