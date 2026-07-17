@@ -70,27 +70,27 @@ class ProjectMapper:
         self.blueprint = blueprint
         return True
 
-# ----------------------------------------
-# Folder Mapping
-# ----------------------------------------
+    # ----------------------------------------
+    # Folder Mapping
+    # ----------------------------------------
 
-def map_folders(self):
+    def map_folders(self):
 
-    for folder in self.root.rglob("*"):
+        for folder in self.root.rglob("*"):
 
-        if any(part in SKIP_DIRS for part in folder.parts):
-            continue
+            if any(part in SKIP_DIRS for part in folder.parts):
+                continue
 
-        if folder.is_dir():
+            if folder.is_dir():
 
-            relative = str(folder.relative_to(self.root))
+                relative = str(folder.relative_to(self.root))
 
-            self.folders[relative] = FolderNode(
-                name=folder.name,
-                path=relative
-            )
+                self.folders[relative] = FolderNode(
+                    name=folder.name,
+                    path=relative
+                )
 
-    return self.folders
+        return self.folders
 
 
     # ----------------------------------------
