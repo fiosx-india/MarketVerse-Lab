@@ -436,18 +436,6 @@ class ProjectMapper:
 
     def app_ready(self):
 
-        return self.is_ready()
+        return 
 
-    # ----------------------------------------
-    # String Representation
-    # ----------------------------------------
 
-    def __str__(self):
-
-        return (
-            f"ProjectMapper("
-            f"Folders={len(self.folders)}, "
-            f"Files={len(self.files)})"
-        )
-
-    __repr__ = __str__
