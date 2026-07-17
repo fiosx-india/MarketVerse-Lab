@@ -123,10 +123,10 @@ class GuardianCore:
         return self.integration_checker.is_ready()
         
     def error_report(self):
-        return self.error_intelligence.report()
+    return self.error_intelligence.report()
 
-    def error_ready(self):
-        return self.error_intelligence.is_ready()
+def error_ready(self):
+    return self.error_intelligence.is_ready()
 
-   def ai_recommendation(self):
-       return self.error_intelligence.recommendations()
+def ai_recommendation(self):
+    return self.error_intelligence.recommendations()
