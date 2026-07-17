@@ -131,6 +131,7 @@ class GuardianCore:
 
     def ai_recommendation(self):
         return self.error_intelligence.recommendations()
+        
     def knowledge_report(self):
         return self.knowledge_base.report()
 
