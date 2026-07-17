@@ -83,6 +83,22 @@ class ChangePlanner:
 
     # ----------------------------------------
 
+    def connect_auto_patch_engine(self, engine):
+
+        self.auto_patch_engine = engine
+
+    # ----------------------------------------
+
+    def connect_project_memory(self, memory):
+
+        self.project_memory = memory
+
+    # ----------------------------------------
+
+    def connect_live_monitor(self, monitor):
+
+        self.live_monitor = monitor
+
     def reset(self):
 
         self.tasks.clear()
