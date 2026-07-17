@@ -326,12 +326,19 @@ class ProjectMemory:
     def diagnostics(self):
 
         return {
-            "history": len(self.history),
-            "knowledge": self.knowledge_base is not None,
-            "planner": self.change_planner is not None,
-            "patch_engine": self.auto_patch_engine is not None
-        }
-
+             "history": len(self.history),
+             "blueprint": self.blueprint is not None,
+             "mapper": self.mapper is not None,
+             "locator": self.locator is not None,
+             "dependency_graph": self.dependency_graph is not None,
+             "integration_checker": self.integration_checker is not None,
+             "error_intelligence": self.error_intelligence is not None,
+              "knowledge": self.knowledge_base is not None,
+              "planner": self.change_planner is not None,
+              "patch_engine": self.auto_patch_engine is not None,
+              "live_monitor": self.live_monitor is not None,
+              "workflow_engine": self.workflow_engine is not None
+           }
     # ----------------------------------------
     # Report
     # ----------------------------------------
@@ -360,6 +367,8 @@ class ProjectMemory:
             and self.knowledge_base is not None
             and self.change_planner is not None
             and self.auto_patch_engine is not None
+            and self.live_monitor is not None
+            and self.workflow_engine is not None
         )
 
     # ----------------------------------------
