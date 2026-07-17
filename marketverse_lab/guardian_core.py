@@ -118,6 +118,8 @@ class GuardianCore:
         self.dependency_graph.connect_mapper(self.mapper)
         self.dependency_graph.connect_locator(self.locator)
         
+        self.dependency_graph.build()
+        
         # Live Monitor
         self.live_monitor.connect_guardian(self)
         self.live_monitor.connect_blueprint(self.blueprint)
