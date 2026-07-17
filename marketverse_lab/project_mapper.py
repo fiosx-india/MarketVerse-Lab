@@ -11,6 +11,16 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import List
 
+SKIP_DIRS = {
+    ".git",
+    ".venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".idea",
+    ".vscode",
+    "node_modules",
+}
 
 @dataclass
 class FileNode:
