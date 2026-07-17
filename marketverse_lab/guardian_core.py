@@ -31,6 +31,7 @@ class GuardianCore:
         self.locator = CodeLocator()
         self.mapper = ProjectMapper()
         self.dependency_graph = DependencyGraph()
+        self.integration_checker = IntegrationChecker()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -147,3 +148,12 @@ class GuardianCore:
     
     def dependency_ready(self):
         return self.dependency_graph.is_ready()
+
+    def check_integration(self, target_file):
+        return self.integration_checker.validate(target_file)
+
+    def integration_report(self):
+        return self.integration_checker.report()
+
+    def integration_ready(self):
+        return self.integration_checker.is_ready()
