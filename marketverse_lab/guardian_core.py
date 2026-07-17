@@ -23,7 +23,6 @@ from .ai_assistant import AIAssistant
 
 
 class GuardianCore:
-
     def __init__(self, project_root="."):
 
         # Blueprint
@@ -37,65 +36,29 @@ class GuardianCore:
         self.blueprint.build(project_root)
 
         # Register Modules
-        self.blueprint.register_module(
-            "ProjectMapper",
-            "Project Structure Mapper"
-        )
+        self.blueprint.register_module("ProjectMapper", "Project Structure Mapper")
 
-        self.blueprint.register_module(
-            "CodeLocator",
-            "Code Locator"
-        )
+        self.blueprint.register_module("CodeLocator", "Code Locator")
 
-        self.blueprint.register_module(
-            "DependencyGraph",
-            "Dependency Analyzer"
-        )
+        self.blueprint.register_module("DependencyGraph", "Dependency Analyzer")
 
-        self.blueprint.register_module(
-            "IntegrationChecker",
-            "Integration Checker"
-        )
+        self.blueprint.register_module("IntegrationChecker", "Integration Checker")
 
-        self.blueprint.register_module(
-            "ErrorIntelligence",
-            "AI Error Intelligence"
-        )
+        self.blueprint.register_module("ErrorIntelligence", "AI Error Intelligence")
 
-        self.blueprint.register_module(
-            "KnowledgeBase",
-            "Knowledge Repository"
-        )
+        self.blueprint.register_module("KnowledgeBase", "Knowledge Repository")
 
-        self.blueprint.register_module(
-            "ChangePlanner",
-            "Change Planner"
-        )
+        self.blueprint.register_module("ChangePlanner", "Change Planner")
 
-        self.blueprint.register_module(
-            "AutoPatchEngine",
-            "Auto Patch Engine"
-        )
+        self.blueprint.register_module("AutoPatchEngine", "Auto Patch Engine")
 
-        self.blueprint.register_module(
-            "ProjectMemory",
-            "Project Memory"
-        )
+        self.blueprint.register_module("ProjectMemory", "Project Memory")
 
-        self.blueprint.register_module(
-            "LiveMonitor",
-            "Live Monitor"
-        )
+        self.blueprint.register_module("LiveMonitor", "Live Monitor")
 
-        self.blueprint.register_module(
-            "WorkflowEngine",
-            "Workflow Engine"
-        )
+        self.blueprint.register_module("WorkflowEngine", "Workflow Engine")
 
-        self.blueprint.register_module(
-            "AIAssistant",
-            "AI Assistant"
-        )
+        self.blueprint.register_module("AIAssistant", "AI Assistant")
 
         # Enable Modules
         for module in (
@@ -127,7 +90,7 @@ class GuardianCore:
 
     def dashboard_report(self):
         return self.blueprint.summary()
-        
+
     def locate(self, target):
         return self.locator.locate(target)
 
@@ -145,7 +108,7 @@ class GuardianCore:
 
     def dependency_report(self):
         return self.dependency_graph.report()
-    
+
     def dependency_ready(self):
         return self.dependency_graph.is_ready()
 
