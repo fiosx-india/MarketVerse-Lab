@@ -121,6 +121,13 @@ self.workflow_engine.connect_change_planner(self.change_planner)
 self.workflow_engine.connect_auto_patch_engine(self.auto_patch_engine)
 self.workflow_engine.connect_project_memory(self.project_memory)
 self.workflow_engine.connect_live_monitor(self.live_monitor)
+self.workflow_engine.connect_blueprint(self.blueprint)
+self.workflow_engine.connect_mapper(self.mapper)
+self.workflow_engine.connect_locator(self.locator)
+self.workflow_engine.connect_dependency_graph(self.dependency_graph)
+self.workflow_engine.connect_integration_checker(self.integration_checker)
+self.workflow_engine.connect_error_intelligence(self.error_intelligence)
+self.workflow_engine.connect_knowledge_base(self.knowledge_base)
 
     def report(self):
         return self.blueprint.report()
