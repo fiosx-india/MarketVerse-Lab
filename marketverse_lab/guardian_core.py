@@ -126,3 +126,6 @@ class GuardianCore:
 
     def dashboard_report(self):
         return self.blueprint.summary()
+        
+        def locate(self, target):
+    return self.locator.locate(target)
