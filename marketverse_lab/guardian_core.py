@@ -29,6 +29,7 @@ class GuardianCore:
         # Blueprint
         self.blueprint = ProjectBlueprint()
         self.locator = CodeLocator()
+        self.mapper = ProjectMapper()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -112,8 +113,6 @@ class GuardianCore:
             self.blueprint.enable_module(module)
 
         # Blueprint Connections
-        # (இந்த self.mapper, self.locator போன்ற objects
-        # உருவாக்கப்பட்ட பிறகு connect செய்ய வேண்டும்.)
 
     def report(self):
         return self.blueprint.report()
@@ -129,3 +128,12 @@ class GuardianCore:
         
     def locate(self, target):
         return self.locator.locate(target)
+
+    def map_project(self, root="."):
+        return self.mapper.build(root)
+
+    def mapper_report(self):
+        return self.mapper.report()
+
+    def mapper_ready(self):
+        return self.mapper.is_ready()
