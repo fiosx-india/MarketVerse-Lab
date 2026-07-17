@@ -175,6 +175,14 @@ class GuardianCore:
         self.error_intelligence.connect_dependency_graph(self.dependency_graph)
         self.error_intelligence.connect_integration_checker(self.integration_checker)
     
+         # Knowledge Base
+        self.knowledge_base.connect_blueprint(self.blueprint)
+        self.knowledge_base.connect_mapper(self.mapper)
+        self.knowledge_base.connect_locator(self.locator)
+        self.knowledge_base.connect_dependency_graph(self.dependency_graph)
+        self.knowledge_base.connect_integration_checker(self.integration_checker)
+        self.knowledge_base.connect_error_intelligence(self.error_intelligence)   
+        
     def report(self):
         return self.blueprint.report()
 
