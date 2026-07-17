@@ -120,6 +120,12 @@ class GuardianCore:
         
         self.dependency_graph.build()
         
+        # Integration Checker
+        self.integration_checker.connect_blueprint(self.blueprint)
+        self.integration_checker.connect_mapper(self.mapper)
+        self.integration_checker.connect_locator(self.locator)
+        self.integration_checker.connect_dependency_graph(self.dependency_graph)
+        
         # Live Monitor
         self.live_monitor.connect_guardian(self)
         self.live_monitor.connect_blueprint(self.blueprint)
