@@ -60,11 +60,11 @@ class ProjectMapper:
         self.blueprint = blueprint
         return True
 
-    # ----------------------------------------
-    # Folder Mapping
-    # ----------------------------------------
+# ----------------------------------------
+# Folder Mapping
+# ----------------------------------------
 
-    def map_folders(self):
+def map_folders(self):
 
     for folder in self.root.rglob("*"):
 
@@ -82,46 +82,51 @@ class ProjectMapper:
 
     return self.folders
 
-    # ----------------------------------------
-    # File Mapping
-    # ----------------------------------------
 
-    def map_files(self):
+# ----------------------------------------
+# File Mapping
+# ----------------------------------------
 
-        for file in self.root.rglob("*"):
+def map_files(self):
 
-            if file.is_file():
+    for file in self.root.rglob("*"):
 
-                relative = str(file.relative_to(self.root))
+        if any(part in SKIP_DIRS for part in file.parts):
+            continue
 
-                self.files[relative] = FileNode(
-                    name=file.name,
-                    path=relative,
-                    file_type=file.suffix,
-                    size=file.stat().st_size
-                )
+        if file.is_file():
 
-        return self.files
+            relative = str(file.relative_to(self.root))
 
-    # ----------------------------------------
-    # Folder Relationships
-    # ----------------------------------------
+            self.files[relative] = FileNode(
+                name=file.name,
+                path=relative,
+                file_type=file.suffix,
+                size=file.stat().st_size
+            )
 
-    def build_relationships(self):
+    return self.files
 
-        for path, node in self.files.items():
 
-            parent = str(Path(path).parent)
+# ----------------------------------------
+# Folder Relationships
+# ----------------------------------------
 
-            if parent in self.folders:
-                self.folders[parent].files.append(path)
+def build_relationships(self):
 
-        return True
+    for path, node in self.files.items():
 
-    # ----------------------------------------
-    # Scan Project
-    # ----------------------------------------
+        parent = str(Path(path).parent)
 
+        if parent in self.folders:
+            self.folders[parent].files.append(path)
+
+    return True
+
+
+# ----------------------------------------
+# Scan Project
+# ----------------------------------------
     def scan(self, root="."):
 
         root = Path(root)
