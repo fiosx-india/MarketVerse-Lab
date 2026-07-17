@@ -23,8 +23,6 @@ class Bootstrap:
 
     # ----------------------------------------
 
-    def _connect(self):
-
         # Live Monitor
         self.monitor.connect_guardian(
             self.guardian
@@ -73,8 +71,6 @@ class Bootstrap:
     # ----------------------------------------
     # Connect AI Assistant
     # ----------------------------------------
-
-    def _connect_assistant(self):
 
         self.assistant.connect_guardian(
             self.guardian
@@ -127,8 +123,6 @@ class Bootstrap:
     # ----------------------------------------
     # Connect Workflow Engine
     # ----------------------------------------
-
-    def _connect_workflow(self):
 
         self.workflow.connect_guardian(
             self.guardian
