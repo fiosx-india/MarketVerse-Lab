@@ -35,6 +35,7 @@ class GuardianCore:
         self.knowledge_base = KnowledgeBase()
         self.change_planner = ChangePlanner()
         self.auto_patch_engine = AutoPatchEngine()
+        self.project_memory = ProjectMemory()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -160,3 +161,17 @@ class GuardianCore:
 
     def apply_patch(self, file, line, code):
         return self.auto_patch_engine.insert_code(file, line, code)
+        
+    def memory_report(self):
+        return self.project_memory.report()
+
+    def memory_ready(self):
+        return self.project_memory.is_ready()
+
+    def record_change(self, file, action, description, metadata=None):
+        return self.project_memory.record_change(
+            file,
+            action,
+            description,
+            metadata
+        )
