@@ -104,12 +104,10 @@ class DependencyGraph:
         if self.mapper is None:
             return False
 
-        self.nodes.clear()
+        if not hasattr(self, "import_analyzer"):
+            return False
 
-        for file_path in self.mapper.files.keys():
-            self.register_file(file_path)
-
-        self.build_reverse_dependencies()
+        self.scan_imports(self.import_analyzer)
 
         return True
     # ----------------------------------------
