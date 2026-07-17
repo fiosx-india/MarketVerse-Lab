@@ -69,9 +69,14 @@ class ProjectBlueprint:
 
     def build(self, root="."):
 
-        root = Path(root)
+        root = Path(root).resolve()
 
-        self.project.project_name = root.name
+        project_name = root.name
+
+        if not project_name:
+           project_name = "MarketVerse-Lab"
+
+        self.project.project_name = project_name
         self.project.project_root = str(root)
         self.project.created_time = str(datetime.now())
 
@@ -339,9 +344,11 @@ class ProjectBlueprint:
 
     def report(self):
 
-        if not self.project.project_name:
-            self.build(".")
-
+        if (
+        not self.project.project_name
+        or not self.project.project_root
+    ):
+        self.build(".")
         return {
             "ready": self.is_ready(),
             "summary": self.summary(),
