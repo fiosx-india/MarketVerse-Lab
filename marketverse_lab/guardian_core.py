@@ -192,6 +192,16 @@ class GuardianCore:
         self.change_planner.connect_error_intelligence(self.error_intelligence)
         self.change_planner.connect_knowledge_base(self.knowledge_base)
         
+        # Auto Patch Engine
+        self.auto_patch_engine.connect_blueprint(self.blueprint)
+        self.auto_patch_engine.connect_mapper(self.mapper)
+        self.auto_patch_engine.connect_locator(self.locator)
+        self.auto_patch_engine.connect_dependency_graph(self.dependency_graph)
+        self.auto_patch_engine.connect_integration_checker(self.integration_checker)
+        self.auto_patch_engine.connect_error_intelligence(self.error_intelligence)
+        self.auto_patch_engine.connect_knowledge_base(self.knowledge_base)
+        self.auto_patch_engine.connect_change_planner(self.change_planner)
+        
     def report(self):
         return self.blueprint.report()
 
