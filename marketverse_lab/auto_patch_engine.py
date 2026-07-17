@@ -38,7 +38,9 @@ class AutoPatchEngine:
         self.error_intelligence = None
         self.knowledge_base = None
         self.change_planner = None
-
+        self.project_memory = None
+        self.live_monitor = None
+        
         # Patch History
         self.history = []
 
@@ -89,6 +91,18 @@ class AutoPatchEngine:
     def connect_change_planner(self, planner):
 
         self.change_planner = planner
+
+    # ----------------------------------------
+
+    def connect_project_memory(self, memory):
+
+        self.project_memory = memory
+
+    # ----------------------------------------
+
+    def connect_live_monitor(self, monitor):
+
+        self.live_monitor = monitor
 
     # ----------------------------------------
 
@@ -460,6 +474,11 @@ class AutoPatchEngine:
                 self.knowledge_base is not None,
             "change_planner_connected":
                 self.change_planner is not None,
+            "project_memory_connected":
+                self.project_memory is not None,
+            "live_monitor_connected":
+                self.live_monitor is not None,
+            
             "history_count":
                 len(self.history)
         }
@@ -499,6 +518,8 @@ class AutoPatchEngine:
             and self.error_intelligence is not None
             and self.knowledge_base is not None
             and self.change_planner is not None
+            and self.project_memory is not None
+            and self.live_monitor is not None
         )
 
     # ----------------------------------------
