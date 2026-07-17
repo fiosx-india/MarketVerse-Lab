@@ -121,7 +121,7 @@ class GuardianCore:
 
     def integration_ready(self):
         return self.integration_checker.is_ready()
-        
+
     def error_report(self):
         return self.error_intelligence.report()
 
