@@ -9,6 +9,7 @@ MarketVerse AI System.
 
 from .guardian_core import GuardianCore
 
+
 class Bootstrap:
 
     def __init__(self):
@@ -24,6 +25,7 @@ class Bootstrap:
     # ----------------------------------------
     # Start System
     # ----------------------------------------
+
     def start(self):
 
         return {
@@ -31,8 +33,9 @@ class Bootstrap:
             "guardian": self.guardian.is_ready(),
             "assistant": self.assistant.is_ready(),
             "workflow": self.workflow.is_ready(),
-            "monitor": self.monitor.is_ready()
+            "monitor": self.monitor.is_ready(),
         }
+
     # ----------------------------------------
     # Shutdown
     # ----------------------------------------
@@ -43,7 +46,7 @@ class Bootstrap:
         self.workflow.reset()
 
         return {
-            "status": "STOPPED"
+            "status": "STOPPED",
         }
 
 
@@ -54,7 +57,6 @@ class Bootstrap:
 def bootstrap_system():
 
     system = Bootstrap()
-
     system.start()
 
     return system
