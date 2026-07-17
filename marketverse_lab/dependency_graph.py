@@ -311,11 +311,15 @@ class DependencyGraph:
 
     def report(self):
 
-        return {
-            "statistics": self.statistics(),
-            "diagnostics": self.diagnostics(),
-            "graph": self.export()
-        }
+    return {
+        "statistics": self.statistics(),
+        "diagnostics": self.diagnostics(),
+        "import_analyzer": (
+            self.import_analyzer.report()
+            if self.import_analyzer else {}
+        ),
+        "graph": self.export()
+    }
 
     # ----------------------------------------
     # Reset Graph
