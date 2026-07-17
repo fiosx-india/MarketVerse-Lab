@@ -38,6 +38,7 @@ class GuardianCore:
         self.project_memory = ProjectMemory()
         self.live_monitor = LiveMonitor()
         self.workflow_engine = WorkflowEngine()
+        self.ai_assistant = AIAssistant()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -196,3 +197,11 @@ class GuardianCore:
     def create_workflow(self, feature_name):
         return self.workflow_engine.create_workflow(feature_name)
 
+    def assistant_report(self):
+        return self.ai_assistant.report()
+
+    def assistant_ready(self):
+        return self.ai_assistant.is_ready()
+
+    def ask_ai(self, text):
+        return self.ai_assistant.smart_execute(text)
