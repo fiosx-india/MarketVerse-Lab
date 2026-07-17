@@ -32,6 +32,7 @@ class GuardianCore:
         self.dependency_graph = DependencyGraph()
         self.integration_checker = IntegrationChecker()
         self.error_intelligence = ErrorIntelligence()
+        self.knowledge_base = KnowledgeBase()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -130,3 +131,11 @@ class GuardianCore:
 
     def ai_recommendation(self):
         return self.error_intelligence.recommendations()
+    def knowledge_report(self):
+        return self.knowledge_base.report()
+
+    def knowledge_ready(self):
+        return self.knowledge_base.is_ready()
+
+    def knowledge_statistics(self):
+        return self.knowledge_base.statistics()
