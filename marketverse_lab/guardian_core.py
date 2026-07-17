@@ -129,10 +129,9 @@ self.workflow_engine.connect_integration_checker(self.integration_checker)
 self.workflow_engine.connect_error_intelligence(self.error_intelligence)
 self.workflow_engine.connect_knowledge_base(self.knowledge_base)
 
-
     def report(self):
         return self.blueprint.report()
-
+        
     def is_ready(self):
         return self.blueprint.is_ready()
 
