@@ -37,6 +37,7 @@ class GuardianCore:
         self.auto_patch_engine = AutoPatchEngine()
         self.project_memory = ProjectMemory()
         self.live_monitor = LiveMonitor()
+        self.workflow_engine = WorkflowEngine()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -185,3 +186,13 @@ class GuardianCore:
 
     def scan_project(self):
         return self.live_monitor.check()
+
+    def workflow_report(self):
+        return self.workflow_engine.health_report()
+
+    def workflow_ready(self):
+        return self.workflow_engine.is_ready()
+
+    def create_workflow(self, feature_name):
+        return self.workflow_engine.create_workflow(feature_name)
+
