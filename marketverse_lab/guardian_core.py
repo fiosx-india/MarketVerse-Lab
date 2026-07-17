@@ -43,6 +43,9 @@ class GuardianCore:
         # Build Project Blueprint
         self.blueprint.build(project_root)
 
+        # Build Project Mapper
+        self.mapper.build(project_root)
+
         # Register Modules
         self.blueprint.register_module("ProjectMapper", "Project Structure Mapper")
 
@@ -86,6 +89,22 @@ class GuardianCore:
             self.blueprint.enable_module(module)
 
         # Module Connections
+
+        # Project Blueprint
+        self.mapper.connect_blueprint(self.blueprint)
+
+        self.blueprint.connect("ProjectMapper", self.mapper)
+        self.blueprint.connect("CodeLocator", self.locator)
+        self.blueprint.connect("DependencyGraph", self.dependency_graph)
+        self.blueprint.connect("IntegrationChecker", self.integration_checker)
+        self.blueprint.connect("ErrorIntelligence", self.error_intelligence)
+        self.blueprint.connect("KnowledgeBase", self.knowledge_base)
+        self.blueprint.connect("ChangePlanner", self.change_planner)
+        self.blueprint.connect("AutoPatchEngine", self.auto_patch_engine)
+        self.blueprint.connect("ProjectMemory", self.project_memory)
+        self.blueprint.connect("LiveMonitor", self.live_monitor)
+        self.blueprint.connect("WorkflowEngine", self.workflow_engine)
+        self.blueprint.connect("AIAssistant", self.ai_assistant)
 
         # Live Monitor
         self.live_monitor.connect_guardian(self)
