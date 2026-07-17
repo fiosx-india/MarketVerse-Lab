@@ -1,3 +1,0 @@
-"""
-MarketVerse Guardian Package
-"""
