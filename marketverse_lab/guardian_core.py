@@ -33,6 +33,7 @@ class GuardianCore:
         self.integration_checker = IntegrationChecker()
         self.error_intelligence = ErrorIntelligence()
         self.knowledge_base = KnowledgeBase()
+        self.change_planner = ChangePlanner()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -140,3 +141,12 @@ class GuardianCore:
 
     def knowledge_statistics(self):
         return self.knowledge_base.statistics()
+        
+    def change_report(self):
+        return self.change_planner.report()
+
+    def change_ready(self):
+        return self.change_planner.is_ready()
+
+    def plan_change(self, target_file, action):
+        return self.change_planner.generate_plan(target_file, action)
