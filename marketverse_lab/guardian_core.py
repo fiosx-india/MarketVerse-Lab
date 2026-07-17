@@ -28,6 +28,7 @@ class GuardianCore:
 
         # Blueprint
         self.blueprint = ProjectBlueprint()
+        self.locator = CodeLocator()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
