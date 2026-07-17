@@ -341,14 +341,14 @@ class ProjectBlueprint:
     # ------------------------------------------------------
     # Complete Report
     # ------------------------------------------------------
-
     def report(self):
 
         if (
-        not self.project.project_name
-        or not self.project.project_root
-    ):
-        self.build(".")
+            not self.project.project_name
+            or not self.project.project_root
+        ):
+            self.build(".")
+
         return {
             "ready": self.is_ready(),
             "summary": self.summary(),
