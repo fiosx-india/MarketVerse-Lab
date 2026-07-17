@@ -191,7 +191,10 @@ class GuardianCore:
         self.change_planner.connect_integration_checker(self.integration_checker)
         self.change_planner.connect_error_intelligence(self.error_intelligence)
         self.change_planner.connect_knowledge_base(self.knowledge_base)
-        
+        self.change_planner.connect_auto_patch_engine(self.auto_patch_engine)
+        self.change_planner.connect_project_memory(self.project_memory)
+        self.change_planner.connect_live_monitor(self.live_monitor)
+
         # Auto Patch Engine
         self.auto_patch_engine.connect_blueprint(self.blueprint)
         self.auto_patch_engine.connect_mapper(self.mapper)
