@@ -204,6 +204,8 @@ class GuardianCore:
         self.auto_patch_engine.connect_error_intelligence(self.error_intelligence)
         self.auto_patch_engine.connect_knowledge_base(self.knowledge_base)
         self.auto_patch_engine.connect_change_planner(self.change_planner)
+        self.auto_patch_engine.connect_project_memory(self.project_memory)
+        self.auto_patch_engine.connect_live_monitor(self.live_monitor)
         
         # Project Memory
         self.project_memory.connect_blueprint(self.blueprint)
