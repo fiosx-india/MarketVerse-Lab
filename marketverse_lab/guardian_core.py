@@ -112,7 +112,7 @@ class GuardianCore:
         ):
             self.blueprint.enable_module(module)
 
-        # Blueprint Connections
+        # Module Connections
 
     def report(self):
         return self.blueprint.report()
