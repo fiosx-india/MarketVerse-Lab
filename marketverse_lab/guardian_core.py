@@ -36,6 +36,7 @@ class GuardianCore:
         self.change_planner = ChangePlanner()
         self.auto_patch_engine = AutoPatchEngine()
         self.project_memory = ProjectMemory()
+        self.live_monitor = LiveMonitor()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -175,3 +176,12 @@ class GuardianCore:
             description,
             metadata
         )
+        
+    def monitor_report(self):
+        return self.live_monitor.report()
+
+    def monitor_ready(self):
+        return self.live_monitor.is_ready()
+
+    def scan_project(self):
+        return self.live_monitor.check()
