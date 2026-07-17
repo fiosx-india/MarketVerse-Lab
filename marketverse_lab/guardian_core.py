@@ -31,6 +31,7 @@ class GuardianCore:
         self.mapper = ProjectMapper()
         self.dependency_graph = DependencyGraph()
         self.integration_checker = IntegrationChecker()
+        self.error_intelligence = ErrorIntelligence()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -120,3 +121,12 @@ class GuardianCore:
 
     def integration_ready(self):
         return self.integration_checker.is_ready()
+        
+    def error_report(self):
+        return self.error_intelligence.report()
+
+    def error_ready(self):
+        return self.error_intelligence.is_ready()
+
+   def ai_recommendation(self):
+       return self.error_intelligence.recommendations()
