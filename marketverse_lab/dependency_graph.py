@@ -100,16 +100,16 @@ class DependencyGraph:
     # Build Dependency Graph
     # ----------------------------------------
 
-    def build(self):
+def build(self):
 
-        if self.mapper is None:
-            return False
+    if self.mapper is None:
+        return False
 
-        if self.import_analyzer is None:
-            return False
+    if self.import_analyzer is None:
+        return False
 
-        return True
-    self.scan_imports(self.import_analyzer)
+    return self.scan_imports(self.import_analyzer)
+    
     # ----------------------------------------
     # Scan Project Imports
     # ----------------------------------------
