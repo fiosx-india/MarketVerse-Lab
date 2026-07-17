@@ -20,7 +20,7 @@ from .project_memory import ProjectMemory
 from .live_monitor import LiveMonitor
 from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
-
+from .import_analyzer import ImportAnalyzer
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -39,6 +39,7 @@ class GuardianCore:
         self.live_monitor = LiveMonitor()
         self.workflow_engine = WorkflowEngine()
         self.ai_assistant = AIAssistant()
+        self.import_analyzer = ImportAnalyzer()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -73,6 +74,11 @@ class GuardianCore:
         self.blueprint.register_module("WorkflowEngine", "Workflow Engine")
 
         self.blueprint.register_module("AIAssistant", "AI Assistant")
+        
+        self.blueprint.register_module(
+    "ImportAnalyzer",
+    "Python Import Analyzer"
+        )
 
         # Enable Modules
         for module in (
@@ -88,6 +94,7 @@ class GuardianCore:
             "LiveMonitor",
             "WorkflowEngine",
             "AIAssistant",
+            "ImportAnalyzer",
         ):
             self.blueprint.enable_module(module)
 
@@ -108,6 +115,10 @@ class GuardianCore:
         self.blueprint.connect("LiveMonitor", self.live_monitor)
         self.blueprint.connect("WorkflowEngine", self.workflow_engine)
         self.blueprint.connect("AIAssistant", self.ai_assistant)
+        self.blueprint.connect(
+    "ImportAnalyzer",
+    self.import_analyzer
+        )
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
@@ -117,6 +128,7 @@ class GuardianCore:
         self.dependency_graph.connect_blueprint(self.blueprint)
         self.dependency_graph.connect_mapper(self.mapper)
         self.dependency_graph.connect_locator(self.locator)
+        self.dependency_graph.import_analyzer = self.import_analyzer
         
         self.dependency_graph.build()
         
