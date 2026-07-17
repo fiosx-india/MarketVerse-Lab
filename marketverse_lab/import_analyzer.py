@@ -40,7 +40,7 @@ class ImportAnalyzer:
 
         self.total_files += 1
 
-          for node in ast.walk(tree):
+        for node in ast.walk(tree):
 
             if isinstance(node, ast.Import):
 
@@ -54,8 +54,7 @@ class ImportAnalyzer:
 
                     imports.append(node.module)
 
-
-                    imports = sorted(
+        imports = sorted(
             list(set(imports))
         )
 
@@ -63,7 +62,7 @@ class ImportAnalyzer:
 
         return imports
 
-      def statistics(self):
+    def statistics(self):
 
         return {
 
