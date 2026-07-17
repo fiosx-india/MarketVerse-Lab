@@ -22,75 +22,106 @@ from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
 
 
-__init__()-
-self.blueprint = ProjectBlueprint()
+class GuardianCore:
 
-self.blueprint.build(project_root)
+    def __init__(self, project_root="."):
 
+        # Blueprint
+        self.blueprint = ProjectBlueprint()
 
-self.blueprint.register_module(
-    "ProjectMapper",
-    "Project Structure Mapper"
-)
+        # Build Project Blueprint
+        self.blueprint.build(project_root)
 
-self.blueprint.register_module(
-    "CodeLocator",
-    "Code Locator"
-)
+        # Register Modules
+        self.blueprint.register_module(
+            "ProjectMapper",
+            "Project Structure Mapper"
+        )
 
-self.blueprint.register_module(
-    "DependencyGraph",
-    "Dependency Analyzer"
-)
+        self.blueprint.register_module(
+            "CodeLocator",
+            "Code Locator"
+        )
 
+        self.blueprint.register_module(
+            "DependencyGraph",
+            "Dependency Analyzer"
+        )
 
-self.blueprint.enable_module("ProjectMapper")
-self.blueprint.enable_module("CodeLocator")
-self.blueprint.enable_module("DependencyGraph")
-self.blueprint.enable_module("IntegrationChecker")
-self.blueprint.enable_module("ErrorIntelligence")
-self.blueprint.enable_module("KnowledgeBase")
-self.blueprint.enable_module("ChangePlanner")
-self.blueprint.enable_module("AutoPatchEngine")
-self.blueprint.enable_module("ProjectMemory")
-self.blueprint.enable_module("LiveMonitor")
-self.blueprint.enable_module("WorkflowEngine")
-self.blueprint.enable_module("AIAssistant")
+        self.blueprint.register_module(
+            "IntegrationChecker",
+            "Integration Checker"
+        )
 
+        self.blueprint.register_module(
+            "ErrorIntelligence",
+            "AI Error Intelligence"
+        )
 
-self.blueprint.connect(
-    "project_mapper",
-    self.mapper
-)
+        self.blueprint.register_module(
+            "KnowledgeBase",
+            "Knowledge Repository"
+        )
 
-self.blueprint.connect(
-    "code_locator",
-    self.locator
-)
+        self.blueprint.register_module(
+            "ChangePlanner",
+            "Change Planner"
+        )
 
-self.blueprint.connect(
-    "dependency_graph",
-    self.dependency_graph
-)
+        self.blueprint.register_module(
+            "AutoPatchEngine",
+            "Auto Patch Engine"
+        )
 
-self.blueprint.connect(
-    "integration_checker",
-    self.integration_checker
-)
+        self.blueprint.register_module(
+            "ProjectMemory",
+            "Project Memory"
+        )
 
-self.blueprint.connect(
-    "error_intelligence",
-    self.error_intelligence
-)
+        self.blueprint.register_module(
+            "LiveMonitor",
+            "Live Monitor"
+        )
 
-self.blueprint.connect(
-    "knowledge_base",
-    self.knowledge_base
-)
+        self.blueprint.register_module(
+            "WorkflowEngine",
+            "Workflow Engine"
+        )
 
+        self.blueprint.register_module(
+            "AIAssistant",
+            "AI Assistant"
+        )
 
+        # Enable Modules
+        for module in (
+            "ProjectMapper",
+            "CodeLocator",
+            "DependencyGraph",
+            "IntegrationChecker",
+            "ErrorIntelligence",
+            "KnowledgeBase",
+            "ChangePlanner",
+            "AutoPatchEngine",
+            "ProjectMemory",
+            "LiveMonitor",
+            "WorkflowEngine",
+            "AIAssistant",
+        ):
+            self.blueprint.enable_module(module)
 
-self.blueprint.report()
+        # Blueprint Connections
+        # (இந்த self.mapper, self.locator போன்ற objects
+        # உருவாக்கப்பட்ட பிறகு connect செய்ய வேண்டும்.)
 
+    def report(self):
+        return self.blueprint.report()
 
-self.blueprint.is_ready()
+    def is_ready(self):
+        return self.blueprint.is_ready()
+
+    def health_report(self):
+        return self.blueprint.validate()
+
+    def dashboard_report(self):
+        return self.blueprint.summary()
