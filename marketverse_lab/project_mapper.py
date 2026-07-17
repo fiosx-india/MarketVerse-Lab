@@ -93,50 +93,71 @@ def map_folders(self):
     return self.folders
 
 
-# ----------------------------------------
-# File Mapping
-# ----------------------------------------
+    # ----------------------------------------
+    # Folder Mapping
+    # ----------------------------------------
 
-def map_files(self):
+    def map_folders(self):
 
-    for file in self.root.rglob("*"):
+        for folder in self.root.rglob("*"):
 
-        if any(part in SKIP_DIRS for part in file.parts):
-            continue
+            if any(part in SKIP_DIRS for part in folder.parts):
+                continue
 
-        if file.is_file():
+            if folder.is_dir():
 
-            relative = str(file.relative_to(self.root))
+                relative = str(folder.relative_to(self.root))
 
-            self.files[relative] = FileNode(
-                name=file.name,
-                path=relative,
-                file_type=file.suffix,
-                size=file.stat().st_size
-            )
+                self.folders[relative] = FolderNode(
+                    name=folder.name,
+                    path=relative
+                )
 
-    return self.files
+        return self.folders
 
+    # ----------------------------------------
+    # File Mapping
+    # ----------------------------------------
 
-# ----------------------------------------
-# Folder Relationships
-# ----------------------------------------
+    def map_files(self):
 
-def build_relationships(self):
+        for file in self.root.rglob("*"):
 
-    for path, node in self.files.items():
+            if any(part in SKIP_DIRS for part in file.parts):
+                continue
 
-        parent = str(Path(path).parent)
+            if file.is_file():
 
-        if parent in self.folders:
-            self.folders[parent].files.append(path)
+                relative = str(file.relative_to(self.root))
 
-    return True
+                self.files[relative] = FileNode(
+                    name=file.name,
+                    path=relative,
+                    file_type=file.suffix,
+                    size=file.stat().st_size
+                )
 
+        return self.files
 
-# ----------------------------------------
-# Scan Project
-# ----------------------------------------
+    # ----------------------------------------
+    # Folder Relationships
+    # ----------------------------------------
+
+    def build_relationships(self):
+
+        for path, node in self.files.items():
+
+            parent = str(Path(path).parent)
+
+            if parent in self.folders:
+                self.folders[parent].files.append(path)
+
+        return True
+
+    # ----------------------------------------
+    # Scan Project
+    # ----------------------------------------
+    
     def scan(self, root="."):
 
         root = Path(root)
