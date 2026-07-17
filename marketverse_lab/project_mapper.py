@@ -436,6 +436,6 @@ class ProjectMapper:
 
     def app_ready(self):
 
-        return 
+         return self.is_ready()
 
 
