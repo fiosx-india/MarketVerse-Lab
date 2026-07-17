@@ -43,12 +43,16 @@ def diagnostics(system):
         "KnowledgeBase": system.guardian.knowledge_base,
         "ChangePlanner": system.guardian.change_planner,
         "AutoPatchEngine": system.guardian.auto_patch_engine,
+        "ProjectMemory": system.guardian.project_memory,
+        "LiveMonitor": system.guardian.live_monitor,
+        "WorkflowEngine": system.guardian.workflow_engine,
+        "AIAssistant": system.guardian.ai_assistant,
     }
 
     for name, obj in modules.items():
 
         if obj is None:
-            print(f"[ERROR] {name} NOT CONNECTED")
+            print(f"[ERROR] {name:<22} NOT CONNECTED")
             continue
 
         ready = True
@@ -84,5 +88,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
