@@ -12,7 +12,6 @@ from pathlib import Path
 
 
 class ImportAnalyzer:
-
     def __init__(self):
 
         self.total_files = 0
@@ -29,9 +28,7 @@ class ImportAnalyzer:
 
         try:
 
-            source = file_path.read_text(
-                encoding="utf-8"
-            )
+            source = file_path.read_text(encoding="utf-8")
 
             tree = ast.parse(source)
 
@@ -54,9 +51,7 @@ class ImportAnalyzer:
 
                     imports.append(node.module)
 
-        imports = sorted(
-            list(set(imports))
-        )
+        imports = sorted(list(set(imports)))
 
         self.total_imports += len(imports)
 
@@ -64,13 +59,7 @@ class ImportAnalyzer:
 
     def statistics(self):
 
-        return {
-
-            "files_scanned": self.total_files,
-
-            "imports_found": self.total_imports
-
-        }
+        return {"files_scanned": self.total_files, "imports_found": self.total_imports}
 
     def reset(self):
 
@@ -81,11 +70,7 @@ class ImportAnalyzer:
 
     def report(self):
 
-        return {
-
-            "statistics": self.statistics()
-
-        }
+        return {"statistics": self.statistics()}
 
     def is_ready(self):
 
