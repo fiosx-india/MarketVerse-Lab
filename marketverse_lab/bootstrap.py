@@ -21,11 +21,9 @@ class Bootstrap:
         self.guardian = GuardianCore()
 
         # Service Modules
-        self.monitor = LiveMonitor()
-        self.assistant = AIAssistant()
-        self.workflow = WorkflowEngine()
-
-        self._connect()
+        self.monitor = self.guardian.live_monitor
+        self.assistant = self.guardian.ai_assistant
+        self.workflow = self.guardian.workflow_engine
 
     # ----------------------------------------
 
@@ -163,12 +161,7 @@ class Bootstrap:
     # ----------------------------------------
     # Start System
     # ----------------------------------------
-
     def start(self):
-
-        self._connect_assistant()
-
-        self._connect_workflow()
 
         return {
             "status": "READY",
@@ -177,7 +170,6 @@ class Bootstrap:
             "workflow": self.workflow.is_ready(),
             "monitor": self.monitor.is_ready()
         }
-
     # ----------------------------------------
     # Shutdown
     # ----------------------------------------
