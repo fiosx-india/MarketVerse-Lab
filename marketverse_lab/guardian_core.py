@@ -167,7 +167,14 @@ class GuardianCore:
         self.workflow_engine.connect_integration_checker(self.integration_checker)
         self.workflow_engine.connect_error_intelligence(self.error_intelligence)
         self.workflow_engine.connect_knowledge_base(self.knowledge_base)
-
+        
+        # Error Intelligence
+        self.error_intelligence.connect_blueprint(self.blueprint)
+        self.error_intelligence.connect_mapper(self.mapper)
+        self.error_intelligence.connect_locator(self.locator)
+        self.error_intelligence.connect_dependency_graph(self.dependency_graph)
+        self.error_intelligence.connect_integration_checker(self.integration_checker)
+    
     def report(self):
         return self.blueprint.report()
 
