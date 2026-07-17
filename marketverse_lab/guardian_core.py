@@ -45,6 +45,9 @@ class GuardianCore:
 
         # Build Project Mapper
         self.mapper.build(project_root)
+        
+        # Build Dependency Graph
+        self.dependency_graph.build()
 
         # Register Modules
         self.blueprint.register_module("ProjectMapper", "Project Structure Mapper")
