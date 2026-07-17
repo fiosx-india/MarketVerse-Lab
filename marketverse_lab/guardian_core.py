@@ -182,6 +182,15 @@ class GuardianCore:
         self.knowledge_base.connect_dependency_graph(self.dependency_graph)
         self.knowledge_base.connect_integration_checker(self.integration_checker)
         self.knowledge_base.connect_error_intelligence(self.error_intelligence)   
+
+        # Change Planner
+        self.change_planner.connect_blueprint(self.blueprint)
+        self.change_planner.connect_mapper(self.mapper)
+        self.change_planner.connect_locator(self.locator)
+        self.change_planner.connect_dependency_graph(self.dependency_graph)
+        self.change_planner.connect_integration_checker(self.integration_checker)
+        self.change_planner.connect_error_intelligence(self.error_intelligence)
+        self.change_planner.connect_knowledge_base(self.knowledge_base)
         
     def report(self):
         return self.blueprint.report()
