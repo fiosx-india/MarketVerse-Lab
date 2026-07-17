@@ -34,6 +34,7 @@ class GuardianCore:
         self.error_intelligence = ErrorIntelligence()
         self.knowledge_base = KnowledgeBase()
         self.change_planner = ChangePlanner()
+        self.auto_patch_engine = AutoPatchEngine()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -150,3 +151,12 @@ class GuardianCore:
 
     def plan_change(self, target_file, action):
         return self.change_planner.generate_plan(target_file, action)
+        
+    def patch_report(self):
+        return self.auto_patch_engine.report()
+
+    def patch_ready(self):
+        return self.auto_patch_engine.is_ready()
+
+    def apply_patch(self, file, line, code):
+        return self.auto_patch_engine.insert_code(file, line, code)
