@@ -340,5 +340,14 @@ class GuardianCore:
     def assistant_ready(self):
         return self.ai_assistant.is_ready()
 
+    def import_report(self):
+        return self.import_analyzer.report()
+
+    def import_ready(self):
+        return self.import_analyzer.is_ready()
+
+    def import_statistics(self):
+        return self.import_analyzer.statistics()
+
     def ask_ai(self, text):
         return self.ai_assistant.smart_execute(text)
