@@ -36,6 +36,7 @@ class DependencyGraph:
         self.knowledge_base = None
         self.test_runner = None
         self.release_checker = None
+        self.import_analyzer = None
 
     # ----------------------------------------
 
@@ -104,12 +105,11 @@ class DependencyGraph:
         if self.mapper is None:
             return False
 
-        if not hasattr(self, "import_analyzer"):
+        if self.import_analyzer is None:
             return False
 
-        self.scan_imports(self.import_analyzer)
-
         return True
+    self.scan_imports(self.import_analyzer)
     # ----------------------------------------
     # Scan Project Imports
     # ----------------------------------------
