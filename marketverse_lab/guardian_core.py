@@ -87,6 +87,41 @@ class GuardianCore:
 
         # Module Connections
 
+    # Live Monitor
+self.live_monitor.connect_guardian(self)
+self.live_monitor.connect_blueprint(self.blueprint)
+self.live_monitor.connect_mapper(self.mapper)
+self.live_monitor.connect_locator(self.locator)
+self.live_monitor.connect_dependency_graph(self.dependency_graph)
+self.live_monitor.connect_integration_checker(self.integration_checker)
+self.live_monitor.connect_error_intelligence(self.error_intelligence)
+self.live_monitor.connect_knowledge_base(self.knowledge_base)
+self.live_monitor.connect_change_planner(self.change_planner)
+self.live_monitor.connect_auto_patch_engine(self.auto_patch_engine)
+self.live_monitor.connect_project_memory(self.project_memory)
+
+# AI Assistant
+self.ai_assistant.connect_guardian(self)
+self.ai_assistant.connect_blueprint(self.blueprint)
+self.ai_assistant.connect_mapper(self.mapper)
+self.ai_assistant.connect_locator(self.locator)
+self.ai_assistant.connect_dependency_graph(self.dependency_graph)
+self.ai_assistant.connect_integration_checker(self.integration_checker)
+self.ai_assistant.connect_error_intelligence(self.error_intelligence)
+self.ai_assistant.connect_knowledge_base(self.knowledge_base)
+self.ai_assistant.connect_change_planner(self.change_planner)
+self.ai_assistant.connect_auto_patch_engine(self.auto_patch_engine)
+self.ai_assistant.connect_project_memory(self.project_memory)
+self.ai_assistant.connect_live_monitor(self.live_monitor)
+
+# Workflow Engine
+self.workflow_engine.connect_guardian(self)
+self.workflow_engine.connect_ai_assistant(self.ai_assistant)
+self.workflow_engine.connect_change_planner(self.change_planner)
+self.workflow_engine.connect_auto_patch_engine(self.auto_patch_engine)
+self.workflow_engine.connect_project_memory(self.project_memory)
+self.workflow_engine.connect_live_monitor(self.live_monitor)
+
     def report(self):
         return self.blueprint.report()
 
