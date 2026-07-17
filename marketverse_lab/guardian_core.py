@@ -202,6 +202,19 @@ class GuardianCore:
         self.auto_patch_engine.connect_knowledge_base(self.knowledge_base)
         self.auto_patch_engine.connect_change_planner(self.change_planner)
         
+        # Project Memory
+        self.project_memory.connect_blueprint(self.blueprint)
+        self.project_memory.connect_mapper(self.mapper)
+        self.project_memory.connect_locator(self.locator)
+        self.project_memory.connect_dependency_graph(self.dependency_graph)
+        self.project_memory.connect_integration_checker(self.integration_checker)
+        self.project_memory.connect_error_intelligence(self.error_intelligence)
+        self.project_memory.connect_knowledge_base(self.knowledge_base)
+        self.project_memory.connect_change_planner(self.change_planner)
+        self.project_memory.connect_auto_patch_engine(self.auto_patch_engine)
+        self.project_memory.connect_live_monitor(self.live_monitor)
+        self.project_memory.connect_workflow_engine(self.workflow_engine)
+    
     def report(self):
         return self.blueprint.report()
 
