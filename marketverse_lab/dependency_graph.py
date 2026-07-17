@@ -13,6 +13,7 @@ from typing import Dict, List, Set
 from .project_blueprint import ProjectBlueprint
 from .project_mapper import ProjectMapper
 
+
 @dataclass
 class DependencyNode:
 
@@ -22,7 +23,6 @@ class DependencyNode:
 
 
 class DependencyGraph:
-
     def __init__(self):
 
         self.nodes: Dict[str, DependencyNode] = {}
@@ -62,9 +62,7 @@ class DependencyGraph:
 
         if file_path not in self.nodes:
 
-            self.nodes[file_path] = DependencyNode(
-                file=file_path
-            )
+            self.nodes[file_path] = DependencyNode(file=file_path)
 
         return self.nodes[file_path]
 
@@ -96,6 +94,7 @@ class DependencyGraph:
                     self.nodes[imported].imported_by.append(file_path)
 
         return True
+
     # ----------------------------------------
     # Build Dependency Graph
     # ----------------------------------------
@@ -109,7 +108,7 @@ class DependencyGraph:
             return False
 
         return self.scan_imports(self.import_analyzer)
-    
+
     # ----------------------------------------
     # Scan Project Imports
     # ----------------------------------------
@@ -123,9 +122,7 @@ class DependencyGraph:
 
         for file_path in self.mapper.files.keys():
 
-            imports = analyzer.analyze(
-                Path(self.mapper.root) / file_path
-            )
+            imports = analyzer.analyze(Path(self.mapper.root) / file_path)
 
             self.register_file(file_path)
 
@@ -272,7 +269,7 @@ class DependencyGraph:
         return {
             "registered_files": len(self.nodes),
             "missing_dependencies": len(self.missing_dependencies()),
-            "circular_dependencies": len(self.circular_dependencies())
+            "circular_dependencies": len(self.circular_dependencies()),
         }
 
     # ----------------------------------------
@@ -285,7 +282,7 @@ class DependencyGraph:
             "statistics": self.statistics(),
             "broken_connections": self.broken_connections(),
             "missing_dependencies": self.missing_dependencies(),
-            "circular_dependencies": self.circular_dependencies()
+            "circular_dependencies": self.circular_dependencies(),
         }
 
     # ----------------------------------------
@@ -300,7 +297,7 @@ class DependencyGraph:
 
             graph[file_name] = {
                 "imports": node.imports,
-                "imported_by": node.imported_by
+                "imported_by": node.imported_by,
             }
 
         return graph
@@ -308,19 +305,18 @@ class DependencyGraph:
     # ----------------------------------------
     # Complete Report
     # ----------------------------------------
-    
+
     def report(self):
 
         return {
             "statistics": self.statistics(),
             "diagnostics": self.diagnostics(),
             "import_analyzer": (
-                self.import_analyzer.report()
-                if self.import_analyzer else {}
+                self.import_analyzer.report() if self.import_analyzer else {}
             ),
-            "graph": self.export()
+            "graph": self.export(),
         }
-        
+
     # ----------------------------------------
     # Reset Graph
     # ----------------------------------------
@@ -338,9 +334,9 @@ class DependencyGraph:
     def is_ready(self):
 
         return (
-            self.blueprint is not None and
-            self.mapper is not None and
-            len(self.nodes) > 0
+            self.blueprint is not None
+            and self.mapper is not None
+            and len(self.nodes) > 0
         )
 
     # ----------------------------------------
