@@ -41,9 +41,6 @@ try:
 
     for name, module in modules:
 
-        if hasattr(module, "scan"):
-            module.scan()
-
         report = {}
 
         if hasattr(module, "report"):
