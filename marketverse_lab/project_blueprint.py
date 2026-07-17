@@ -18,6 +18,7 @@ from typing import Dict, List, Optional, Any
 # MODULE INFORMATION
 # ==========================================================
 
+
 @dataclass
 class ModuleInfo:
     name: str
@@ -31,6 +32,7 @@ class ModuleInfo:
 # PROJECT INFORMATION
 # ==========================================================
 
+
 @dataclass
 class ProjectInfo:
     project_name: str = ""
@@ -43,8 +45,8 @@ class ProjectInfo:
 # BLUEPRINT ENGINE
 # ==========================================================
 
-class ProjectBlueprint:
 
+class ProjectBlueprint:
     def __init__(self):
 
         self.project = ProjectInfo()
@@ -74,7 +76,7 @@ class ProjectBlueprint:
         project_name = root.name
 
         if not project_name:
-           project_name = "MarketVerse-Lab"
+            project_name = "MarketVerse-Lab"
 
         self.project.project_name = project_name
         self.project.project_root = str(root)
@@ -95,26 +97,15 @@ class ProjectBlueprint:
 
     # ------------------------------------------------------
 
-    def register_module(
-        self,
-        name,
-        description,
-        version="1.0.0"
-    ):
+    def register_module(self, name, description, version="1.0.0"):
 
         self.modules[name] = ModuleInfo(
-            name=name,
-            description=description,
-            version=version
+            name=name, description=description, version=version
         )
 
     # ------------------------------------------------------
 
-    def connect(
-        self,
-        module_name,
-        module_object
-    ):
+    def connect(self, module_name, module_object):
 
         setattr(self, module_name, module_object)
 
@@ -122,6 +113,7 @@ class ProjectBlueprint:
             self.modules[module_name].connected = True
 
         return True
+
     # ------------------------------------------------------
     # Event System
     # ------------------------------------------------------
@@ -131,10 +123,7 @@ class ProjectBlueprint:
         if not hasattr(self, "_events"):
             self._events = {}
 
-        self._events[event_name] = {
-            "time": str(datetime.now()),
-            "data": data
-        }
+        self._events[event_name] = {"time": str(datetime.now()), "data": data}
 
         return True
 
@@ -151,7 +140,7 @@ class ProjectBlueprint:
             status[name] = {
                 "enabled": module.enabled,
                 "connected": module.connected,
-                "version": module.version
+                "version": module.version,
             }
 
         return status
@@ -192,7 +181,7 @@ class ProjectBlueprint:
             "folders": len(self.folders),
             "files": len(self.files),
             "modules": len(self.modules),
-            "created": self.project.created_time
+            "created": self.project.created_time,
         }
 
     # ------------------------------------------------------
@@ -205,7 +194,7 @@ class ProjectBlueprint:
             "project": self.project,
             "folders": self.folders,
             "files": self.files,
-            "modules": list(self.modules.keys())
+            "modules": list(self.modules.keys()),
         }
 
     # ------------------------------------------------------
@@ -214,11 +203,7 @@ class ProjectBlueprint:
 
     def validate(self):
 
-        report = {
-            "valid": True,
-            "errors": [],
-            "warnings": []
-        }
+        report = {"valid": True, "errors": [], "warnings": []}
 
         if not self.project.project_name:
             report["valid"] = False
@@ -246,7 +231,7 @@ class ProjectBlueprint:
             "project_loaded": self.project.project_name != "",
             "folders_loaded": len(self.folders),
             "files_loaded": len(self.files),
-            "modules_registered": len(self.modules)
+            "modules_registered": len(self.modules),
         }
 
     # ------------------------------------------------------
@@ -263,7 +248,7 @@ class ProjectBlueprint:
             "error_intelligence": self.error_intelligence is not None,
             "knowledge_base": self.knowledge_base is not None,
             "test_runner": self.test_runner is not None,
-            "release_checker": self.release_checker is not None
+            "release_checker": self.release_checker is not None,
         }
 
     # ------------------------------------------------------
@@ -301,7 +286,7 @@ class ProjectBlueprint:
             "folders": len(self.folders),
             "files": len(self.files),
             "hooks": self.hook_status(),
-            "validation": self.validate()
+            "validation": self.validate(),
         }
 
     # ------------------------------------------------------
@@ -332,21 +317,14 @@ class ProjectBlueprint:
 
         validation = self.validate()
 
-        return (
-            validation["valid"] and
-            len(self.files) > 0 and
-            len(self.folders) > 0
-        )
+        return validation["valid"] and len(self.files) > 0 and len(self.folders) > 0
 
     # ------------------------------------------------------
     # Complete Report
     # ------------------------------------------------------
     def report(self):
 
-        if (
-            not self.project.project_name
-            or not self.project.project_root
-        ):
+        if not self.project.project_name or not self.project.project_root:
             self.build(".")
 
         return {
