@@ -33,6 +33,7 @@ from .recovery_manager import RecoveryManager
 from .snapshot_manager import SnapshotManager
 from .session_manager import SessionManager
 from .state_manager import StateManager
+from .audit_manager import AuditManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -64,6 +65,7 @@ class GuardianCore:
         self.snapshot_manager = SnapshotManager()
         self.session_manager = SessionManager()
         self.state_manager = StateManager()
+        self.audit_manager = AuditManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -161,6 +163,11 @@ class GuardianCore:
     "Project State Manager"
         )
 
+        self.blueprint.register_module(
+    "AuditManager",
+    "Project Audit Manager"
+        )
+
         # Enable Modules
         for module in (
             "ProjectMapper",
@@ -188,6 +195,7 @@ class GuardianCore:
             "SnapshotManager",
             "SessionManager",
             "StateManager",
+            "AuditManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -271,6 +279,11 @@ class GuardianCore:
         self.blueprint.connect(
     "StateManager",
     self.state_manager
+        )
+
+        self.blueprint.connect(
+    "AuditManager",
+    self.audit_manager
         )
         
         # Code Locator
@@ -398,6 +411,7 @@ class GuardianCore:
         self.snapshot_manager.connect_guardian(self)
         self.session_manager.connect_guardian(self)
         self.state_manager.connect_guardian(self)
+        self.audit_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -647,3 +661,18 @@ class GuardianCore:
 
     def state_ready(self):
         return self.state_manager.is_ready()
+
+    def audit(self, action, details=""):
+        return self.audit_manager.log(action, details)
+
+    def audit_history(self):
+        return self.audit_manager.history()
+
+    def audit_report(self):
+        return self.audit_manager.report()
+
+    def audit_ready(self):
+        return self.audit_manager.is_ready()
+
+    def clear_audit(self):
+        return self.audit_manager.clear)b
