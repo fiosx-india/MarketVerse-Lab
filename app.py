@@ -43,6 +43,7 @@ try:
         ("Change Simulator", guardian.change_simulator),
         ("Rollback Manager", guardian.rollback_manager),
         ("Backup Manager", guardian.backup_manager),
+        ("Version Manager", guardian.version_manager),
         
     ]
 
@@ -77,6 +78,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
+    st.subheader("Version Manager")
+    st.json(guardian.version_report())
     
     st.subheader("Backup Manager")
     st.json(guardian.backup_report())
