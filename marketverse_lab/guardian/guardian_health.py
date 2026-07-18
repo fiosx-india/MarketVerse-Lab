@@ -9,7 +9,6 @@ Evaluates overall project health.
 
 
 class GuardianHealth:
-
     def __init__(self):
         self.guardian = None
 
