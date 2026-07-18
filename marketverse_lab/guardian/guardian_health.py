@@ -22,6 +22,7 @@ class GuardianHealth:
 ):
 
     self.guardian = guardian
+    
 # ----------------------------------------
 # Health Score
 # ----------------------------------------
