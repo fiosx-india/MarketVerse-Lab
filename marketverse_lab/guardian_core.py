@@ -29,6 +29,7 @@ from .change_simulator import ChangeSimulator
 from .rollback_manager import RollbackManager
 from .backup_manager import BackupManager
 from .version_manager import VersionManager
+from .recovery_manager import RecoveryManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -56,6 +57,7 @@ class GuardianCore:
         self.rollback_manager = RollbackManager()
         self.backup_manager = BackupManager()
         self.version_manager = VersionManager()
+        self.recovery_manager = RecoveryManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -132,6 +134,11 @@ class GuardianCore:
     "VersionManager",
     "Project Version Manager"
         )
+        
+        self.blueprint.register_module(
+    "RecoveryManager",
+    "Project Recovery Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -156,6 +163,7 @@ class GuardianCore:
             "RollbackManager",
             "BackupManager",
             "VersionManager",
+            "RecoveryManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -219,6 +227,11 @@ class GuardianCore:
         self.blueprint.connect(
     "VersionManager",
     self.version_manager
+        )
+        
+        self.blueprint.connect(
+    "RecoveryManager",
+    self.recovery_manager
         )
         
         # Code Locator
@@ -342,6 +355,7 @@ class GuardianCore:
         self.rollback_manager.connect_guardian(self)
         self.backup_manager.connect_guardian(self)
         self.version_manager.connect_guardian(self)
+        self.recovery_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -537,3 +551,18 @@ class GuardianCore:
 
     def latest_version(self):
         return self.version_manager.latest()
+
+    def recover(self, reason="Unknown"):
+        return self.recovery_manager.recover(reason)
+
+    def emergency_restore(self):
+        return self.recovery_manager.emergency_restore()
+
+    def recovery_history(self):
+        return self.recovery_manager.recovery_history()
+
+    def recovery_report(self):
+        return self.recovery_manager.report()
+
+    def recovery_ready(self):
+        return self.recovery_manager.is_ready()
