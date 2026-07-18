@@ -675,4 +675,4 @@ class GuardianCore:
         return self.audit_manager.is_ready()
 
     def clear_audit(self):
-        return self.audit_manager.clear)
+        return self.audit_manager.clear()
