@@ -150,6 +150,10 @@ class ProjectMapper:
         self.class_index.clear()
         self.function_index.clear()
         self.import_index.clear()
+        self.map_folders()
+        self.map_files()
+        self.build_relationships()
+        self.build_code_index()
 
         return True
     # ----------------------------------------
