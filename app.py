@@ -35,6 +35,14 @@ try:
         ("Live Monitor", guardian.live_monitor),
         ("Workflow Engine", guardian.workflow_engine),
         ("AI Assistant", guardian.ai_assistant),
+        ("Import Analyzer", guardian.import_analyzer),
+        ("Guardian Health", guardian.guardian_health),
+        ("Project Advisor", guardian.advisor),
+        ("Risk Analyzer", guardian.risk_analyzer),
+        ("Impact Analyzer", guardian.impact_analyzer),
+        ("Change Simulator", guardian.change_simulator),
+        ("Rollback Manager", guardian.rollback_manager),
+        
     ]
 
     guardian_ready = True
@@ -93,44 +101,46 @@ try:
     st.subheader("AI Assistant Report")
     
     st.json(guardian.assistant_report())
+    
+    st.subheader("Change Simulation")
     st.subheader("Change Simulation")
 
-file_name = st.text_input("Target File")
+    file_name = st.text_input("Target File")
 
-action = st.selectbox(
-    "Action",
-    ["modify", "create", "delete"]
-)
-
-if st.button("Simulate"):
-    st.json(
-        guardian.simulate_change(
-            file_name,
-            action
-        )
-    )
-    
-st.subheader("Rollback Preview")
-
-rollback_file = st.text_input(
-    "Rollback Target File",
-    key="rollback_file"
-)
-
-if st.button("Preview Rollback"):
-    st.json(
-        guardian.rollback_preview(
-            rollback_file
-        )
+    action = st.selectbox(
+        "Action",
+        ["modify", "create", "delete"]
     )
 
-if st.button("Execute Rollback"):
-    st.json(
-        guardian.rollback(
-            rollback_file
+    if st.button("Simulate"):
+        st.json(
+            guardian.simulate_change(
+                file_name,
+                action
+            )
         )
+
+    st.subheader("Rollback Preview")
+
+    rollback_file = st.text_input(
+        "Rollback Target File",
+        key="rollback_file"
     )
-    
+
+    if st.button("Preview Rollback"):
+        st.json(
+            guardian.rollback_preview(
+                rollback_file
+            )
+        )
+
+    if st.button("Execute Rollback"):
+        st.json(
+            guardian.rollback(
+                rollback_file
+            )
+        )
+
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
