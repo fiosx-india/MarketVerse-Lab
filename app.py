@@ -166,17 +166,17 @@ try:
             )
         )
 
-st.subheader("Recovery Manager")
+    st.subheader("Recovery Manager")
 
-reason = st.text_input(
+    reason = st.text_input(
     "Recovery Reason",
-    key="recovery_reason"
-)
-
-if st.button("Recover Project"):
-    st.json(
-        guardian.recover(reason)
+        key="recovery_reason"
     )
+
+    if st.button("Recover Project"):
+        st.json(
+            guardian.recover(reason)
+        )
         
 except Exception as e:
     st.error("Guardian Core Failed")
