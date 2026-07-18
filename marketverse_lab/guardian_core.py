@@ -31,6 +31,7 @@ from .backup_manager import BackupManager
 from .version_manager import VersionManager
 from .recovery_manager import RecoveryManager
 from .snapshot_manager import SnapshotManager
+from .session_manager import SessionManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -60,6 +61,7 @@ class GuardianCore:
         self.version_manager = VersionManager()
         self.recovery_manager = RecoveryManager()
         self.snapshot_manager = SnapshotManager()
+        self.session_manager = SessionManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -146,6 +148,11 @@ class GuardianCore:
     "SnapshotManager",
     "Project Snapshot Manager"
         )
+        
+        self.blueprint.register_module(
+    "SessionManager",
+    "Project Session Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -172,6 +179,7 @@ class GuardianCore:
             "VersionManager",
             "RecoveryManager",
             "SnapshotManager",
+            "SessionManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -245,6 +253,11 @@ class GuardianCore:
         self.blueprint.connect(
     "SnapshotManager",
     self.snapshot_manager
+        )
+
+        self.blueprint.connect(
+    "SessionManager",
+    self.session_manager
         )
         
         # Code Locator
@@ -370,6 +383,7 @@ class GuardianCore:
         self.version_manager.connect_guardian(self)
         self.recovery_manager.connect_guardian(self)
         self.snapshot_manager.connect_guardian(self)
+        self.session_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -592,3 +606,15 @@ class GuardianCore:
 
     def snapshot_list(self):
         return self.snapshot_manager.list_snapshots()
+
+    def create_session(self, name="Default"):
+        return self.session_manager.create_session(name)
+
+    def load_session(self, name):
+        return self.session_manager.load_session(name)
+
+    def session_report(self):
+        return self.session_manager.report()
+
+    def session_ready(self):
+        return self.session_manager.is_ready()
