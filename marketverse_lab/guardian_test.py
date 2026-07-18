@@ -73,7 +73,9 @@ def run_tests():
     
     print("\nChange Simulator")
     print(guardian.simulator_report())
-
-
+    
+    print("\nRollback Manager")
+    print(guardian.rollback_report())
+    
 if __name__ == "__main__":
     run_tests()
