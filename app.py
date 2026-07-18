@@ -48,6 +48,7 @@ try:
         ("Snapshot Manager", guardian.snapshot_manager),
         ("Session Manager", guardian.session_manager),
         ("State Manager", guardian.state_manager),
+        ("Audit Manager", guardian.audit_manager),
     ]
 
     guardian_ready = True
@@ -81,6 +82,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("Audit Manager")
+    st.json(guardian.audit_report())
 
     st.subheader("State Manager")
     st.json(guardian.state_report())
