@@ -165,18 +165,18 @@ try:
                 backup_file
             )
         )
-        
-    st.subheader("Recovery Manager")
 
-     reason = st.text_input(
-         "Recovery Reason",
-         key="recovery_reason"
-     )
+st.subheader("Recovery Manager")
 
-     if st.button("Recover Project"):
-         st.json(
-             guardian.recover(reason)
-         )
+reason = st.text_input(
+    "Recovery Reason",
+    key="recovery_reason"
+)
+
+if st.button("Recover Project"):
+    st.json(
+        guardian.recover(reason)
+    )
         
 except Exception as e:
     st.error("Guardian Core Failed")
