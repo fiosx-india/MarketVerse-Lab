@@ -42,6 +42,7 @@ try:
         ("Impact Analyzer", guardian.impact_analyzer),
         ("Change Simulator", guardian.change_simulator),
         ("Rollback Manager", guardian.rollback_manager),
+        ("Backup Manager", guardian.backup_manager),
         
     ]
 
@@ -76,6 +77,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
+    st.subheader("Backup Manager")
+    st.json(guardian.backup_report())
     
     st.subheader("Rollback Manager")
     st.json(guardian.rollback_report())
