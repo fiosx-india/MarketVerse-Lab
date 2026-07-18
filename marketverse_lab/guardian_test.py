@@ -94,6 +94,20 @@ def run_tests():
     
     print("\nCurrent State")
     print(guardian.current_state())
+
+    print("\nAudit Manager")
+    print(guardian.audit_report())
+
+    print("\nCreate Audit")
+    print(
+        guardian.audit(
+            "Guardian Started",
+            "System Boot"
+        )
+    )
+
+    print("\nAudit History")
+    print(guardian.audit_history())
     
 if __name__ == "__main__":
     run_tests()
