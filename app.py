@@ -69,6 +69,9 @@ try:
     st.divider()
     st.header("📊 Guardian Summary")
     
+    st.subheader("Risk Analyzer")
+    st.json(guardian.risk_report())
+    
     st.subheader("Project Advisor")
     st.json(guardian.advisor_report())
 
