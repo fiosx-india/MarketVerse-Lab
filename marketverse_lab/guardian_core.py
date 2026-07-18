@@ -579,7 +579,8 @@ class GuardianCore:
         return self.recovery_manager.report()
 
     def recovery_ready(self):
-        retuxrn self.recovery_manager.is_ready()
+        return self.recovery_manager.is_ready()
+        
     def create_snapshot(self, name="Snapshot"):
         return self.snapshot_manager.create_snapshot(name)
 
