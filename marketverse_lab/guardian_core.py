@@ -28,6 +28,7 @@ from .impact_analyzer import ImpactAnalyzer
 from .change_simulator import ChangeSimulator
 from .rollback_manager import RollbackManager
 from .backup_manager import BackupManager
+from .version_manager import VersionManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -54,6 +55,7 @@ class GuardianCore:
         self.change_simulator = ChangeSimulator()
         self.rollback_manager = RollbackManager()
         self.backup_manager = BackupManager()
+        self.version_manager = VersionManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -125,6 +127,11 @@ class GuardianCore:
     "BackupManager",
     "Project Backup Manager"
         )
+        
+        self.blueprint.register_module(
+    "VersionManager",
+    "Project Version Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -148,6 +155,7 @@ class GuardianCore:
             "ChangeSimulator",
             "RollbackManager",
             "BackupManager",
+            "VersionManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -206,6 +214,11 @@ class GuardianCore:
         self.blueprint.connect(
     "BackupManager",
     self.backup_manager
+        )
+        
+        self.blueprint.connect(
+    "VersionManager",
+    self.version_manager
         )
         
         # Code Locator
@@ -328,6 +341,7 @@ class GuardianCore:
         self.change_simulator.connect_guardian(self)
         self.rollback_manager.connect_guardian(self)
         self.backup_manager.connect_guardian(self)
+        self.version_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -508,3 +522,18 @@ class GuardianCore:
 
     def backup_ready(self):
         return self.backup_manager.is_ready()
+
+    def create_version(self, name):
+        return self.version_manager.create_version(name)
+
+    def version_report(self):
+        return self.version_manager.report()
+
+    def version_ready(self):
+        return self.version_manager.is_ready()
+
+    def version_list(self):
+        return self.version_manager.list_versions()
+
+    def latest_version(self):
+        return self.version_manager.latest()
