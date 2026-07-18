@@ -85,6 +85,9 @@ def run_tests():
     
     print("\nRecovery Manager")
     print(guardian.recovery_report())
+
+    print("\nSession Manager")
+    print(guardian.session_report())
     
 if __name__ == "__main__":
     run_tests()
