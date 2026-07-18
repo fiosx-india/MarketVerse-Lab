@@ -166,7 +166,7 @@ try:
             )
         )
 
-    st.subheader("Recovery Manager")
+   st.subheader("Recovery Manager")
 
     reason = st.text_input(
     "Recovery Reason",
