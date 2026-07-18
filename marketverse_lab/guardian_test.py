@@ -61,6 +61,9 @@ def run_tests():
 
     print("\nAll Tests Completed")
     print("=" * 60)
+    
+    print("\nProject Advisor")
+    print(guardian.advisor_report())
 
 
 if __name__ == "__main__":
