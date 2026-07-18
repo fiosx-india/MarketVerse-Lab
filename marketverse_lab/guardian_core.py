@@ -30,6 +30,7 @@ from .rollback_manager import RollbackManager
 from .backup_manager import BackupManager
 from .version_manager import VersionManager
 from .recovery_manager import RecoveryManager
+from .snapshot_manager import SnapshotManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -58,6 +59,7 @@ class GuardianCore:
         self.backup_manager = BackupManager()
         self.version_manager = VersionManager()
         self.recovery_manager = RecoveryManager()
+        self.snapshot_manager = SnapshotManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -139,6 +141,11 @@ class GuardianCore:
     "RecoveryManager",
     "Project Recovery Manager"
         )
+        
+        self.blueprint.register_module(
+    "SnapshotManager",
+    "Project Snapshot Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -164,6 +171,7 @@ class GuardianCore:
             "BackupManager",
             "VersionManager",
             "RecoveryManager",
+            "SnapshotManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -232,6 +240,11 @@ class GuardianCore:
         self.blueprint.connect(
     "RecoveryManager",
     self.recovery_manager
+        )
+        
+        self.blueprint.connect(
+    "SnapshotManager",
+    self.snapshot_manager
         )
         
         # Code Locator
@@ -356,6 +369,7 @@ class GuardianCore:
         self.backup_manager.connect_guardian(self)
         self.version_manager.connect_guardian(self)
         self.recovery_manager.connect_guardian(self)
+        self.snapshot_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -565,4 +579,15 @@ class GuardianCore:
         return self.recovery_manager.report()
 
     def recovery_ready(self):
-        return self.recovery_manager.is_ready()
+        retuxrn self.recovery_manager.is_ready()
+    def create_snapshot(self, name="Snapshot"):
+        return self.snapshot_manager.create_snapshot(name)
+
+    def snapshot_report(self):
+        return self.snapshot_manager.report()
+
+    def snapshot_ready(self):
+        return self.snapshot_manager.is_ready()
+
+    def snapshot_list(self):
+        return self.snapshot_manager.list_snapshots()
