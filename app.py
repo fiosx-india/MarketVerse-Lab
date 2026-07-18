@@ -45,7 +45,7 @@ try:
         ("Backup Manager", guardian.backup_manager),
         ("Version Manager", guardian.version_manager),
         ("Recovery Manager", guardian.recovery_manager),
-        
+        ("Snapshot Manager", guardian.snapshot_manager),
     ]
 
     guardian_ready = True
@@ -79,7 +79,10 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
-
+    
+    st.subheader("Snapshot Manager")
+    st.json(guardian.snapshot_report())
+    
     st.subheader("Recovery Manager")
     st.json(guardian.recovery_report())
     
