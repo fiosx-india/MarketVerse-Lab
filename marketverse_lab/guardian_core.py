@@ -26,6 +26,7 @@ from .advisor import ProjectAdvisor
 from .risk_analyzer import RiskAnalyzer
 from .impact_analyzer import ImpactAnalyzer
 from .change_simulator import ChangeSimulator
+from .rollback_manager import RollbackManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -50,6 +51,7 @@ class GuardianCore:
         self.risk_analyzer = RiskAnalyzer()
         self.impact_analyzer = ImpactAnalyzer()
         self.change_simulator = ChangeSimulator()
+        self.rollback_manager = RollbackManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -111,6 +113,11 @@ class GuardianCore:
     "ChangeSimulator",
     "Project Change Simulator"
         )
+        
+        self.blueprint.register_module(
+    "RollbackManager",
+    "Project Rollback Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -132,6 +139,7 @@ class GuardianCore:
             "RiskAnalyzer",
             "ImpactAnalyzer",
             "ChangeSimulator",
+            "RollbackManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -180,6 +188,11 @@ class GuardianCore:
         self.blueprint.connect(
     "ChangeSimulator",
     self.change_simulator
+        )
+        
+        self.blueprint.connect(
+    "RollbackManager",
+    self.rollback_manager
         )
         
         # Code Locator
@@ -300,6 +313,7 @@ class GuardianCore:
         self.risk_analyzer.connect_guardian(self)
         self.impact_analyzer.connect_guardian(self)
         self.change_simulator.connect_guardian(self)
+        self.rollback_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -456,3 +470,15 @@ class GuardianCore:
 
     def simulator_ready(self):
         return self.change_simulator.is_ready()
+
+    def rollback(self, file_name):
+        return self.rollback_manager.rollback(file_name)
+
+    def rollback_preview(self, file_name):
+        return self.rollback_manager.preview(file_name)
+
+    def rollback_report(self):
+        return self.rollback_manager.report()
+
+    def rollback_ready(self):
+        return self.rollback_manager.is_ready()
