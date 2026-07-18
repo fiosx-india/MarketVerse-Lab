@@ -64,6 +64,9 @@ def run_tests():
     
     print("\nProject Advisor")
     print(guardian.advisor_report())
+    
+    print("\nRisk Analyzer")
+    print(guardian.risk_report())
 
 
 if __name__ == "__main__":
