@@ -32,6 +32,7 @@ from .version_manager import VersionManager
 from .recovery_manager import RecoveryManager
 from .snapshot_manager import SnapshotManager
 from .session_manager import SessionManager
+from .state_manager import StateManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -62,6 +63,7 @@ class GuardianCore:
         self.recovery_manager = RecoveryManager()
         self.snapshot_manager = SnapshotManager()
         self.session_manager = SessionManager()
+        self.state_manager = StateManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -153,6 +155,11 @@ class GuardianCore:
     "SessionManager",
     "Project Session Manager"
         )
+        
+        self.blueprint.register_module(
+    "StateManager",
+    "Project State Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -180,6 +187,7 @@ class GuardianCore:
             "RecoveryManager",
             "SnapshotManager",
             "SessionManager",
+            "StateManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -258,6 +266,11 @@ class GuardianCore:
         self.blueprint.connect(
     "SessionManager",
     self.session_manager
+        )
+
+        self.blueprint.connect(
+    "StateManager",
+    self.state_manager
         )
         
         # Code Locator
@@ -384,6 +397,7 @@ class GuardianCore:
         self.recovery_manager.connect_guardian(self)
         self.snapshot_manager.connect_guardian(self)
         self.session_manager.connect_guardian(self)
+        self.state_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -618,3 +632,18 @@ class GuardianCore:
 
     def session_ready(self):
         return self.session_manager.is_ready()
+
+    def set_state(self, state):
+        return self.state_manager.set_state(state)
+
+    def current_state(self):
+        return self.state_manager.get_state()
+
+    def state_history(self):
+        return self.state_manager.state_history()
+
+    def state_report(self):
+        return self.state_manager.report()
+
+    def state_ready(self):
+        return self.state_manager.is_ready()
