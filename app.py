@@ -144,6 +144,20 @@ try:
             )
         )
 
+    st.subheader("Backup Manager")
+
+    backup_file = st.text_input(
+        "Backup Target File",
+         key="backup_file"
+    )
+
+    if st.button("Create Backup"):
+        st.json(
+            guardian.backup(
+                backup_file
+            )
+        )
+
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
