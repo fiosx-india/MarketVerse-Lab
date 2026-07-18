@@ -67,6 +67,9 @@ def run_tests():
     
     print("\nRisk Analyzer")
     print(guardian.risk_report())
+    
+    print("\nImpact Analyzer")
+    print(guardian.impact_report())
 
 
 if __name__ == "__main__":
