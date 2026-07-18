@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
 
+
 @dataclass
 class WorkflowTask:
 
@@ -20,6 +21,7 @@ class WorkflowTask:
     created_at: str = field(
         default_factory=lambda: datetime.now().isoformat()
     )
+
 
 class WorkflowEngine:
 
@@ -117,7 +119,7 @@ class WorkflowEngine:
 
     def connect_knowledge_base(self, knowledge):
         self.knowledge_base = knowledge
-
+        
 
     def reset(self):
 
