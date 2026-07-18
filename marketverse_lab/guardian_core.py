@@ -25,6 +25,7 @@ from .guardian_health import GuardianHealth
 from .advisor import ProjectAdvisor
 from .risk_analyzer import RiskAnalyzer
 from .impact_analyzer import ImpactAnalyzer
+from .change_simulator import ChangeSimulator
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -48,6 +49,7 @@ class GuardianCore:
         self.advisor = ProjectAdvisor()
         self.risk_analyzer = RiskAnalyzer()
         self.impact_analyzer = ImpactAnalyzer()
+        self.change_simulator = ChangeSimulator()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -104,6 +106,11 @@ class GuardianCore:
     "ImpactAnalyzer",
     "Project Impact Analyzer"
         )
+        
+        self.blueprint.register_module(
+    "ChangeSimulator",
+    "Project Change Simulator"
+        )
 
         # Enable Modules
         for module in (
@@ -124,6 +131,7 @@ class GuardianCore:
             "ProjectAdvisor",
             "RiskAnalyzer",
             "ImpactAnalyzer",
+            "ChangeSimulator",
         ):
             self.blueprint.enable_module(module)
 
@@ -167,6 +175,11 @@ class GuardianCore:
         self.blueprint.connect(
     "ImpactAnalyzer",
     self.impact_analyzer
+        )
+        
+        self.blueprint.connect(
+    "ChangeSimulator",
+    self.change_simulator
         )
         
         # Code Locator
@@ -286,6 +299,7 @@ class GuardianCore:
         self.advisor.connect_guardian(self)
         self.risk_analyzer.connect_guardian(self)
         self.impact_analyzer.connect_guardian(self)
+        self.change_simulator.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -433,3 +447,12 @@ class GuardianCore:
 
     def impact_ready(self):
         return self.impact_analyzer.is_ready()
+
+    def simulate_change(self, file_name, action="modify"):
+        return self.change_simulator.simulate(file_name, action)
+
+    def simulator_report(self):
+        return self.change_simulator.report()
+
+    def simulator_ready(self):
+        return self.change_simulator.is_ready()
