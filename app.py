@@ -103,7 +103,6 @@ try:
     st.json(guardian.assistant_report())
     
     st.subheader("Change Simulation")
-    st.subheader("Change Simulation")
 
     file_name = st.text_input("Target File")
 
