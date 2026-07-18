@@ -368,4 +368,10 @@ class GuardianCore:
 
     def ask_ai(self, text):
         return self.ai_assistant.smart_execute(text)
+        
+    def guardian_health_report(self):
+        return self.guardian_health.report()
+
+    def guardian_health_ready(self):
+        return self.guardian_health.is_ready()
 
