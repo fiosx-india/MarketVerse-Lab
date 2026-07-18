@@ -47,6 +47,7 @@ try:
         ("Recovery Manager", guardian.recovery_manager),
         ("Snapshot Manager", guardian.snapshot_manager),
         ("Session Manager", guardian.session_manager),
+        ("State Manager", guardian.state_manager),
     ]
 
     guardian_ready = True
@@ -80,6 +81,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("State Manager")
+    st.json(guardian.state_report())
     
     st.subheader("Session Manager")
     st.json(guardian.session_report())
@@ -200,6 +204,24 @@ try:
     if st.button("Load Session"):
         st.json(
             guardian.load_session(session_name)
+        )
+
+    st.subheader("State Manager")
+
+    state = st.selectbox(
+        "Project State",
+        [
+            "IDLE",
+            "RUNNING",
+            "RECOVERING",
+            "FAILED",
+            "COMPLETED"
+        ]
+    )
+
+    if st.button("Update State"):
+        st.json(
+            guardian.set_state(state)
         )
 
 except Exception as e:
