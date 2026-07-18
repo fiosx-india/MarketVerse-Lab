@@ -88,6 +88,12 @@ def run_tests():
 
     print("\nSession Manager")
     print(guardian.session_report())
+
+    print("\nState Manager")
+    print(guardian.state_report())
+    
+    print("\nCurrent State")
+    print(guardian.current_state())
     
 if __name__ == "__main__":
     run_tests()
