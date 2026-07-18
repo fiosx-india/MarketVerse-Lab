@@ -70,6 +70,9 @@ def run_tests():
     
     print("\nImpact Analyzer")
     print(guardian.impact_report())
+    
+    print("\nChange Simulator")
+    print(guardian.simulator_report())
 
 
 if __name__ == "__main__":
