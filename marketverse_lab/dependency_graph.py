@@ -163,20 +163,46 @@ class DependencyGraph:
 
         missing = {}
 
+        # Standard Library / External Packages
+        ignore = {
+            "ast",
+            "dataclasses",
+            "datetime",
+            "json",
+            "pathlib",
+            "streamlit",
+            "traceback",
+            "typing",
+        }
+
+        # Existing project modules
+        project_modules = {
+            Path(file).stem
+            for file in self.nodes.keys()
+            if file.endswith(".py")
+        }
+
         for file_path, node in self.nodes.items():
 
             not_found = []
 
             for module in node.imports:
 
-                if module not in self.nodes:
-                    not_found.append(module)
+                # Ignore standard/external modules
+                if module in ignore:
+                    continue
+
+                # Ignore existing project modules
+                if module in project_modules:
+                    continue
+
+                not_found.append(module)
 
             if not_found:
                 missing[file_path] = not_found
 
         return missing
-
+        
     # ----------------------------------------
     # Detect Circular Dependencies
     # ----------------------------------------
