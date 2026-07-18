@@ -88,7 +88,24 @@ try:
     st.json(guardian.workflow_report())
 
     st.subheader("AI Assistant Report")
+    
     st.json(guardian.assistant_report())
+    st.subheader("Change Simulation")
+
+file_name = st.text_input("Target File")
+
+action = st.selectbox(
+    "Action",
+    ["modify", "create", "delete"]
+)
+
+if st.button("Simulate"):
+    st.json(
+        guardian.simulate_change(
+            file_name,
+            action
+        )
+    )
 
 except Exception as e:
     st.error("Guardian Core Failed")
