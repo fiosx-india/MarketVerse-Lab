@@ -223,7 +223,23 @@ try:
         st.json(
             guardian.set_state(state)
         )
+    st.subheader("Audit Manager")
 
+    audit_action = st.text_input(
+        "Audit Action"
+    )
+
+    audit_details = st.text_input(
+        "Audit Details"
+    )
+
+    if st.button("Create Audit Log"):
+        st.json(
+            guardian.audit(
+                audit_action,
+            audit_details
+            )
+        )
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
