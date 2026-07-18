@@ -23,6 +23,7 @@ from .ai_assistant import AIAssistant
 from .import_analyzer import ImportAnalyzer
 from .guardian_health import GuardianHealth
 from .advisor import ProjectAdvisor
+from .risk_analyzer import RiskAnalyzer
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -44,6 +45,7 @@ class GuardianCore:
         self.import_analyzer = ImportAnalyzer()
         self.guardian_health = GuardianHealth()
         self.advisor = ProjectAdvisor()
+        self.risk_analyzer = RiskAnalyzer()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -90,6 +92,11 @@ class GuardianCore:
     "ProjectAdvisor",
     "Project AI Advisor"
         )
+        
+        self.blueprint.register_module(
+    "RiskAnalyzer",
+    "Project Risk Analyzer"
+        )
 
         # Enable Modules
         for module in (
@@ -108,6 +115,7 @@ class GuardianCore:
             "ImportAnalyzer",
             "GuardianHealth",
             "ProjectAdvisor",
+            "RiskAnalyzer",
         ):
             self.blueprint.enable_module(module)
 
@@ -141,6 +149,11 @@ class GuardianCore:
         self.blueprint.connect(
     "ProjectAdvisor",
     self.advisor
+        )
+        
+        self.blueprint.connect(
+    "RiskAnalyzer",
+    self.risk_analyzer
         )
         
         # Code Locator
@@ -258,6 +271,7 @@ class GuardianCore:
         # Guardian Health
         self.guardian_health.connect_guardian(self)
         self.advisor.connect_guardian(self)
+        self.risk_analyzer.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -393,4 +407,9 @@ class GuardianCore:
 
     def advisor_ready(self):
         return self.advisor.is_ready()
+        
+    def risk_report(self):
+        return self.risk_analyzer.report()
 
+    def risk_ready(self):
+        return self.risk_analyzer.is_ready()
