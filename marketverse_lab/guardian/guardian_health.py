@@ -76,6 +76,8 @@ def module_status(self):
         "WorkflowEngine": self.guardian.workflow_ready(),
         "AIAssistant": self.guardian.assistant_ready(),
         "ImportAnalyzer": self.guardian.import_ready(),
+        "GuardianHealth": self.is_ready(),
+        
     }
 
 # ----------------------------------------
