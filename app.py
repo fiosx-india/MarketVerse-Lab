@@ -44,6 +44,7 @@ try:
         ("Rollback Manager", guardian.rollback_manager),
         ("Backup Manager", guardian.backup_manager),
         ("Version Manager", guardian.version_manager),
+        ("Recovery Manager", guardian.recovery_manager),
         
     ]
 
@@ -78,6 +79,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("Recovery Manager")
+    st.json(guardian.recovery_report())
     
     st.subheader("Version Manager")
     st.json(guardian.version_report())
@@ -161,7 +165,18 @@ try:
                 backup_file
             )
         )
+     st.subheader("Recovery Manager")
 
+     reason = st.text_input(
+         "Recovery Reason",
+         key="recovery_reason"
+     )
+
+     if st.button("Recover Project"):
+         st.json(
+             guardian.recover(reason)
+         )
+        
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
