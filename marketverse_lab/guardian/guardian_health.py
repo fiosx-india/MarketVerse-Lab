@@ -22,7 +22,38 @@ class GuardianHealth:
 ):
 
     self.guardian = guardian
+# ----------------------------------------
+# Health Score
+# ----------------------------------------
 
+def health_score(self):
+
+    status = self.module_status()
+
+    if not status:
+        return 0
+
+    total = len(status)
+    healthy = sum(status.values())
+
+    return round((healthy / total) * 100)
+    
+# ----------------------------------------
+# Health Status
+# ----------------------------------------
+
+def health_status(self):
+
+    score = self.health_score()
+
+    if score >= 90:
+        return "PASS"
+
+    if score >= 70:
+        return "WARNING"
+
+    return "FAIL"
+    
 # ----------------------------------------
 # Module Status
 # ----------------------------------------
@@ -47,12 +78,37 @@ def module_status(self):
         "ImportAnalyzer": self.guardian.import_ready(),
     }
 
-    # ----------------------------------------
+# ----------------------------------------
+# Statistics
+# ----------------------------------------
 
-    def report(self):
+def statistics(self):
 
-        return {}
+    status = self.module_status()
 
+    total = len(status)
+    healthy = sum(status.values())
+    unhealthy = total - healthy
+
+    return {
+        "total_modules": total,
+        "healthy_modules": healthy,
+        "unhealthy_modules": unhealthy,
+    }
+
+# ----------------------------------------
+# Report
+# ----------------------------------------
+
+def report(self):
+
+    return {
+        "status": self.health_status(),
+        "score": self.health_score(),
+        "statistics": self.statistics(),
+        "modules": self.module_status(),
+    }
+    
     # ----------------------------------------
 
     def is_ready(self):
