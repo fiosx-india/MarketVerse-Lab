@@ -66,6 +66,21 @@ try:
         st.error("🛑 Guardian FAILED")
         st.stop()
 
+st.divider()
+st.header("📊 Guardian Summary")
+
+st.subheader("Health Report")
+st.json(guardian.health_report())
+
+st.subheader("Dependency Report")
+st.json(guardian.dependency_report())
+
+st.subheader("Workflow Report")
+st.json(guardian.workflow_report())
+
+st.subheader("AI Assistant Report")
+st.json(guardian.assistant_report())
+
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
