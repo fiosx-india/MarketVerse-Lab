@@ -24,6 +24,7 @@ from .import_analyzer import ImportAnalyzer
 from .guardian_health import GuardianHealth
 from .advisor import ProjectAdvisor
 from .risk_analyzer import RiskAnalyzer
+from .impact_analyzer import ImpactAnalyzer
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -46,6 +47,7 @@ class GuardianCore:
         self.guardian_health = GuardianHealth()
         self.advisor = ProjectAdvisor()
         self.risk_analyzer = RiskAnalyzer()
+        self.impact_analyzer = ImpactAnalyzer()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -97,6 +99,11 @@ class GuardianCore:
     "RiskAnalyzer",
     "Project Risk Analyzer"
         )
+        
+        self.blueprint.register_module(
+    "ImpactAnalyzer",
+    "Project Impact Analyzer"
+        )
 
         # Enable Modules
         for module in (
@@ -116,6 +123,7 @@ class GuardianCore:
             "GuardianHealth",
             "ProjectAdvisor",
             "RiskAnalyzer",
+            "ImpactAnalyzer",
         ):
             self.blueprint.enable_module(module)
 
@@ -154,6 +162,11 @@ class GuardianCore:
         self.blueprint.connect(
     "RiskAnalyzer",
     self.risk_analyzer
+        )
+        
+        self.blueprint.connect(
+    "ImpactAnalyzer",
+    self.impact_analyzer
         )
         
         # Code Locator
@@ -272,6 +285,7 @@ class GuardianCore:
         self.guardian_health.connect_guardian(self)
         self.advisor.connect_guardian(self)
         self.risk_analyzer.connect_guardian(self)
+        self.impact_analyzer.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -413,3 +427,9 @@ class GuardianCore:
 
     def risk_ready(self):
         return self.risk_analyzer.is_ready()
+
+    def impact_report(self):
+        return self.impact_analyzer.report()
+
+    def impact_ready(self):
+        return self.impact_analyzer.is_ready()
