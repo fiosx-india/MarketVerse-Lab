@@ -55,6 +55,9 @@ def run_tests():
 
     print("\nAI Assistant")
     print(guardian.assistant_report())
+    
+    print("\nGuardian Health")
+    print(guardian.guardian_health_report())
 
     print("\nAll Tests Completed")
     print("=" * 60)
