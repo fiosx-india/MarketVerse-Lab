@@ -68,6 +68,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
+    st.subheader("Rollback Manager")
+    st.json(guardian.rollback_report())
 
     st.subheader("Impact Analyzer")
     st.json(guardian.impact_report())
