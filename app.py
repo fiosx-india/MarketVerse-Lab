@@ -169,10 +169,10 @@ try:
             )
         )
 
-   st.subheader("Recovery Manager")
+    st.subheader("Recovery Manager")
 
     reason = st.text_input(
-    "Recovery Reason",
+        "Recovery Reason",
         key="recovery_reason"
     )
 
@@ -180,7 +180,7 @@ try:
         st.json(
             guardian.recover(reason)
         )
-        
+
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
