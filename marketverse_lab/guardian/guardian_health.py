@@ -11,113 +11,113 @@ Evaluates overall project health.
 class GuardianHealth:
 
     def __init__(self):
-
         self.guardian = None
 
     # ----------------------------------------
+    # Guardian Connection
+    # ----------------------------------------
 
-    def connect_guardian(
-    self,
-    guardian
-):
+    def connect_guardian(self, guardian):
+        self.guardian = guardian
 
-    self.guardian = guardian
-    
-# ----------------------------------------
-# Health Score
-# ----------------------------------------
+    # ----------------------------------------
+    # Module Status
+    # ----------------------------------------
 
-def health_score(self):
+    def module_status(self):
 
-    status = self.module_status()
+        if self.guardian is None:
+            return {}
 
-    if not status:
-        return 0
+        return {
+            "ProjectMapper": self.guardian.mapper_ready(),
+            "DependencyGraph": self.guardian.dependency_ready(),
+            "IntegrationChecker": self.guardian.integration_ready(),
+            "ErrorIntelligence": self.guardian.error_ready(),
+            "KnowledgeBase": self.guardian.knowledge_ready(),
+            "ChangePlanner": self.guardian.change_ready(),
+            "AutoPatchEngine": self.guardian.patch_ready(),
+            "ProjectMemory": self.guardian.memory_ready(),
+            "LiveMonitor": self.guardian.monitor_ready(),
+            "WorkflowEngine": self.guardian.workflow_ready(),
+            "AIAssistant": self.guardian.assistant_ready(),
+            "ImportAnalyzer": self.guardian.import_ready(),
+            "GuardianHealth": self.is_ready(),
+        }
 
-    total = len(status)
-    healthy = sum(status.values())
+    # ----------------------------------------
+    # Health Score
+    # ----------------------------------------
 
-    return round((healthy / total) * 100)
-    
-# ----------------------------------------
-# Health Status
-# ----------------------------------------
+    def health_score(self):
 
-def health_status(self):
+        status = self.module_status()
 
-    score = self.health_score()
+        if not status:
+            return 0
 
-    if score >= 90:
-        return "PASS"
+        total = len(status)
+        healthy = sum(status.values())
 
-    if score >= 70:
-        return "WARNING"
+        return round((healthy / total) * 100)
 
-    return "FAIL"
-    
-# ----------------------------------------
-# Module Status
-# ----------------------------------------
+    # ----------------------------------------
+    # Health Status
+    # ----------------------------------------
 
-def module_status(self):
+    def health_status(self):
 
-    if self.guardian is None:
-        return {}
+        score = self.health_score()
 
-    return {
-        "ProjectMapper": self.guardian.mapper_ready(),
-        "DependencyGraph": self.guardian.dependency_ready(),
-        "IntegrationChecker": self.guardian.integration_ready(),
-        "ErrorIntelligence": self.guardian.error_ready(),
-        "KnowledgeBase": self.guardian.knowledge_ready(),
-        "ChangePlanner": self.guardian.change_ready(),
-        "AutoPatchEngine": self.guardian.patch_ready(),
-        "ProjectMemory": self.guardian.memory_ready(),
-        "LiveMonitor": self.guardian.monitor_ready(),
-        "WorkflowEngine": self.guardian.workflow_ready(),
-        "AIAssistant": self.guardian.assistant_ready(),
-        "ImportAnalyzer": self.guardian.import_ready(),
-        "GuardianHealth": self.is_ready(),
-        
-    }
+        if score >= 90:
+            return "PASS"
 
-# ----------------------------------------
-# Statistics
-# ----------------------------------------
+        if score >= 70:
+            return "WARNING"
 
-def statistics(self):
+        return "FAIL"
 
-    status = self.module_status()
+    # ----------------------------------------
+    # Statistics
+    # ----------------------------------------
 
-    total = len(status)
-    healthy = sum(status.values())
-    unhealthy = total - healthy
+    def statistics(self):
 
-    return {
-        "total_modules": total,
-        "healthy_modules": healthy,
-        "unhealthy_modules": unhealthy,
-    }
+        status = self.module_status()
 
-# ----------------------------------------
-# Report
-# ----------------------------------------
+        total = len(status)
+        healthy = sum(status.values())
+        unhealthy = total - healthy
 
-def report(self):
+        return {
+            "total_modules": total,
+            "healthy_modules": healthy,
+            "unhealthy_modules": unhealthy,
+        }
 
-    return {
-        "status": self.health_status(),
-        "score": self.health_score(),
-        "statistics": self.statistics(),
-        "modules": self.module_status(),
-    }
-    
+    # ----------------------------------------
+    # Report
+    # ----------------------------------------
+
+    def report(self):
+
+        return {
+            "status": self.health_status(),
+            "score": self.health_score(),
+            "statistics": self.statistics(),
+            "modules": self.module_status(),
+        }
+
+    # ----------------------------------------
+    # Ready Check
     # ----------------------------------------
 
     def is_ready(self):
 
         return self.guardian is not None
 
+    # ----------------------------------------
+    # String Representation
     # ----------------------------------------
 
     def __str__(self):
