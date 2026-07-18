@@ -77,5 +77,8 @@ def run_tests():
     print("\nRollback Manager")
     print(guardian.rollback_report())
     
+    print("\nBackup Manager")
+    print(guardian.backup_report())
+    
 if __name__ == "__main__":
     run_tests()
