@@ -21,6 +21,7 @@ from .live_monitor import LiveMonitor
 from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
 from .import_analyzer import ImportAnalyzer
+from .guardian_health import GuardianHealth
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -40,6 +41,8 @@ class GuardianCore:
         self.workflow_engine = WorkflowEngine()
         self.ai_assistant = AIAssistant()
         self.import_analyzer = ImportAnalyzer()
+        self.guardian_health = GuardianHealth()
+        
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -76,6 +79,11 @@ class GuardianCore:
     "ImportAnalyzer",
     "Python Import Analyzer"
         )
+        
+        self.blueprint.register_module(
+    "GuardianHealth",
+    "Guardian Health Engine"
+        )
 
         # Enable Modules
         for module in (
@@ -92,6 +100,7 @@ class GuardianCore:
             "WorkflowEngine",
             "AIAssistant",
             "ImportAnalyzer",
+            "GuardianHealth",
         ):
             self.blueprint.enable_module(module)
 
@@ -115,6 +124,11 @@ class GuardianCore:
         self.blueprint.connect(
     "ImportAnalyzer",
     self.import_analyzer
+        )
+        
+        self.blueprint.connect(
+    "GuardianHealth",
+    self.guardian_health
         )
         
         # Code Locator
@@ -228,6 +242,9 @@ class GuardianCore:
         self.project_memory.connect_auto_patch_engine(self.auto_patch_engine)
         self.project_memory.connect_live_monitor(self.live_monitor)
         self.project_memory.connect_workflow_engine(self.workflow_engine)
+        
+        # Guardian Health
+        self.guardian_health.connect_guardian(self)
     
     def report(self):
         return self.blueprint.report()
@@ -351,3 +368,4 @@ class GuardianCore:
 
     def ask_ai(self, text):
         return self.ai_assistant.smart_execute(text)
+
