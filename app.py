@@ -46,6 +46,7 @@ try:
         ("Version Manager", guardian.version_manager),
         ("Recovery Manager", guardian.recovery_manager),
         ("Snapshot Manager", guardian.snapshot_manager),
+        ("Session Manager", guardian.session_manager),
     ]
 
     guardian_ready = True
@@ -79,6 +80,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
+    st.subheader("Session Manager")
+    st.json(guardian.session_report())
     
     st.subheader("Snapshot Manager")
     st.json(guardian.snapshot_report())
@@ -179,6 +183,23 @@ try:
     if st.button("Recover Project"):
         st.json(
             guardian.recover(reason)
+        )
+
+    st.subheader("Session Manager")
+
+    session_name = st.text_input(
+        "Session Name",
+        key="session_name"
+    )
+
+    if st.button("Create Session"):
+        st.json(
+            guardian.create_session(session_name)
+        )
+
+    if st.button("Load Session"):
+        st.json(
+            guardian.load_session(session_name)
         )
 
 except Exception as e:
