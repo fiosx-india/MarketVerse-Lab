@@ -22,6 +22,7 @@ from .workflow_engine import WorkflowEngine
 from .ai_assistant import AIAssistant
 from .import_analyzer import ImportAnalyzer
 from .guardian_health import GuardianHealth
+from .advisor import ProjectAdvisor
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -42,7 +43,7 @@ class GuardianCore:
         self.ai_assistant = AIAssistant()
         self.import_analyzer = ImportAnalyzer()
         self.guardian_health = GuardianHealth()
-        
+        self.advisor = ProjectAdvisor()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -84,6 +85,11 @@ class GuardianCore:
     "GuardianHealth",
     "Guardian Health Engine"
         )
+        
+        self.blueprint.register_module(
+    "ProjectAdvisor",
+    "Project AI Advisor"
+        )
 
         # Enable Modules
         for module in (
@@ -101,6 +107,7 @@ class GuardianCore:
             "AIAssistant",
             "ImportAnalyzer",
             "GuardianHealth",
+            "ProjectAdvisor",
         ):
             self.blueprint.enable_module(module)
 
@@ -129,6 +136,11 @@ class GuardianCore:
         self.blueprint.connect(
     "GuardianHealth",
     self.guardian_health
+        )
+        
+        self.blueprint.connect(
+    "ProjectAdvisor",
+    self.advisor
         )
         
         # Code Locator
@@ -245,7 +257,8 @@ class GuardianCore:
         
         # Guardian Health
         self.guardian_health.connect_guardian(self)
-    
+        self.advisor.connect_guardian(self)
+        
     def report(self):
         return self.blueprint.report()
 
@@ -374,4 +387,10 @@ class GuardianCore:
 
     def guardian_health_ready(self):
         return self.guardian_health.is_ready()
+
+    def advisor_report(self):
+        return self.advisor.report()
+
+    def advisor_ready(self):
+        return self.advisor.is_ready()
 
