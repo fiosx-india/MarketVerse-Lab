@@ -47,12 +47,6 @@ def module_status(self):
         "ImportAnalyzer": self.guardian.import_ready(),
     }
 
-# ----------------------------------------
-
-def report(self):
-
-    return {}
-
     # ----------------------------------------
 
     def report(self):
