@@ -83,5 +83,8 @@ def run_tests():
     print("\nVersion Manager")
     print(guardian.version_report())
     
+    print("\nRecovery Manager")
+    print(guardian.recovery_report())
+    
 if __name__ == "__main__":
     run_tests()
