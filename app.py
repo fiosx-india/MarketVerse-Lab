@@ -109,7 +109,28 @@ if st.button("Simulate"):
             action
         )
     )
+    
+st.subheader("Rollback Preview")
 
+rollback_file = st.text_input(
+    "Rollback Target File",
+    key="rollback_file"
+)
+
+if st.button("Preview Rollback"):
+    st.json(
+        guardian.rollback_preview(
+            rollback_file
+        )
+    )
+
+if st.button("Execute Rollback"):
+    st.json(
+        guardian.rollback(
+            rollback_file
+        )
+    )
+    
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
