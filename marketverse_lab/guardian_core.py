@@ -27,6 +27,7 @@ from .risk_analyzer import RiskAnalyzer
 from .impact_analyzer import ImpactAnalyzer
 from .change_simulator import ChangeSimulator
 from .rollback_manager import RollbackManager
+from .backup_manager import BackupManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -52,6 +53,7 @@ class GuardianCore:
         self.impact_analyzer = ImpactAnalyzer()
         self.change_simulator = ChangeSimulator()
         self.rollback_manager = RollbackManager()
+        self.backup_manager = BackupManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -118,6 +120,11 @@ class GuardianCore:
     "RollbackManager",
     "Project Rollback Manager"
         )
+        
+        self.blueprint.register_module(
+    "BackupManager",
+    "Project Backup Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -140,6 +147,7 @@ class GuardianCore:
             "ImpactAnalyzer",
             "ChangeSimulator",
             "RollbackManager",
+            "BackupManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -193,6 +201,11 @@ class GuardianCore:
         self.blueprint.connect(
     "RollbackManager",
     self.rollback_manager
+        )
+        
+        self.blueprint.connect(
+    "BackupManager",
+    self.backup_manager
         )
         
         # Code Locator
@@ -314,6 +327,7 @@ class GuardianCore:
         self.impact_analyzer.connect_guardian(self)
         self.change_simulator.connect_guardian(self)
         self.rollback_manager.connect_guardian(self)
+        self.backup_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -482,3 +496,15 @@ class GuardianCore:
 
     def rollback_ready(self):
         return self.rollback_manager.is_ready()
+
+    def backup(self, file_name, data=None):
+        return self.backup_manager.create_backup(file_name, data)
+
+    def restore_backup(self, file_name):
+        return self.backup_manager.restore_backup(file_name)
+
+    def backup_report(self):
+        return self.backup_manager.report()
+
+    def backup_ready(self):
+        return self.backup_manager.is_ready()
