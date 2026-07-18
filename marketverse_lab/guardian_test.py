@@ -6,7 +6,7 @@ Purpose:
 Integration test for GuardianCore.
 """
 
-from guardian.guardian_core import GuardianCore
+from marketverse_lab.guardian_core import GuardianCore
 
 
 def run_tests():
