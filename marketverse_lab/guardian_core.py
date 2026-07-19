@@ -38,6 +38,7 @@ from .diagnostics_manager import DiagnosticsManager
 from .notification_manager import NotificationManager
 from .policy_manager import PolicyManager
 from .orchestrator import Orchestrator
+from .task_scheduler import TaskScheduler
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -74,6 +75,7 @@ class GuardianCore:
         self.notification_manager = NotificationManager()
         self.policy_manager = PolicyManager()
         self.orchestrator = Orchestrator()
+        self.task_scheduler = TaskScheduler()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -195,6 +197,11 @@ class GuardianCore:
     "Orchestrator",
     "Guardian Orchestrator"
         )
+        
+        self.blueprint.register_module(
+    "TaskScheduler",
+    "Guardian Task Scheduler"
+        )
 
         # Enable Modules
         for module in (
@@ -228,6 +235,7 @@ class GuardianCore:
             "NotificationManager",
             "PolicyManager",
             "Orchestrator",
+            "TaskScheduler",
         ):
             self.blueprint.enable_module(module)
 
@@ -336,6 +344,11 @@ class GuardianCore:
         self.blueprint.connect(
     "Orchestrator",
     self.orchestrator
+        )
+        
+        self.blueprint.connect(
+    "TaskScheduler",
+    self.task_scheduler
         )
         
         # Code Locator
@@ -468,6 +481,7 @@ class GuardianCore:
         self.notification_manager.connect_guardian(self)
         self.policy_manager.connect_guardian(self)
         self.orchestrator.connect_guardian(self)
+        self.task_scheduler.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -793,3 +807,18 @@ class GuardianCore:
 
     def orchestrator_modules(self):
         return self.orchestrator.list_modules()
+    def task_scheduler_report(self):
+        return self.task_scheduler.report()
+
+    def task_scheduler_ready(self):
+        return self.task_scheduler.is_ready()
+
+    def add_task(self, name, data=None):
+        return self.task_scheduler.add_task(name, data)
+
+    def run_next_task(self):
+        return self.task_scheduler.run_next()
+
+    def pending_tasks(self):
+        return self.task_scheduler.pending_tasks()
+
