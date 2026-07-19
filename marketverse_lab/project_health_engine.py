@@ -223,47 +223,38 @@ class ProjectHealthEngine:
 
     __repr__ = __str__
 
-
 import os
-import tkinter as tk
-from tkinter import messagebox
-
+import sys
 
 def check_mold_file(current_file_path, expected_file_name):
     # Extracts the file name from the full path
     current_file_name = os.path.basename(current_file_path)
-
-    # Creates a temporary hidden root window for the pop-up
-    root = tk.Tk()
-    root.withdraw()
-
+    
     # Comparison logic
     if current_file_name != expected_file_name:
-        # Error Pop-up if the mold file is wrong
-        messagebox.showerror(
-            "CRITICAL ERROR: Wrong Mold Detected!",
-            f"ALERT: The connected mold file is incorrect.\n\n"
-            f"Connected File: {current_file_name}\n"
-            f"Expected File: {expected_file_name}\n\n"
-            f"Please check and reload the correct file.",
-        )
-        return False
+        # Print critical error to the console
+        print("\n" + "="*50)
+        print("CRITICAL ERROR: WRONG MOLD DETECTED!")
+        print("="*50)
+        print(f"ALERT: The connected mold file is incorrect.")
+        print(f"Connected File: {current_file_name}")
+        print(f"Expected File:  {expected_file_name}")
+        print("Please check and reload the correct file.")
+        print("="*50 + "\n")
+        
+        # Exit with a failure code so other systems know it failed
+        sys.exit(1) 
     else:
-        # Success Pop-up if the file matches
-        messagebox.showinfo(
-            "Verification Success", "The mold file matches successfully!"
-        )
+        print(f"Verification Success: The mold file '{current_file_name}' matches successfully!")
         return True
-
 
 # --- CONFIGURE YOUR FILES HERE ---
 # 1. Path of the file currently connected/loaded
-current_connected_mold = "D:/projects/molds/wrong_mold_v2.obj"
+current_connected_mold = "D:/projects/molds/wrong_mold_v2.obj" 
 
 # 2. The exact filename that SHOULD be connected
-correct_mold_name = "correct_final_mold.obj"
+correct_mold_name = "correct_final_mold.obj" 
 
 # Execute the check
 check_mold_file(current_connected_mold, correct_mold_name)
-# ----------------------------------------
 
