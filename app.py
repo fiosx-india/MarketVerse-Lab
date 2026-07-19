@@ -66,6 +66,7 @@ try:
         ("Automation Engine", guardian.automation_engine),
         ("Rule Engine", guardian.rule_engine),
         ("Report Generator", guardian.report_generator),
+        ("Project Health Engine", guardian.project_health_engine),
     ]
 
     guardian_ready = True
