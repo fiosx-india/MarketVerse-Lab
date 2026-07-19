@@ -993,3 +993,185 @@ class GuardianCore:
     def pending_tasks(self):
         return self.task_scheduler.pending_tasks()
 
+    # ==========================================
+    # Event Bus
+    # ==========================================
+
+    def event_bus_report(self):
+        return self.event_bus.report()
+
+    def event_bus_ready(self):
+        return self.event_bus.is_ready()
+
+    def publish_event(self, name, data=None):
+        return self.event_bus.publish(name, data)
+
+    def event_history(self):
+        return self.event_bus.history()
+
+
+    # ==========================================
+    # Plugin Manager
+    # ==========================================
+
+    def plugin_manager_report(self):
+        return self.plugin_manager.report()
+
+    def plugin_manager_ready(self):
+        return self.plugin_manager.is_ready()
+
+    def load_plugin(self, name):
+        return self.plugin_manager.load(name)
+
+    def plugin_list(self):
+        return self.plugin_manager.plugins()
+
+
+    # ==========================================
+    # Config Manager
+    # ==========================================
+
+    def config_manager_report(self):
+        return self.config_manager.report()
+
+    def config_manager_ready(self):
+        return self.config_manager.is_ready()
+
+    def set_config(self, key, value):
+        return self.config_manager.set(key, value)
+
+    def get_config(self, key):
+        return self.config_manager.get(key)
+
+
+    # ==========================================
+    # Resource Manager
+    # ==========================================
+
+    def resource_manager_report(self):
+        return self.resource_manager.report()
+
+    def resource_manager_ready(self):
+        return self.resource_manager.is_ready()
+
+    def allocate_resource(self, name, value):
+        return self.resource_manager.allocate(name, value)
+
+    def resource_status(self):
+        return self.resource_manager.status()
+
+
+    # ==========================================
+    # Cache Manager
+    # ==========================================
+
+    def cache_manager_report(self):
+        return self.cache_manager.report()
+
+    def cache_manager_ready(self):
+        return self.cache_manager.is_ready()
+
+    def cache_set(self, key, value):
+        return self.cache_manager.set(key, value)
+
+    def cache_get(self, key):
+        return self.cache_manager.get(key)
+
+
+    # ==========================================
+    # Security Manager
+    # ==========================================
+
+    def security_manager_report(self):
+        return self.security_manager.report()
+
+    def security_manager_ready(self):
+        return self.security_manager.is_ready()
+
+    def security_scan(self):
+        return self.security_manager.scan()
+
+
+    # ==========================================
+    # Metrics Manager
+    # ==========================================
+
+    def metrics_manager_report(self):
+        return self.metrics_manager.report()
+
+    def metrics_manager_ready(self):
+        return self.metrics_manager.is_ready()
+
+    def metrics(self):
+        return self.metrics_manager.metrics()
+
+
+    # ==========================================
+    # Logger Manager
+    # ==========================================
+
+    def logger_manager_report(self):
+        return self.logger_manager.report()
+
+    def logger_manager_ready(self):
+        return self.logger_manager.is_ready()
+
+    def log(self, level, message):
+        return self.logger_manager.log(level, message)
+
+
+    # ==========================================
+    # Command Center
+    # ==========================================
+
+    def command_center_report(self):
+        return self.command_center.report()
+
+    def command_center_ready(self):
+        return self.command_center.is_ready()
+
+    def execute_command(self, command):
+        return self.command_center.execute(command)
+
+
+    # ==========================================
+    # Automation Engine
+    # ==========================================
+
+    def automation_engine_report(self):
+        return self.automation_engine.report()
+
+    def automation_engine_ready(self):
+        return self.automation_engine.is_ready()
+
+    def run_automation(self, name):
+        return self.automation_engine.run(name)
+
+
+    # ==========================================
+    # Rule Engine
+    # ==========================================
+
+    def rule_engine_report(self):
+        return self.rule_engine.report()
+
+    def rule_engine_ready(self):
+        return self.rule_engine.is_ready()
+
+    def evaluate_rules(self):
+        return self.rule_engine.evaluate()
+
+
+    # ==========================================
+    # Report Generator
+    # ==========================================
+
+    def report_generator_report(self):
+        return self.report_generator.report()
+
+    def report_generator_ready(self):
+        return self.report_generator.is_ready()
+
+    def generate_report(self):
+        return self.report_generator.generate()
+
