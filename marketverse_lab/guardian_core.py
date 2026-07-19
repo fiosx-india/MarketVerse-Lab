@@ -446,6 +446,68 @@ class GuardianCore:
     "TaskScheduler",
     self.task_scheduler
         )
+
+        self.blueprint.connect(
+            "EventBus",
+            self.event_bus
+        )
+
+        self.blueprint.connect(
+            "PluginManager",
+            self.plugin_manager
+        )
+
+        self.blueprint.connect(
+            "ConfigManager",
+            self.config_manager
+        )
+
+        self.blueprint.connect(
+            "ResourceManager",
+            self.resource_manager
+        )
+
+        self.blueprint.connect(
+            "CacheManager",
+            self.cache_manager
+        )
+
+        self.blueprint.connect(
+            "SecurityManager",
+            self.security_manager
+        )
+
+        self.blueprint.connect(
+            "MetricsManager",
+            self.metrics_manager
+        )
+
+        self.blueprint.connect(
+            "LoggerManager",
+            self.logger_manager
+        )
+
+        self.blueprint.connect(
+            "CommandCenter",
+            self.command_center
+        )
+
+        self.blueprint.connect(
+            "AutomationEngine",
+            self.automation_engine
+        )
+
+        self.blueprint.connect(
+            "RuleEngine",
+            self.rule_engine
+        )
+
+        self.blueprint.connect(
+            "ReportGenerator",
+            self.report_generator
+        )
+
+
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
@@ -578,6 +640,18 @@ class GuardianCore:
         self.policy_manager.connect_guardian(self)
         self.orchestrator.connect_guardian(self)
         self.task_scheduler.connect_guardian(self)
+        self.event_bus.connect_guardian(self)
+        self.plugin_manager.connect_guardian(self)
+        self.config_manager.connect_guardian(self)
+        self.resource_manager.connect_guardian(self)
+        self.cache_manager.connect_guardian(self)
+        self.security_manager.connect_guardian(self)
+        self.metrics_manager.connect_guardian(self)
+        self.logger_manager.connect_guardian(self)
+        self.command_center.connect_guardian(self)
+        self.automation_engine.connect_guardian(self)
+        self.rule_engine.connect_guardian(self)
+        self.report_generator.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
