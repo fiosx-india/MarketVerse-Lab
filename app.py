@@ -304,11 +304,13 @@ try:
     st.subheader("Policy Manager")
 
     policy_name = st.text_input(
-        "Policy Name"
+        "Policy Name",
+        key="policy_name"
     )
 
     policy_value = st.text_input(
-        "Policy Value"
+        "Policy Value",
+        key="policy_value"
     )
 
     if st.button("Save Policy"):
