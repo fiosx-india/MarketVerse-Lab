@@ -137,9 +137,9 @@ try:
     st.subheader("Report Generator")
     st.json(guardian.report_generator_report())
     
-        st.subheader("Project Health Engine")
+    st.subheader("Project Health Engine")
     st.json(
-        guardian.project_health_report()
+    guardian.project_health_report()
     )
     
     st.subheader("Policy Manager")
