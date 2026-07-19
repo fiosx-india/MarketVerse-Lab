@@ -33,8 +33,11 @@ class ReportGenerator:
     # ----------------------------------------
     # Generate Report
     # ----------------------------------------
-    
-    def generate(self, report_name="Guardian Report", data=None):
+    def generate(
+    self,
+    report_name="Guardian Report",
+    data=None
+):
 
     # Automatically collect reports from Guardian
     if data is None and self.guardian is not None:
@@ -50,7 +53,7 @@ class ReportGenerator:
             "advisor": self.guardian.advisor_report(),
             "risk": self.guardian.risk_report(),
             "impact": self.guardian.impact_report(),
-            "imports": self.guardian.import_report(),
+            "imports": self.guardian.import_report()
         }
 
     report = {
@@ -58,13 +61,12 @@ class ReportGenerator:
         "report": report_name,
         "data": data,
         "created_at": datetime.now().isoformat(),
-        "message": f"'{report_name}' generated successfully.",
+        "message": f"'{report_name}' generated successfully."
     }
 
     self.history.append(report)
 
     return report
-
     
     # ----------------------------------------
     # Report History
