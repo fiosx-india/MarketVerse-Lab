@@ -420,6 +420,236 @@ st.json(
         st.json(
             guardian.remove_policy(remove_name)
         )
+
+    # ==========================================
+    # Event Bus
+    # ==========================================
+
+    st.subheader("Event Bus")
+
+    event_name = st.text_input(
+        "Event Name",
+        key="event_name"
+    )
+
+    event_data = st.text_input(
+        "Event Data",
+        key="event_data"
+    )
+
+    if st.button("Publish Event"):
+        st.json(
+            guardian.publish_event(
+                event_name,
+                event_data
+            )
+        )
+
+    st.subheader("Event History")
+    st.json(
+        guardian.event_history()
+    )
+
+    # ==========================================
+    # Plugin Manager
+    # ==========================================
+
+    st.subheader("Plugin Manager")
+
+    plugin_name = st.text_input(
+        "Plugin Name",
+        key="plugin_name"
+    )
+
+    if st.button("Load Plugin"):
+        st.json(
+            guardian.load_plugin(plugin_name)
+        )
+
+    st.subheader("Plugins")
+    st.json(
+        guardian.plugin_list()
+    )
+
+    # ==========================================
+    # Config Manager
+    # ==========================================
+
+    st.subheader("Config Manager")
+
+    config_key = st.text_input(
+        "Config Key",
+        key="config_key"
+    )
+
+    config_value = st.text_input(
+        "Config Value",
+        key="config_value"
+    )
+
+    if st.button("Save Config"):
+        st.json(
+            guardian.set_config(
+                config_key,
+                config_value
+            )
+        )
+
+    # ==========================================
+    # Resource Manager
+    # ==========================================
+
+    st.subheader("Resource Manager")
+
+    resource_name = st.text_input(
+        "Resource Name",
+        key="resource_name"
+    )
+
+    resource_value = st.text_input(
+        "Resource Value",
+        key="resource_value"
+    )
+
+    if st.button("Allocate Resource"):
+        st.json(
+            guardian.allocate_resource(
+                resource_name,
+                resource_value
+            )
+        )
+
+    st.subheader("Resource Status")
+    st.json(
+        guardian.resource_status()
+    )
+
+    # ==========================================
+    # Cache Manager
+    # ==========================================
+
+    st.subheader("Cache Manager")
+
+    cache_key = st.text_input(
+        "Cache Key",
+        key="cache_key"
+    )
+
+    cache_value = st.text_input(
+        "Cache Value",
+        key="cache_value"
+    )
+
+    if st.button("Save Cache"):
+        st.json(
+            guardian.cache_set(
+                cache_key,
+                cache_value
+            )
+        )
+
+    # ==========================================
+    # Security Manager
+    # ==========================================
+
+    st.subheader("Security Manager")
+
+    if st.button("Run Security Scan"):
+        st.json(
+            guardian.security_scan()
+        )
+
+    # ==========================================
+    # Metrics Manager
+    # ==========================================
+
+    st.subheader("Metrics Manager")
+
+    if st.button("Show Metrics"):
+        st.json(
+            guardian.metrics()
+        )
+
+    # ==========================================
+    # Logger Manager
+    # ==========================================
+
+    st.subheader("Logger Manager")
+
+    log_level = st.selectbox(
+        "Log Level",
+        ["INFO", "WARNING", "ERROR"],
+        key="log_level"
+    )
+
+    log_message = st.text_input(
+        "Log Message",
+        key="log_message"
+    )
+
+    if st.button("Write Log"):
+        st.json(
+            guardian.log(
+                log_level,
+                log_message
+            )
+        )
+
+    # ==========================================
+    # Command Center
+    # ==========================================
+
+    st.subheader("Command Center")
+
+    command = st.text_input(
+        "Command",
+        key="command"
+    )
+
+    if st.button("Execute Command"):
+        st.json(
+            guardian.execute_command(command)
+        )
+
+    # ==========================================
+    # Automation Engine
+    # ==========================================
+
+    st.subheader("Automation Engine")
+
+    automation_name = st.text_input(
+        "Automation Name",
+        key="automation_name"
+    )
+
+    if st.button("Run Automation"):
+        st.json(
+            guardian.run_automation(
+                automation_name
+            )
+        )
+
+    # ==========================================
+    # Rule Engine
+    # ==========================================
+
+    st.subheader("Rule Engine")
+
+    if st.button("Evaluate Rules"):
+        st.json(
+            guardian.evaluate_rules()
+        )
+
+    # ==========================================
+    # Report Generator
+    # ==========================================
+
+    st.subheader("Report Generator")
+
+    if st.button("Generate Report"):
+        st.json(
+            guardian.generate_report()
+        )
         
 except Exception as e:
     st.error("Guardian Core Failed")
