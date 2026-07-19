@@ -326,7 +326,7 @@ class ProjectMemory:
     def diagnostics(self):
 
         return {
-             "history_entries": len(self.history)
+             "history_entries": len(self.history),
              "blueprint": self.blueprint is not None,
              "mapper": self.mapper is not None,
              "locator": self.locator is not None,
