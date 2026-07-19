@@ -35,6 +35,7 @@ from .session_manager import SessionManager
 from .state_manager import StateManager
 from .audit_manager import AuditManager
 from .diagnostics_manager import DiagnosticsManager
+from .notification_manager import NotificationManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -68,6 +69,7 @@ class GuardianCore:
         self.state_manager = StateManager()
         self.audit_manager = AuditManager()
         self.diagnostics_manager = DiagnosticsManager()
+        self.notification_manager = NotificationManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -174,6 +176,11 @@ class GuardianCore:
     "DiagnosticsManager",
     "Project Diagnostics Manager"
         )
+        
+        self.blueprint.register_module(
+    "NotificationManager",
+    "Project Notification Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -204,6 +211,7 @@ class GuardianCore:
             "StateManager",
             "AuditManager",
             "DiagnosticsManager",
+            "NotificationManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -297,6 +305,11 @@ class GuardianCore:
         self.blueprint.connect(
     "DiagnosticsManager",
     self.diagnostics_manager
+        )
+        
+        self.blueprint.connect(
+    "NotificationManager",
+    self.notification_manager
         )
         
         # Code Locator
@@ -426,6 +439,7 @@ class GuardianCore:
         self.state_manager.connect_guardian(self)
         self.audit_manager.connect_guardian(self)
         self.diagnostics_manager.connect_guardian(self)
+        self.notification_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -699,3 +713,22 @@ class GuardianCore:
 
     def diagnostics_ready(self):
         return self.diagnostics_manager.is_ready()
+
+    def notify(self, title, message, level="INFO"):
+        return self.notification_manager.notify(
+            title,
+            message,
+            level
+        )
+
+    def notification_history(self):
+        return self.notification_manager.history()
+
+    def notification_report(self):
+        return self.notification_manager.report()
+
+    def notification_ready(self):
+        return self.notification_manager.is_ready()
+
+    def clear_notifications(self):
+        return self.notification_manager.clear()
