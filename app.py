@@ -51,6 +51,8 @@ try:
         ("Audit Manager", guardian.audit_manager),
         ("Diagnostics Manager", guardian.diagnostics_manager),
         ("Notification Manager", guardian.notification_manager),
+        ("Policy Manager", guardian.policy_manager),
+        
     ]
 
     guardian_ready = True
@@ -84,6 +86,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("Policy Manager")
+    st.json(guardian.policy_report())
 
     st.subheader("Notification Manager")
     st.json(guardian.notification_report())
@@ -293,6 +298,30 @@ try:
     st.subheader("Notification History")
     st.json(
         guardian.notification_history()
+    )
+
+
+    st.subheader("Policy Manager")
+
+    policy_name = st.text_input(
+        "Policy Name"
+    )
+
+    policy_value = st.text_input(
+        "Policy Value"
+    )
+
+    if st.button("Save Policy"):
+        st.json(
+           guardian.add_policy(
+                policy_name,
+                policy_value
+            )
+        )
+
+    st.subheader("Policy History")
+    st.json(
+        guardian.policy_history()
     )
     
 except Exception as e:
