@@ -1212,12 +1212,11 @@ class GuardianCore:
 
         # Import Analyzer
         if self.import_analyzer:
+
             try:
-                self.import_analyzer.scan(root)
+                self.import_analyzer.analyze(root)
             except TypeError:
-                self.import_analyzer.scan()
+                self.import_analyzer.analyze()
 
             report["import_analyzer"] = self.import_analyzer.report()
-
-        return report
-        
+            
