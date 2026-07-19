@@ -289,6 +289,11 @@ try:
                 level
             )
         )
+
+    st.subheader("Notification History")
+    st.json(
+        guardian.notification_history()
+    )
     
 except Exception as e:
     st.error("Guardian Core Failed")
