@@ -99,6 +99,42 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("Event Bus")
+    st.json(guardian.event_bus_report())
+
+    st.subheader("Plugin Manager")
+    st.json(guardian.plugin_manager_report())
+
+    st.subheader("Config Manager")
+    st.json(guardian.config_manager_report())
+
+    st.subheader("Resource Manager")
+    st.json(guardian.resource_manager_report())
+
+    st.subheader("Cache Manager")
+    st.json(guardian.cache_manager_report())
+
+    st.subheader("Security Manager")
+    st.json(guardian.security_manager_report())
+
+    st.subheader("Metrics Manager")
+    st.json(guardian.metrics_manager_report())
+
+    st.subheader("Logger Manager")
+    st.json(guardian.logger_manager_report())
+
+    st.subheader("Command Center")
+    st.json(guardian.command_center_report())
+
+    st.subheader("Automation Engine")
+    st.json(guardian.automation_engine_report())
+
+    st.subheader("Rule Engine")
+    st.json(guardian.rule_engine_report())
+
+    st.subheader("Report Generator")
+    st.json(guardian.report_generator_report())
     
 
     st.subheader("Policy Manager")
