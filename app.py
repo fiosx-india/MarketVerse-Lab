@@ -50,6 +50,7 @@ try:
         ("State Manager", guardian.state_manager),
         ("Audit Manager", guardian.audit_manager),
         ("Diagnostics Manager", guardian.diagnostics_manager),
+        ("Notification Manager", guardian.notification_manager),
     ]
 
     guardian_ready = True
@@ -83,6 +84,9 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+
+    st.subheader("Notification Manager")
+    st.json(guardian.notification_report())
     
     st.subheader("Diagnostics Manager")
     st.json(guardian.diagnostics_report())
@@ -260,6 +264,31 @@ try:
     st.json(
         guardian.diagnostics_report()
     )
+
+    st.subheader("Notification Manager")
+
+    title = st.text_input("Notification Title")
+
+    message = st.text_input("Notification Message")
+
+    level = st.selectbox(
+        "Level",
+        [
+            "INFO",
+            "SUCCESS",
+            "WARNING",
+            "ERROR"
+        ]
+    )
+
+    if st.button("Send Notification"):
+        st.json(
+            guardian.notify(
+                title,
+                message,
+                level
+            )
+        )
     
 except Exception as e:
     st.error("Guardian Core Failed")
