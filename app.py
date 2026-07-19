@@ -300,6 +300,9 @@ try:
         guardian.notification_history()
     )
 
+    # ==========================================
+    # Policy Manager
+    # ==========================================
 
     st.subheader("Policy Manager")
 
@@ -313,34 +316,9 @@ try:
         key="policy_value"
     )
 
-    file_name = st.text_input(
-        "Target File",
-        key="target_file"
-    )
-
-    audit_action = st.text_input(
-        "Audit Action",
-        key="audit_action"
-    )
-
-    audit_details = st.text_input(
-        "Audit Details",
-        key="audit_details"
-    )
-
-    title = st.text_input(
-        "Notification Title",
-        key="notification_title"
-    )
-
-    message = st.text_input(
-        "Notification Message",
-        key="notification_message"
-    )
-    
     if st.button("Save Policy"):
         st.json(
-           guardian.add_policy(
+            guardian.add_policy(
                 policy_name,
                 policy_value
             )
@@ -350,7 +328,6 @@ try:
     st.json(
         guardian.policy_history()
     )
-
 
     remove_name = st.text_input(
         "Remove Policy",
