@@ -248,6 +248,19 @@ try:
             audit_details
             )
         )
+
+    st.subheader("Diagnostics Manager")
+
+    if st.button("Run Diagnostics"):
+        st.json(
+            guardian.diagnostics()
+        )
+
+    st.subheader("Diagnostics Report")
+    st.json(
+        guardian.diagnostics_report()
+    )
+    
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
