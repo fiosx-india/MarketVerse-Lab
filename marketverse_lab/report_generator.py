@@ -33,7 +33,8 @@ class ReportGenerator:
     # ----------------------------------------
     # Generate Report
     # ----------------------------------------
-        def generate(
+    
+    def generate(
         self,
         report_name="Guardian Report",
         data=None
@@ -67,7 +68,7 @@ class ReportGenerator:
         self.history.append(report)
 
         return report
-    
+        
     # ----------------------------------------
     # Report History
     # ----------------------------------------
