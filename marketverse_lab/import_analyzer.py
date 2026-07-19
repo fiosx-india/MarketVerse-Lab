@@ -43,13 +43,13 @@ class ImportAnalyzer:
 
                 for module in node.names:
 
-                    imports.append(module.name)
+                    imports.append(module.name.split(".")[-1])
 
             elif isinstance(node, ast.ImportFrom):
 
                 if node.module:
 
-                    imports.append(node.module)
+                    imports.append(node.module.split(".")[-1])
 
         imports = sorted(list(set(imports)))
 
