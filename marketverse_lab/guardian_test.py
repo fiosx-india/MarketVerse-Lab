@@ -116,5 +116,22 @@ def run_tests():
     print("\nRun Diagnostics")
     print(guardian.diagnostics())
     
+    print("\nNotification Manager")
+    print(guardian.notification_report())
+
+    print("\nCreate Notification")
+    print(
+        guardian.notify(
+            "Guardian Started",
+            "System Ready",
+            "SUCCESS"
+        )
+    )
+
+    print("\nNotification History")
+    print(
+        guardian.notification_history()
+       )
+    
 if __name__ == "__main__":
     run_tests()
