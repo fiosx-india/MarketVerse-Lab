@@ -33,7 +33,7 @@ class ReportGenerator:
     # ----------------------------------------
     # Generate Report
     # ----------------------------------------
-
+    
     def generate(
     self,
     report_name="Guardian Report",
