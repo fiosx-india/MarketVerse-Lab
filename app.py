@@ -52,6 +52,7 @@ try:
         ("Diagnostics Manager", guardian.diagnostics_manager),
         ("Notification Manager", guardian.notification_manager),
         ("Policy Manager", guardian.policy_manager),
+        ("Orchestrator", guardian.orchestrator),
         
     ]
 
@@ -89,7 +90,12 @@ try:
 
     st.subheader("Policy Manager")
     st.json(guardian.policy_report())
-
+    
+    st.subheader("Orchestrator")
+    st.json(
+    guardian.orchestrator_report()
+    )
+    
     st.subheader("Notification Manager")
     st.json(guardian.notification_report())
     
