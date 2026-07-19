@@ -1175,3 +1175,41 @@ class GuardianCore:
     def generate_report(self):
         return self.report_generator.generate()
 
+# ==========================================
+# Scan Project
+# ==========================================
+
+def scan_project(self, root="."):
+
+    report = {}
+
+    # Project Blueprint
+    if self.blueprint:
+        self.blueprint.build(root)
+        report["blueprint"] = self.blueprint.report()
+
+    # Project Mapper
+    if self.mapper:
+        self.mapper.scan(root)
+        report["mapper"] = self.mapper.report()
+
+    # Dependency Graph
+    if self.dependency_graph:
+        if hasattr(self.dependency_graph, "build"):
+            self.dependency_graph.build(root)
+        elif hasattr(self.dependency_graph, "scan"):
+            self.dependency_graph.scan(root)
+
+        report["dependency_graph"] = self.dependency_graph.report()
+
+    # Import Analyzer
+    if self.import_analyzer:
+        if hasattr(self.import_analyzer, "scan"):
+            self.import_analyzer.scan(root)
+        elif hasattr(self.import_analyzer, "analyze"):
+            self.import_analyzer.analyze(root)
+
+        report["import_analyzer"] = self.import_analyzer.report()
+
+    return report
+
