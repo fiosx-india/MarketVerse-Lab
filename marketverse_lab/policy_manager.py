@@ -51,3 +51,13 @@ class PolicyManager:
 
     def is_ready(self):
         return self.guardian is not None
+
+    remove_name = st.text_input(
+        "Remove Policy",
+        key="remove_policy"
+    )
+
+    if st.button("Delete Policy"):
+        st.json(
+            guardian.remove_policy(remove_name)
+        )
