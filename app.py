@@ -53,7 +53,7 @@ try:
         ("Notification Manager", guardian.notification_manager),
         ("Policy Manager", guardian.policy_manager),
         ("Orchestrator", guardian.orchestrator),
-        
+        ("Task Scheduler", guardian.task_scheduler),
     ]
 
     guardian_ready = True
@@ -87,6 +87,7 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
 
     st.subheader("Policy Manager")
     st.json(guardian.policy_report())
@@ -95,7 +96,12 @@ try:
     st.json(
     guardian.orchestrator_report()
     )
-    
+
+    st.subheader("Task Scheduler")
+    st.json(
+    guardian.task_scheduler_report()
+    )
+
     st.subheader("Notification Manager")
     st.json(guardian.notification_report())
     
@@ -306,6 +312,28 @@ try:
         guardian.notification_history()
     )
 
+
+    st.subheader("Task Scheduler")
+
+task_name = st.text_input(
+    "Task Name",
+    key="task_name"
+)
+
+if st.button("Add Task"):
+    st.json(
+        guardian.add_task(task_name)
+    )
+
+if st.button("Run Next Task"):
+    st.json(
+        guardian.run_next_task()
+    )
+
+st.subheader("Pending Tasks")
+st.json(
+    guardian.pending_tasks()
+)
     # ==========================================
     # Policy Manager
     # ==========================================
