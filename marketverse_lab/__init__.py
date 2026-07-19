@@ -31,6 +31,18 @@ from .notification_manager import NotificationManager
 from .policy_manager import PolicyManager
 from .orchestrator import Orchestrator
 from .task_scheduler import TaskScheduler
+from .event_bus import EventBus
+from .plugin_manager import PluginManager
+from .config_manager import ConfigManager
+from .resource_manager import ResourceManager
+from .cache_manager import CacheManager
+from .security_manager import SecurityManager
+from .metrics_manager import MetricsManager
+from .logger_manager import LoggerManager
+from .command_center import CommandCenter
+from .automation_engine import AutomationEngine
+from .rule_engine import RuleEngine
+from .report_generator import ReportGenerator
 
 __version__ = "2.0.0"
 
@@ -68,4 +80,16 @@ __all__ = [
     "PolicyManager",
     "Orchestrator",
     "TaskScheduler",
+    "EventBus",
+    "PluginManager",
+    "ConfigManager",
+    "ResourceManager",
+    "CacheManager",
+    "SecurityManager",
+    "MetricsManager",
+    "LoggerManager",
+    "CommandCenter",
+    "AutomationEngine",
+    "RuleEngine",
+    "ReportGenerator",
 ]
