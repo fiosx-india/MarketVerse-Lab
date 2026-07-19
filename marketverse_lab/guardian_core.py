@@ -37,6 +37,7 @@ from .audit_manager import AuditManager
 from .diagnostics_manager import DiagnosticsManager
 from .notification_manager import NotificationManager
 from .policy_manager import PolicyManager
+from .orchestrator import Orchestrator
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -72,6 +73,7 @@ class GuardianCore:
         self.diagnostics_manager = DiagnosticsManager()
         self.notification_manager = NotificationManager()
         self.policy_manager = PolicyManager()
+        self.orchestrator = Orchestrator()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -188,6 +190,11 @@ class GuardianCore:
     "PolicyManager",
     "Project Policy Manager"
         )
+        
+        self.blueprint.register_module(
+    "Orchestrator",
+    "Guardian Orchestrator"
+        )
 
         # Enable Modules
         for module in (
@@ -220,6 +227,7 @@ class GuardianCore:
             "DiagnosticsManager",
             "NotificationManager",
             "PolicyManager",
+            "Orchestrator",
         ):
             self.blueprint.enable_module(module)
 
@@ -323,6 +331,11 @@ class GuardianCore:
         self.blueprint.connect(
     "PolicyManager",
     self.policy_manager
+        )
+        
+        self.blueprint.connect(
+    "Orchestrator",
+    self.orchestrator
         )
         
         # Code Locator
@@ -454,6 +467,7 @@ class GuardianCore:
         self.diagnostics_manager.connect_guardian(self)
         self.notification_manager.connect_guardian(self)
         self.policy_manager.connect_guardian(self)
+        self.orchestrator.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -764,3 +778,18 @@ class GuardianCore:
 
     def remove_policy(self, name):
         return self.policy_manager.remove_policy(name)
+
+    def orchestrator_report(self):
+        return self.orchestrator.report()
+
+    def orchestrator_ready(self):
+        return self.orchestrator.is_ready()
+
+    def register_orchestrator_module(self, name, module):
+        return self.orchestrator.register(name, module)
+
+    def get_orchestrator_module(self, name):
+        return self.orchestrator.get(name)
+
+    def orchestrator_modules(self):
+        return self.orchestrator.list_modules()
