@@ -39,6 +39,18 @@ from .notification_manager import NotificationManager
 from .policy_manager import PolicyManager
 from .orchestrator import Orchestrator
 from .task_scheduler import TaskScheduler
+from .event_bus import EventBus
+from .plugin_manager import PluginManager
+from .config_manager import ConfigManager
+from .resource_manager import ResourceManager
+from .cache_manager import CacheManager
+from .security_manager import SecurityManager
+from .metrics_manager import MetricsManager
+from .logger_manager import LoggerManager
+from .command_center import CommandCenter
+from .automation_engine import AutomationEngine
+from .rule_engine import RuleEngine
+from .report_generator import ReportGenerator
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -76,6 +88,18 @@ class GuardianCore:
         self.policy_manager = PolicyManager()
         self.orchestrator = Orchestrator()
         self.task_scheduler = TaskScheduler()
+        self.event_bus = EventBus()
+        self.plugin_manager = PluginManager()
+        self.config_manager = ConfigManager()
+        self.resource_manager = ResourceManager()
+        self.cache_manager = CacheManager()
+        self.security_manager = SecurityManager()
+        self.metrics_manager = MetricsManager()
+        self.logger_manager = LoggerManager()
+        self.command_center = CommandCenter()
+        self.automation_engine = AutomationEngine()
+        self.rule_engine = RuleEngine()
+        self.report_generator = ReportGenerator()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
