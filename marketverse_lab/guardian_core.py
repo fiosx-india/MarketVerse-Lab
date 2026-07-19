@@ -51,6 +51,7 @@ from .command_center import CommandCenter
 from .automation_engine import AutomationEngine
 from .rule_engine import RuleEngine
 from .report_generator import ReportGenerator
+from .project_health_engine import ProjectHealthEngine
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -100,6 +101,7 @@ class GuardianCore:
         self.automation_engine = AutomationEngine()
         self.rule_engine = RuleEngine()
         self.report_generator = ReportGenerator()
+        self.project_health_engine = ProjectHealthEngine()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -652,6 +654,7 @@ class GuardianCore:
         self.automation_engine.connect_guardian(self)
         self.rule_engine.connect_guardian(self)
         self.report_generator.connect_guardian(self)
+        self.project_health_engine.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -1174,6 +1177,25 @@ class GuardianCore:
 
     def generate_report(self):
         return self.report_generator.generate()
+
+    # ==========================================
+    # Project Health Engine
+    # ==========================================
+
+    def project_health_scan(self, root="."):
+        return self.project_health_engine.scan(root)
+
+    def project_health_report(self):
+        return self.project_health_engine.full_report()
+
+    def project_health_statistics(self):
+        return self.project_health_engine.statistics()
+
+    def project_health_diagnostics(self):
+        return self.project_health_engine.diagnostics()
+
+    def project_health_ready(self):
+        return self.project_health_engine.is_ready()
 
     # ==========================================
     # Scan Project
