@@ -4,6 +4,12 @@ automation_engine.py
 
 Purpose:
 Automation Engine for GuardianCore.
+
+Responsibilities:
+- Run automation tasks.
+- Store automation execution history.
+- Provide automation reports.
+- Connect with GuardianCore.
 """
 
 
@@ -16,11 +22,12 @@ class AutomationEngine:
     def connect_guardian(self, guardian):
         self.guardian = guardian
 
-    def run(self, name):
+    def run(self, name, data=None):
 
         result = {
             "status": "SUCCESS",
             "automation": name,
+            "data": data,
             "message": f"Automation '{name}' completed."
         }
 
