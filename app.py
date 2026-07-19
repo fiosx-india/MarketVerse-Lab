@@ -360,28 +360,28 @@ try:
         guardian.notification_history()
     )
 
-
     st.subheader("Task Scheduler")
 
-task_name = st.text_input(
-    "Task Name",
-    key="task_name"
-)
-
-if st.button("Add Task"):
-    st.json(
-        guardian.add_task(task_name)
+    task_name = st.text_input(
+        "Task Name",
+        key="task_name"
     )
 
-if st.button("Run Next Task"):
-    st.json(
-        guardian.run_next_task()
-    )
+    if st.button("Add Task"):
+        st.json(
+            guardian.add_task(task_name)
+        )
 
-st.subheader("Pending Tasks")
-st.json(
-    guardian.pending_tasks()
-)
+    if st.button("Run Next Task"):
+        st.json(
+            guardian.run_next_task()
+        )
+
+    st.subheader("Pending Tasks")
+    st.json(
+        guardian.pending_tasks()
+    )
+    
     # ==========================================
     # Policy Manager
     # ==========================================
