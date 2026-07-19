@@ -690,6 +690,7 @@ class GuardianCore:
 
     def clear_audit(self):
         return self.audit_manager.clear()
+        
     def diagnostics(self):
         return self.diagnostics_manager.run()
 
