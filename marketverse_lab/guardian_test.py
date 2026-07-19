@@ -187,6 +187,41 @@ def run_tests():
     print(
         guardian.run_next_task()
     )
+    print("\nEvent Bus")
+    print(guardian.event_bus_report())
 
+    print("\nPlugin Manager")
+    print(guardian.plugin_manager_report())
+
+    print("\nConfig Manager")
+    print(guardian.config_manager_report())
+
+    print("\nResource Manager")
+    print(guardian.resource_manager_report())
+
+    print("\nCache Manager")
+    print(guardian.cache_manager_report())
+
+    print("\nSecurity Manager")
+    print(guardian.security_manager_report())
+
+    print("\nMetrics Manager")
+    print(guardian.metrics_manager_report())
+
+    print("\nLogger Manager")
+    print(guardian.logger_manager_report())
+
+    print("\nCommand Center")
+    print(guardian.command_center_report())
+
+    print("\nAutomation Engine")
+    print(guardian.automation_engine_report())
+
+    print("\nRule Engine")
+    print(guardian.rule_engine_report())
+
+    print("\nReport Generator")
+    print(guardian.report_generator_report())
+    
 if __name__ == "__main__":
     run_tests()
