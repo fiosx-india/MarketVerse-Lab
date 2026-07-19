@@ -22,11 +22,12 @@ class RuleEngine:
     def connect_guardian(self, guardian):
         self.guardian = guardian
 
-    def evaluate(self):
+    def evaluate(self, data=None):
 
         result = {
             "status": "SUCCESS",
             "result": "All rules passed.",
+            "data": data,
             "message": "Rule evaluation completed."
         }
 
