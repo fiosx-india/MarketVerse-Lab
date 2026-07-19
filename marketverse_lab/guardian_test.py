@@ -132,6 +132,22 @@ def run_tests():
     print(
         guardian.notification_history()
        )
+
+    print("\nPolicy Manager")
+    print(guardian.policy_report())
+
+    print("\nCreate Policy")
+    print(
+        guardian.add_policy(
+            "AutoBackup",
+            "Enabled"
+        )
+    )
+
+    print("\nPolicy History")
+    print(
+        guardian.policy_history()
+    )
     
 if __name__ == "__main__":
     run_tests()
