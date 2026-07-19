@@ -54,6 +54,18 @@ try:
         ("Policy Manager", guardian.policy_manager),
         ("Orchestrator", guardian.orchestrator),
         ("Task Scheduler", guardian.task_scheduler),
+        ("Event Bus", guardian.event_bus),
+        ("Plugin Manager", guardian.plugin_manager),
+        ("Config Manager", guardian.config_manager),
+        ("Resource Manager", guardian.resource_manager),
+        ("Cache Manager", guardian.cache_manager),
+        ("Security Manager", guardian.security_manager),
+        ("Metrics Manager", guardian.metrics_manager),
+        ("Logger Manager", guardian.logger_manager),
+        ("Command Center", guardian.command_center),
+        ("Automation Engine", guardian.automation_engine),
+        ("Rule Engine", guardian.rule_engine),
+        ("Report Generator", guardian.report_generator),
     ]
 
     guardian_ready = True
