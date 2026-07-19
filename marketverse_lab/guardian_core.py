@@ -1185,7 +1185,12 @@ class GuardianCore:
 
         # Project Blueprint
         if self.blueprint:
-            self.blueprint.build(root)
+            if hasattr(self.blueprint, "build"):
+                try:
+                    self.blueprint.build(root)
+                except TypeError:
+                    self.blueprint.build()
+
             report["blueprint"] = self.blueprint.report()
 
         # Project Mapper
