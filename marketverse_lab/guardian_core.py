@@ -289,6 +289,11 @@ class GuardianCore:
             "Guardian Report Generator"
         )
 
+        self.blueprint.register_module(
+    "ProjectHealthEngine",
+    "Project Health Engine"
+        )
+
         # Enable Modules
         for module in (
             "ProjectMapper",
@@ -334,6 +339,7 @@ class GuardianCore:
             "AutomationEngine",
             "RuleEngine",
             "ReportGenerator",
+            "ProjectHealthEngine",
         ):
             self.blueprint.enable_module(module)
 
@@ -509,7 +515,10 @@ class GuardianCore:
             self.report_generator
         )
 
-
+        self.blueprint.connect(
+    "ProjectHealthEngine",
+    self.project_health_engine
+        )
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
