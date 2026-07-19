@@ -1185,35 +1185,39 @@ class GuardianCore:
 
         # Project Blueprint
         if self.blueprint:
-            if hasattr(self.blueprint, "build"):
-                try:
-                    self.blueprint.build(root)
-                except TypeError:
-                    self.blueprint.build()
+            try:
+                self.blueprint.build(root)
+            except TypeError:
+                self.blueprint.build()
 
             report["blueprint"] = self.blueprint.report()
 
         # Project Mapper
         if self.mapper:
-            self.mapper.scan(root)
+            try:
+                self.mapper.scan(root)
+            except TypeError:
+                self.mapper.scan()
+
             report["mapper"] = self.mapper.report()
 
         # Dependency Graph
         if self.dependency_graph:
-            if hasattr(self.dependency_graph, "build"):
+            try:
                 self.dependency_graph.build(root)
-            elif hasattr(self.dependency_graph, "scan"):
-                self.dependency_graph.scan(root)
+            except TypeError:
+                self.dependency_graph.build()
 
             report["dependency_graph"] = self.dependency_graph.report()
 
         # Import Analyzer
         if self.import_analyzer:
-            if hasattr(self.import_analyzer, "scan"):
+            try:
                 self.import_analyzer.scan(root)
-            elif hasattr(self.import_analyzer, "analyze"):
-                self.import_analyzer.analyze(root)
+            except TypeError:
+                self.import_analyzer.scan()
 
             report["import_analyzer"] = self.import_analyzer.report()
 
         return report
+        
