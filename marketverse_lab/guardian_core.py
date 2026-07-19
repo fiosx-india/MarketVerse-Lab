@@ -227,6 +227,66 @@ class GuardianCore:
     "Guardian Task Scheduler"
         )
 
+        self.blueprint.register_module(
+            "EventBus",
+            "Guardian Event Bus"
+        )
+
+        self.blueprint.register_module(
+            "PluginManager",
+            "Guardian Plugin Manager"
+        )
+
+        self.blueprint.register_module(
+            "ConfigManager",
+            "Guardian Config Manager"
+        )
+
+        self.blueprint.register_module(
+            "ResourceManager",
+            "Guardian Resource Manager"
+        )
+
+        self.blueprint.register_module(
+            "CacheManager",
+            "Guardian Cache Manager"
+        )
+
+        self.blueprint.register_module(
+            "SecurityManager",
+            "Guardian Security Manager"
+        )
+
+        self.blueprint.register_module(
+            "MetricsManager",
+            "Guardian Metrics Manager"
+        )
+
+        self.blueprint.register_module(
+            "LoggerManager",
+            "Guardian Logger Manager"
+        )
+
+        self.blueprint.register_module(
+            "CommandCenter",
+            "Guardian Command Center"
+        )
+
+        self.blueprint.register_module(
+            "AutomationEngine",
+            "Guardian Automation Engine"
+        )
+
+        self.blueprint.register_module(
+            "RuleEngine",
+            "Guardian Rule Engine"
+        )
+
+        self.blueprint.register_module(
+            "ReportGenerator",
+            "Guardian Report Generator"
+        )
+
         # Enable Modules
         for module in (
             "ProjectMapper",
@@ -260,6 +320,18 @@ class GuardianCore:
             "PolicyManager",
             "Orchestrator",
             "TaskScheduler",
+            "EventBus",
+            "PluginManager",
+            "ConfigManager",
+            "ResourceManager",
+            "CacheManager",
+            "SecurityManager",
+            "MetricsManager",
+            "LoggerManager",
+            "CommandCenter",
+            "AutomationEngine",
+            "RuleEngine",
+            "ReportGenerator",
         ):
             self.blueprint.enable_module(module)
 
