@@ -34,6 +34,7 @@ from .snapshot_manager import SnapshotManager
 from .session_manager import SessionManager
 from .state_manager import StateManager
 from .audit_manager import AuditManager
+from .diagnostics_manager import DiagnosticsManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -66,6 +67,7 @@ class GuardianCore:
         self.session_manager = SessionManager()
         self.state_manager = StateManager()
         self.audit_manager = AuditManager()
+        self.diagnostics_manager = DiagnosticsManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -167,6 +169,11 @@ class GuardianCore:
     "AuditManager",
     "Project Audit Manager"
         )
+        
+        self.blueprint.register_module(
+    "DiagnosticsManager",
+    "Project Diagnostics Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -196,6 +203,7 @@ class GuardianCore:
             "SessionManager",
             "StateManager",
             "AuditManager",
+            "DiagnosticsManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -284,6 +292,11 @@ class GuardianCore:
         self.blueprint.connect(
     "AuditManager",
     self.audit_manager
+        )
+        
+        self.blueprint.connect(
+    "DiagnosticsManager",
+    self.diagnostics_manager
         )
         
         # Code Locator
@@ -412,6 +425,7 @@ class GuardianCore:
         self.session_manager.connect_guardian(self)
         self.state_manager.connect_guardian(self)
         self.audit_manager.connect_guardian(self)
+        self.diagnostics_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -676,3 +690,11 @@ class GuardianCore:
 
     def clear_audit(self):
         return self.audit_manager.clear()
+    def diagnostics(self):
+        return self.diagnostics_manager.run()
+
+    def diagnostics_report(self):
+        return self.diagnostics_manager.report()
+
+    def diagnostics_ready(self):
+        return self.diagnostics_manager.is_ready()
