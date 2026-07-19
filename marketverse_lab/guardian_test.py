@@ -165,5 +165,28 @@ def run_tests():
     print("\nRegistered Modules")
     print(guardian.orchestrator_modules())
 
+    print("\nTask Scheduler")
+    print(guardian.task_scheduler_report())
+
+    print("\nTask Scheduler Ready")
+    print(guardian.task_scheduler_ready())
+
+    print("\nAdd Task")
+    print(
+        guardian.add_task(
+            "Build Project"
+        )
+    )
+
+    print("\nPending Tasks")
+    print(
+        guardian.pending_tasks()
+    )
+
+    print("\nRun Next Task")
+    print(
+        guardian.run_next_task()
+    )
+
 if __name__ == "__main__":
     run_tests()
