@@ -35,23 +35,40 @@ class ReportGenerator:
     # ----------------------------------------
 
     def generate(
-        self,
-        report_name="Guardian Report",
-        data=None
-    ):
+    self,
+    report_name="Guardian Report",
+    data=None
+):
 
-        report = {
-            "status": "SUCCESS",
-            "report": report_name,
-            "data": data,
-            "created_at": datetime.now().isoformat(),
-            "message": f"'{report_name}' generated successfully."
+    # Automatically collect reports from Guardian
+    if data is None and self.guardian is not None:
+
+        data = {
+            "project_health": self.guardian.project_health_report(),
+            "guardian_health": self.guardian.guardian_health_report(),
+            "dependency": self.guardian.dependency_report(),
+            "integration": self.guardian.integration_report(),
+            "diagnostics": self.guardian.diagnostics_report(),
+            "errors": self.guardian.error_report(),
+            "workflow": self.guardian.workflow_report(),
+            "advisor": self.guardian.advisor_report(),
+            "risk": self.guardian.risk_report(),
+            "impact": self.guardian.impact_report(),
+            "imports": self.guardian.import_report()
         }
 
-        self.history.append(report)
+    report = {
+        "status": "SUCCESS",
+        "report": report_name,
+        "data": data,
+        "created_at": datetime.now().isoformat(),
+        "message": f"'{report_name}' generated successfully."
+    }
 
-        return report
+    self.history.append(report)
 
+    return report
+    
     # ----------------------------------------
     # Report History
     # ----------------------------------------
