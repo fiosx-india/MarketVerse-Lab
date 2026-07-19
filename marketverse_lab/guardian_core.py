@@ -1178,45 +1178,36 @@ class GuardianCore:
     # ==========================================
     # Scan Project
     # ==========================================
-
     def scan_project(self, root="."):
 
         report = {}
 
-        # Project Blueprint
-        if self.blueprint:
-            try:
+        try:
+            if self.blueprint:
                 self.blueprint.build(root)
-            except TypeError:
-                self.blueprint.build()
+                report["blueprint"] = self.blueprint.report()
+        except Exception as e:
+            report["blueprint"] = str(e)
 
-            report["blueprint"] = self.blueprint.report()
-
-        # Project Mapper
-        if self.mapper:
-            try:
+        try:
+            if self.mapper:
                 self.mapper.scan(root)
-            except TypeError:
-                self.mapper.scan()
+                report["mapper"] = self.mapper.report()
+        except Exception as e:
+            report["mapper"] = str(e)
 
-            report["mapper"] = self.mapper.report()
-
-        # Dependency Graph
-        if self.dependency_graph:
-            try:
-                self.dependency_graph.build(root)
-            except TypeError:
+        try:
+            if self.dependency_graph:
                 self.dependency_graph.build()
+                report["dependency_graph"] = self.dependency_graph.report()
+        except Exception as e:
+            report["dependency_graph"] = str(e)
 
-            report["dependency_graph"] = self.dependency_graph.report()
-
-        # Import Analyzer
-        if self.import_analyzer:
-
-            try:
+        try:
+            if self.import_analyzer:
                 self.import_analyzer.analyze(root)
-            except TypeError:
-                self.import_analyzer.analyze()
+                report["import_analyzer"] = self.import_analyzer.report()
+        except Exception as e:
+            report["import_analyzer"] = str(e)
 
-            report["import_analyzer"] = self.import_analyzer.report()
-            
+        return report
