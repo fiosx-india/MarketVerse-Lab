@@ -136,7 +136,10 @@ try:
     st.subheader("Report Generator")
     st.json(guardian.report_generator_report())
     
-
+    st.subheader("Project Health Engine")
+st.json(
+    guardian.project_health_report()
+)
     st.subheader("Policy Manager")
     st.json(guardian.policy_report())
     
@@ -649,6 +652,39 @@ try:
     if st.button("Generate Report"):
         st.json(
             guardian.generate_report()
+        )
+
+    # ==========================================
+    # Project Health Engine
+    # ==========================================
+
+    st.divider()
+
+    st.header("🩺 Project Health Engine")
+
+    health_root = st.text_input(
+        "Health Scan Root",
+        value=".",
+        key="health_root"
+    )
+
+    if st.button("Run Project Health Scan"):
+
+        guardian.project_health_scan(health_root)
+
+        st.subheader("Health Report")
+        st.json(
+            guardian.project_health_report()
+        )
+
+        st.subheader("Statistics")
+        st.json(
+            guardian.project_health_statistics()
+        )
+
+        st.subheader("Diagnostics")
+        st.json(
+            guardian.project_health_diagnostics()
         )
 
     # ==========================================
