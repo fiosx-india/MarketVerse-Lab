@@ -224,37 +224,31 @@ class ProjectHealthEngine:
     __repr__ = __str__
 
 import os
-import sys
+import streamlit as st
 
-def check_mold_file(current_file_path, expected_file_name):
-    # Extracts the file name from the full path
-    current_file_name = os.path.basename(current_file_path)
+# UI Header (Matching your screen)
+st.title("🚀 MarketVerse Lab")
+st.success("Stage 1 : Foundation Ready")
+
+st.markdown("---")
+st.subheader("🛡️ Guardian Core - Mold Verification")
+
+# 1. Define the correct filename that must match
+CORRECT_MOLD_NAME = "correct_final_mold.obj" 
+
+# 2. File uploader widget in pure English
+uploaded_file = st.file_uploader("Upload Mold File to Verify", type=["obj", "stl", "step", "iges"])
+
+# Checking logic triggers as soon as a file is uploaded
+if uploaded_file is not None:
+    current_file_name = uploaded_file.name
     
     # Comparison logic
-    if current_file_name != expected_file_name:
-        # Print critical error to the console
-        print("\n" + "="*50)
-        print("CRITICAL ERROR: WRONG MOLD DETECTED!")
-        print("="*50)
-        print(f"ALERT: The connected mold file is incorrect.")
-        print(f"Connected File: {current_file_name}")
-        print(f"Expected File:  {expected_file_name}")
-        print("Please check and reload the correct file.")
-        print("="*50 + "\n")
-        
-        # Exit with a failure code so other systems know it failed
-        sys.exit(1) 
+    if current_file_name != CORRECT_MOLD_NAME:
+        # Red error alert if the file name doesn't match
+        st.error("🚨 **CRITICAL ERROR: WRONG MOLD DETECTED!**")
+        st.warning(f"❌ **Incorrect File Loaded:** `{current_file_name}`")
+        st.info(f"🎯 **Required File Name:** `{CORRECT_MOLD_NAME}`")
     else:
-        print(f"Verification Success: The mold file '{current_file_name}' matches successfully!")
-        return True
-
-# --- CONFIGURE YOUR FILES HERE ---
-# 1. Path of the file currently connected/loaded
-current_connected_mold = "D:/projects/molds/wrong_mold_v2.obj" 
-
-# 2. The exact filename that SHOULD be connected
-correct_mold_name = "correct_final_mold.obj" 
-
-# Execute the check
-check_mold_file(current_connected_mold, correct_mold_name)
-
+        # Green success alert if the file name matches perfectly
+        st.success(f"✅ **Verification Success:** The mold file `{current_file_name}` matches successfully! Ready for the next stage.")
