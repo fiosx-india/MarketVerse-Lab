@@ -108,6 +108,13 @@ def run_tests():
 
     print("\nAudit History")
     print(guardian.audit_history())
+
+
+    print("\nDiagnostics Manager")
+    print(guardian.diagnostics_report())
+
+    print("\nRun Diagnostics")
+    print(guardian.diagnostics())
     
 if __name__ == "__main__":
     run_tests()
