@@ -650,6 +650,23 @@ try:
         st.json(
             guardian.generate_report()
         )
+
+# ==========================================
+# Project Scanner
+# ==========================================
+
+st.divider()
+st.header("🔍 Project Scanner")
+
+project_root = st.text_input(
+    "Project Root",
+    value="."
+)
+
+if st.button("Scan Project"):
+    st.json(
+        guardian.scan_project(project_root)
+    )
         
 except Exception as e:
     st.error("Guardian Core Failed")
