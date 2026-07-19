@@ -323,7 +323,18 @@ try:
     st.json(
         guardian.policy_history()
     )
-    
+
+
+    remove_name = st.text_input(
+        "Remove Policy",
+        key="remove_policy"
+    )
+
+    if st.button("Delete Policy"):
+        st.json(
+            guardian.remove_policy(remove_name)
+        )
+        
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
