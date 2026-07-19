@@ -44,15 +44,18 @@ class CacheManager:
         }
 
     def clear(self):
+        cleared_items = len(self.cache)
         self.cache.clear()
 
         return {
-            "status": "SUCCESS"
+            "status": "SUCCESS",
+            "cleared_items": cleared_items
         }
 
     def report(self):
         return {
             "connected": self.guardian is not None,
+            "ready": self.is_ready(),
             "total_items": len(self.cache),
             "cache": dict(self.cache)
         }
