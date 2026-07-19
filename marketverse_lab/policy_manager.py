@@ -47,14 +47,16 @@ class PolicyManager:
 
     def history(self):
 
-        return self.policies
+        # Return a copy so external code cannot modify
+        # the internal policy dictionary directly.
+        return dict(self.policies)
 
     def report(self):
 
         return {
             "connected": self.guardian is not None,
             "total_policies": len(self.policies),
-            "policies": self.policies
+            "policies": dict(self.policies)
         }
 
     def is_ready(self):
