@@ -155,10 +155,15 @@ def run_tests():
             "AutoBackup"
         )
     )
-
-    print(guardian.orchestrator_report())
-    print(guardian.orchestrator_ready())
-    print(guardian.orchestrator_modules())
     
+    print("\nOrchestrator")
+    print(guardian.orchestrator_report())
+
+    print("\nOrchestrator Ready")
+    print(guardian.orchestrator_ready())
+
+    print("\nRegistered Modules")
+    print(guardian.orchestrator_modules())
+
 if __name__ == "__main__":
     run_tests()
