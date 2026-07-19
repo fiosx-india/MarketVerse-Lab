@@ -165,16 +165,25 @@ class DependencyGraph:
 
         # Standard Library / External Packages
         ignore = {
-            "ast",
-            "dataclasses",
-            "datetime",
-            "json",
-            "pathlib",
-            "streamlit",
-            "traceback",
-            "typing",
+    "ast",
+    "collections",
+    "copy",
+    "dataclasses",
+    "datetime",
+    "functools",
+    "itertools",
+    "json",
+    "logging",
+    "math",
+    "os",
+    "pathlib",
+    "re",
+    "streamlit",
+    "sys",
+    "time",
+    "traceback",
+    "typing",
         }
-
         # Existing project modules
         project_modules = {
             Path(file).stem
