@@ -807,6 +807,7 @@ class GuardianCore:
 
     def orchestrator_modules(self):
         return self.orchestrator.list_modules()
+        
     def task_scheduler_report(self):
         return self.task_scheduler.report()
 
