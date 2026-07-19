@@ -51,7 +51,6 @@ class LiveMonitor:
         self.project_memory = None
         self.workflow_engine = None
         self.ai_assistant = None
-        self.guardian = None
 
         # File Cache
         self.files: Dict[str, FileState] = {}
