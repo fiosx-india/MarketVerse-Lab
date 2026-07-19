@@ -223,32 +223,63 @@ class ProjectHealthEngine:
 
     __repr__ = __str__
 
-import os
-import streamlit as st
 
-# UI Header (Matching your screen)
+import streamlit as st
+import traceback
+import sys
+
+# UI Setup matching your application's clean aesthetic
 st.title("🚀 MarketVerse Lab")
 st.success("Stage 1 : Foundation Ready")
 
 st.markdown("---")
-st.subheader("🛡️ Guardian Core - Mold Verification")
+st.subheader("🛡️ Guardian Core - Advanced Line Error Inspector")
 
-# 1. Define the correct filename that must match
-CORRECT_MOLD_NAME = "correct_final_mold.obj" 
+# File uploader targeting code or configuration files
+uploaded_file = st.file_uploader("Upload File to Scan for Line Errors", type=["py", "json", "txt"])
 
-# 2. File uploader widget in pure English
-uploaded_file = st.file_uploader("Upload Mold File to Verify", type=["obj", "stl", "step", "iges"])
-
-# Checking logic triggers as soon as a file is uploaded
 if uploaded_file is not None:
-    current_file_name = uploaded_file.name
+    file_name = uploaded_file.name
+    file_content = uploaded_file.read().decode("utf-8")
     
-    # Comparison logic
-    if current_file_name != CORRECT_MOLD_NAME:
-        # Red error alert if the file name doesn't match
-        st.error("🚨 **CRITICAL ERROR: WRONG MOLD DETECTED!**")
-        st.warning(f"❌ **Incorrect File Loaded:** `{current_file_name}`")
-        st.info(f"🎯 **Required File Name:** `{CORRECT_MOLD_NAME}`")
+    # --- Case 1: Checking JSON Files ---
+    if file_name.endswith('.json'):
+        import json
+        try:
+            json.loads(file_content)
+            st.success(f"✅ **Success:** `{file_name}` has zero syntax errors!")
+        except json.JSONDecodeError as e:
+            st.error("🚨 **SYNTAX ERROR DETECTED!**")
+            st.warning(f"📁 **File:** `{file_name}`")
+            st.info(f"📍 **Error Location:** Line number **{e.lineno}**, Column {e.colno}")
+            st.code(f"Details: {e.msg}", language="text")
+
+    # --- Case 2: Checking Python Files ---
+    elif file_name.endswith('.py'):
+        try:
+            compile(file_content, file_name, 'exec')
+            st.success(f"✅ **Success:** `{file_name}` has zero syntax errors!")
+        except SyntaxError as e:
+            st.error("🚨 **SYNTAX ERROR DETECTED!**")
+            st.warning(f"📁 **File:** `{file_name}`")
+            st.info(f"📍 **Error Location:** Line number **{e.lineno}**")
+            if e.text:
+                st.code(f"Broken Code Line:\n{e.text.strip()}", language="python")
+            st.code(f"Details: {e.msg}", language="text")
+            
+    # --- Case 3: Generic Text or Rule matching ---
     else:
-        # Green success alert if the file name matches perfectly
-        st.success(f"✅ **Verification Success:** The mold file `{current_file_name}` matches successfully! Ready for the next stage.")
+        # Custom rule checking line-by-line (Example: Flagging any line containing "ERROR_TRIGGER")
+        error_lines = []
+        lines = file_content.splitlines()
+        
+        for idx, line in enumerate(lines, start=1):
+            if "ERROR_TRIGGER" in line:  # Replace this string with whatever condition makes a line wrong
+                error_lines.append(idx)
+                
+        if error_lines:
+            st.error("🚨 **ERRORS FOUND IN FILE CONTENT!**")
+            st.warning(f"📁 **File:** `{file_name}`")
+            st.info(f"📍 **Failed Line Numbers:** {error_lines}")
+        else:
+            st.success(f"✅ **Success:** `{file_name}` looks perfectly fine line-by-line.")
