@@ -36,6 +36,7 @@ from .state_manager import StateManager
 from .audit_manager import AuditManager
 from .diagnostics_manager import DiagnosticsManager
 from .notification_manager import NotificationManager
+from .policy_manager import PolicyManager
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -70,6 +71,7 @@ class GuardianCore:
         self.audit_manager = AuditManager()
         self.diagnostics_manager = DiagnosticsManager()
         self.notification_manager = NotificationManager()
+        self.policy_manager = PolicyManager()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -181,6 +183,11 @@ class GuardianCore:
     "NotificationManager",
     "Project Notification Manager"
         )
+        
+        self.blueprint.register_module(
+    "PolicyManager",
+    "Project Policy Manager"
+        )
 
         # Enable Modules
         for module in (
@@ -212,6 +219,7 @@ class GuardianCore:
             "AuditManager",
             "DiagnosticsManager",
             "NotificationManager",
+            "PolicyManager",
         ):
             self.blueprint.enable_module(module)
 
@@ -310,6 +318,11 @@ class GuardianCore:
         self.blueprint.connect(
     "NotificationManager",
     self.notification_manager
+        )
+        
+        self.blueprint.connect(
+    "PolicyManager",
+    self.policy_manager
         )
         
         # Code Locator
@@ -440,6 +453,7 @@ class GuardianCore:
         self.audit_manager.connect_guardian(self)
         self.diagnostics_manager.connect_guardian(self)
         self.notification_manager.connect_guardian(self)
+        self.policy_manager.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -732,3 +746,21 @@ class GuardianCore:
 
     def clear_notifications(self):
         return self.notification_manager.clear()
+
+    def add_policy(self, name, value):
+        return self.policy_manager.add_policy(name, value)
+
+    def get_policy(self, name):
+        return self.policy_manager.get_policy(name)
+
+    def policy_report(self):
+        return self.policy_manager.report()
+
+    def policy_ready(self):
+        return self.policy_manager.is_ready()
+
+    def policy_history(self):
+        return self.policy_manager.history()
+
+    def remove_policy(self, name):
+        return self.policy_manager.remove_policy(name)
