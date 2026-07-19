@@ -137,9 +137,10 @@ try:
     st.json(guardian.report_generator_report())
     
     st.subheader("Project Health Engine")
-st.json(
+    st.json(
     guardian.project_health_report()
-)
+    )
+    
     st.subheader("Policy Manager")
     st.json(guardian.policy_report())
     
