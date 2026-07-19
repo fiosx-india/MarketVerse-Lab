@@ -28,6 +28,27 @@ class ResourceManager:
     def get(self, name):
         return self.resources.get(name)
 
+    def release(self, name):
+        if name in self.resources:
+            value = self.resources.pop(name)
+            return {
+                "status": "SUCCESS",
+                "resource": name,
+                "value": value
+            }
+
+        return {
+            "status": "NOT_FOUND",
+            "resource": name
+        }
+
+    def clear(self):
+        self.resources.clear()
+
+        return {
+            "status": "SUCCESS"
+        }
+
     def status(self):
         return {
             "total_resources": len(self.resources),
