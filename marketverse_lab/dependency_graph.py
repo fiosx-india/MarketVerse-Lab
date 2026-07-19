@@ -272,14 +272,44 @@ class DependencyGraph:
 
         report = {}
 
+        ignore = {
+            "ast",
+            "collections",
+            "copy",
+            "dataclasses",
+            "datetime",
+            "json",
+            "logging",
+            "math",
+            "os",
+            "pathlib",
+            "re",
+            "streamlit",
+            "sys",
+            "time",
+            "traceback",
+            "typing",
+        }
+
+        project_modules = {
+            Path(file).stem
+            for file in self.nodes.keys()
+            if file.endswith(".py")
+        }
+
         for file_path, node in self.nodes.items():
 
             broken = []
 
             for dep in node.imports:
 
-                if dep not in self.nodes:
-                    broken.append(dep)
+                if dep in ignore:
+                    continue
+
+                if dep in project_modules:
+                    continue
+
+                broken.append(dep)
 
             if broken:
                 report[file_path] = broken
