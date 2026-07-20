@@ -444,6 +444,7 @@ try:
         ("Project Health Engine", guardian.project_health_engine),
         ("Project Inspector", guardian.project_inspector),
         ("Mold File Loader", guardian.mold_file_loader),
+        ("Mold Analyzer", guardian.mold_analyzer),
     ]
 
     guardian_ready = True
@@ -620,6 +621,9 @@ try:
             st.subheader("Project Inspector")
             st.json(guardian.project_inspector_report())
 
+            st.subheader("Mold Analyzer Report")
+            st.json(guardian.mold_analyzer_report())
+
             st.subheader("Event Bus")
             st.json(guardian.event_bus_report())
 
@@ -681,6 +685,7 @@ try:
                 st.json(guardian.inspect_project(inspect_root))
                 st.subheader("Inspection Report")
                 st.json(guardian.project_inspector_report())
+                
                 st.divider()
                 st.header("📦 Mold File Loader")
 
@@ -688,9 +693,15 @@ try:
                     "Upload Mold File",
                     type=["stl", "step", "stp", "iges", "igs", "obj", "dxf"]
                 )
-
+                
                 if uploaded:
                     st.success(uploaded.name)
+
+                    analysis = guardian.analyze_mold(uploaded.name)
+
+                    st.subheader("Mold Analysis")
+                    st.json(analysis)
+
     
 except Exception as e:
     with tab2:
