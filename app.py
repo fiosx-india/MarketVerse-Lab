@@ -240,6 +240,65 @@ def inspect_code_lines_and_logic(root_path="."):
 
 
 # ==========================================
+# Cross-File Function & Method Call Inspector
+# ==========================================
+def inspect_cross_file_connections(root_path="."):
+    """
+    Parses functions across files and tracks which file calls 
+    which function line-by-line, identifying unused or unlinked methods.
+    """
+    import ast
+    from pathlib import Path
+
+    defined_functions = {}  
+    called_functions = {}   
+
+    p = Path(root_path)
+    py_files = [f for f in p.rglob("*.py") if not any(skip in f.parts for skip in [".git", "__pycache__", ".venv"])]
+
+    for py_file in py_files:
+        try:
+            tree = ast.parse(py_file.read_text(encoding="utf-8", errors="ignore"))
+            for node in ast.walk(tree):
+                if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
+                    defined_functions[node.name] = py_file.name
+                elif isinstance(node, ast.Call):
+                    if isinstance(node.func, ast.Name):
+                        called_functions.setdefault(node.func.id, []).append(py_file.name)
+                    elif isinstance(node.func, ast.Attribute):
+                        called_functions.setdefault(node.func.attr, []).append(py_file.name)
+        except Exception:
+            continue
+
+    connected_map = []
+    unlinked_methods = []
+
+    for func_name, origin_file in defined_functions.items():
+        if func_name.startswith("__"):
+            continue
+            
+        callers = list(set(called_functions.get(func_name, [])))
+        if callers:
+            connected_map.append({
+                "function": func_name,
+                "defined_in": origin_file,
+                "connected_to": callers
+            })
+        else:
+            unlinked_methods.append({
+                "function": func_name,
+                "file": origin_file,
+                "suggestion": f"Method '{func_name}' in '{origin_file}' is defined but not explicitly called in other files."
+            })
+
+    return {
+        "total_functions_found": len(defined_functions),
+        "connected_links": connected_map,
+        "unlinked_methods": unlinked_methods
+    }
+
+
+# ==========================================
 # Guardian Core Modules Initialization
 # ==========================================
 guardian_ready = False
@@ -408,6 +467,26 @@ try:
                                 st.code(err["code_snippet"], language="python")
                     else:
                         st.success("🎉 Perfect! Every line of code across all files is syntactically valid and ready for execution!")
+
+            # --- Cross-File Method Connection Inspector UI ---
+            st.markdown("---")
+            st.subheader("🔗 Cross-File Method & Line Connection Inspector")
+
+            if st.button("🕸️ Inspect Cross-File Line Connections & Mismatches"):
+                with st.spinner("Mapping line-by-line connections across all modules..."):
+                    cross_res = inspect_cross_file_connections(".")
+                    
+                    st.success(f"✅ Analyzed {cross_res['total_functions_found']} Functions & Class Definitions Across Project")
+                    
+                    with st.expander("🔗 Active Cross-File Connections", expanded=True):
+                        for link in cross_res["connected_links"][:15]:
+                            st.write(f"• **`{link['function']}()`** (in `{link['defined_in']}`) ➔ Connected & Used in: `{', '.join(link['connected_to'])}`")
+
+                    if cross_res["unlinked_methods"]:
+                        st.warning("⚠️ Unlinked Methods (Defined but not explicitly called elsewhere):")
+                        for unlinked in cross_res["unlinked_methods"][:10]:
+                            st.write(f"👉 **`{unlinked['function']}()`** in `{unlinked['file']}`")
+                            st.info(f"💡 {unlinked['suggestion']}")
 
             st.markdown("---")
 
