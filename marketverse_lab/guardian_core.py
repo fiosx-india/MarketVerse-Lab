@@ -680,10 +680,10 @@ class GuardianCore:
         self.project_health_engine.connect_guardian(self)
 
 
-# Project Inspector
+    # Project Inspector
 
-if hasattr(self.project_inspector, "connect_guardian"):
-    self.project_inspector.connect_guardian(self)
+    if hasattr(self.project_inspector, "connect_guardian"):
+        self.project_inspector.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
