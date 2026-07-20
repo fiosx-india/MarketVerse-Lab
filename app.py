@@ -1,4 +1,4 @@
-import streamlit as st
+.import streamlit as st
 import json
 import traceback
 
@@ -78,32 +78,6 @@ with tab1:
         else:
             st.info("ℹ️ File contents loaded successfully:")
             st.code(file_contents[:3000])
-
-            # --- Smart Line Matcher & Exact Auto-Fix Box (Clean UI) ---
-            st.markdown("---")
-            st.subheader("🪄 Smart Line-by-Line Matcher & Exact Auto-Fix Advisor")
-
-            if st.button("🔍 Analyze Line-by-Line Content & Suggest Exact Fixes"):
-                with st.spinner("Scanning lines, dots, and typos across all files..."):
-                    matcher = SmartLineMatcherEngine(guardian)
-                    # FIX: Removed the "." argument to match the class method definition perfectly
-                    match_report = matcher.analyze_and_match_lines()
-                    
-                    st.success("🪄 Precision Line Analysis & Location Mapping Complete!")
-                    
-                    if match_report.get("line_mismatches_found", 0) > 0:
-                        for patch in match_report.get("exact_patches", []):
-                            st.error(f"❌ **Target File to Open:** `{patch['target_file']}` (Line: `{patch['line_number']}`)")
-                            st.warning(f"⚠️ **Issue Found:** {patch['description']}")
-                            st.info(f"👉 **Faulty Code Found:** `{patch['faulty_code']}`")
-                            
-                            st.markdown("✍️ **Exact Line to Copy & Replace:**")
-                            st.code(patch["exact_line_to_replace"], language="python")
-                    else:
-                        st.success("🎉 All lines, dots, and syntax are perfectly aligned and clean!")
-
-
-
 
 # ==========================================
 # MarketVerse Lab - Diagnostic Logic Function
