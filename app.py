@@ -342,7 +342,11 @@ class MasterBridgeEngine:
             if hasattr(self.guardian, "auto_patch_engine") and self.guardian.auto_patch_engine:
                 if hasattr(self.guardian.auto_patch_engine, "create_patch"):
                     try:
-                        results["auto_patch_status"] = self.guardian.auto_patch_engine.create_patch("app.py", "# Master Patch")
+                        results["auto_patch_status"] = self.guardian.auto_patch_engine.create_patch(
+    "app.py",
+    "REPLACE",
+    "# Master Patch"
+                        )
                     except Exception as patch_e:
                         results["auto_patch_status"] = f"Patch Engine Active: {patch_e}"
 
