@@ -79,6 +79,110 @@ with tab1:
             st.info("ℹ️ File contents loaded successfully:")
             st.code(file_contents[:3000])
 
+
+# ==========================================
+# MarketVerse Lab - Diagnostic Logic Function
+# ==========================================
+def run_system_diagnostic(guardian_instance):
+    """
+    Analyzes all Guardian modules, checks internal connections,
+    and identifies exact missing dependencies or failed methods.
+    """
+    report = {
+        "connected_modules": [],
+        "disconnected_modules": [],
+        "not_ready_modules": [],
+        "diagnostics": {}
+    }
+
+    if not guardian_instance:
+        return None
+
+    modules_map = {
+        "Project Blueprint": (getattr(guardian_instance, "blueprint", None), "build"),
+        "Project Mapper": (getattr(guardian_instance, "mapper", None), "scan"),
+        "Code Locator": (getattr(guardian_instance, "locator", None), "locate"),
+        "Dependency Graph": (getattr(guardian_instance, "dependency_graph", None), "build"),
+        "Integration Checker": (getattr(guardian_instance, "integration_checker", None), "validate"),
+        "AI Error Intelligence": (getattr(guardian_instance, "error_intelligence", None), "report"),
+        "Knowledge Base": (getattr(guardian_instance, "knowledge_base", None), "get"),
+        "Change Planner": (getattr(guardian_instance, "change_planner", None), "generate_plan"),
+        "Auto Patch Engine": (getattr(guardian_instance, "auto_patch_engine", None), "insert_code"),
+        "Project Memory": (getattr(guardian_instance, "project_memory", None), "record_change"),
+        "Live Monitor": (getattr(guardian_instance, "live_monitor", None), "check"),
+        "Workflow Engine": (getattr(guardian_instance, "workflow_engine", None), "create_workflow"),
+        "AI Assistant": (getattr(guardian_instance, "ai_assistant", None), "smart_execute"),
+        "Import Analyzer": (getattr(guardian_instance, "import_analyzer", None), "analyze"),
+        "Guardian Health": (getattr(guardian_instance, "guardian_health", None), "health_score"),
+        "Project Advisor": (getattr(guardian_instance, "advisor", None), "project_score"),
+        "Risk Analyzer": (getattr(guardian_instance, "risk_analyzer", None), "analyze"),
+        "Impact Analyzer": (getattr(guardian_instance, "impact_analyzer", None), "analyze"),
+        "Change Simulator": (getattr(guardian_instance, "change_simulator", None), "simulate"),
+        "Rollback Manager": (getattr(guardian_instance, "rollback_manager", None), "rollback"),
+        "Backup Manager": (getattr(guardian_instance, "backup_manager", None), "create_backup"),
+        "Version Manager": (getattr(guardian_instance, "version_manager", None), "create_version"),
+        "Recovery Manager": (getattr(guardian_instance, "recovery_manager", None), "recover"),
+        "Snapshot Manager": (getattr(guardian_instance, "snapshot_manager", None), "create_snapshot"),
+        "Session Manager": (getattr(guardian_instance, "session_manager", None), "create_session"),
+        "State Manager": (getattr(guardian_instance, "state_manager", None), "set_state"),
+        "Audit Manager": (getattr(guardian_instance, "audit_manager", None), "log"),
+        "Diagnostics Manager": (getattr(guardian_instance, "diagnostics_manager", None), "run"),
+        "Notification Manager": (getattr(guardian_instance, "notification_manager", None), "notify"),
+        "Policy Manager": (getattr(guardian_instance, "policy_manager", None), "add_policy"),
+        "Orchestrator": (getattr(guardian_instance, "orchestrator", None), "register"),
+        "Task Scheduler": (getattr(guardian_instance, "task_scheduler", None), "add_task"),
+        "Event Bus": (getattr(guardian_instance, "event_bus", None), "publish"),
+        "Plugin Manager": (getattr(guardian_instance, "plugin_manager", None), "load"),
+        "Config Manager": (getattr(guardian_instance, "config_manager", None), "set"),
+        "Resource Manager": (getattr(guardian_instance, "resource_manager", None), "allocate"),
+        "Cache Manager": (getattr(guardian_instance, "cache_manager", None), "set"),
+        "Security Manager": (getattr(guardian_instance, "security_manager", None), "scan"),
+        "Metrics Manager": (getattr(guardian_instance, "metrics_manager", None), "metrics"),
+        "Logger Manager": (getattr(guardian_instance, "logger_manager", None), "log"),
+        "Command Center": (getattr(guardian_instance, "command_center", None), "execute"),
+        "Automation Engine": (getattr(guardian_instance, "automation_engine", None), "run"),
+        "Rule Engine": (getattr(guardian_instance, "rule_engine", None), "evaluate"),
+        "Report Generator": (getattr(guardian_instance, "report_generator", None), "generate"),
+        "Project Health Engine": (getattr(guardian_instance, "project_health_engine", None), "scan"),
+        "Project Inspector": (getattr(guardian_instance, "project_inspector", None), "inspect")
+    }
+
+    for name, (mod_obj, req_method) in modules_map.items():
+        if mod_obj is None:
+            report["disconnected_modules"].append({
+                "module": name,
+                "error": "Module instance is None",
+                "fix": f"Check initialization in guardian_core.py for 'self.{name.lower().replace(' ', '_')}'"
+            })
+            continue
+
+        if not hasattr(mod_obj, req_method):
+            report["not_ready_modules"].append({
+                "module": name,
+                "error": f"Missing required method: {req_method}()",
+                "fix": f"Implement def {req_method}() method inside the module class."
+            })
+            continue
+
+        ready_status = True
+        if hasattr(mod_obj, "is_ready"):
+            try:
+                ready_status = mod_obj.is_ready()
+            except Exception:
+                ready_status = False
+
+        if ready_status:
+            report["connected_modules"].append(name)
+        else:
+            report["not_ready_modules"].append({
+                "module": name,
+                "error": "is_ready() returned False",
+                "fix": f"Ensure all sub-connections inside {name} are properly initialized."
+            })
+
+    return report
+
+
 # ==========================================
 # Guardian Core Modules Initialization
 # ==========================================
@@ -171,6 +275,66 @@ try:
     with tab3:
         if guardian:
             st.header("📊 Guardian Summary & Management Console")
+
+            # --- System Interconnection & Diagnostic Panel ---
+            st.markdown("---")
+            st.header("🔬 MarketVerse AI System Diagnostic & Auto-Executor")
+
+            col_diag1, col_diag2 = st.columns(2)
+
+            with col_diag1:
+                if st.button("🔍 Run Full Module Interconnection Diagnostic"):
+                    diag_results = run_system_diagnostic(guardian)
+                    
+                    st.subheader("Diagnostic Results")
+                    st.metric("Healthy Connected Modules", len(diag_results["connected_modules"]))
+                    st.metric("Disconnected Modules", len(diag_results["disconnected_modules"]))
+                    st.metric("Modules Requiring Attention", len(diag_results["not_ready_modules"]))
+
+                    with st.expander("✅ Healthy & Connected Modules", expanded=False):
+                        for mod in diag_results["connected_modules"]:
+                            st.success(f"Connected: {mod}")
+
+                    if diag_results["disconnected_modules"]:
+                        st.error("❌ Disconnected Modules Detected:")
+                        for item in diag_results["disconnected_modules"]:
+                            st.write(f"• **{item['module']}**: {item['error']}")
+                            st.info(f"💡 **Suggested Fix:** {item['fix']}")
+
+                    if diag_results["not_ready_modules"]:
+                        st.warning("⚠️ Modules Requiring Sub-Connections:")
+                        for item in diag_results["not_ready_modules"]:
+                            st.write(f"• **{item['module']}**: {item['error']}")
+                            st.info(f"💡 **Suggested Fix:** {item['fix']}")
+
+            with col_diag2:
+                if st.button("🚀 Execute & Activate All Integrated Systems"):
+                    st.info("Initiating Full System Sequence Execution...")
+                    try:
+                        guardian.map_project(".")
+                        st.write("✔️ Step 1: Project Structure Mapped Successfully.")
+
+                        guardian.build_dependency_graph()
+                        st.write("✔️ Step 2: Dependency Graph Built.")
+
+                        guardian.project_health_scan(".")
+                        st.write("✔️ Step 3: Project Health Engine Executed.")
+
+                        guardian.create_workflow("Automated Full Diagnostics")
+                        guardian.workflow_engine.execute()
+                        st.write("✔️ Step 4: Workflow Engine Triggered and Completed.")
+
+                        guardian.generate_report()
+                        st.write("✔️ Step 5: Full Report Generated by Report Generator.")
+
+                        st.success("🎉 All Systems Executed and Working Simultaneously!")
+                        st.balloons()
+
+                    except Exception as ex:
+                        st.error(f"Execution Error: {str(ex)}")
+                        st.code(traceback.format_exc())
+
+            st.markdown("---")
 
             st.subheader("Project Inspector")
             st.json(guardian.project_inspector_report())
