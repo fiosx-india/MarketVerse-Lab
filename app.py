@@ -79,6 +79,37 @@ with tab1:
             st.info("ℹ️ File contents loaded successfully:")
             st.code(file_contents[:3000])
 
+    # ==========================================
+    # Connected Smart Fixer Engine UI (Tab 1)
+    # ==========================================
+    st.markdown("---")
+    st.subheader("🔍 Advanced File & Line Auto-Fix Inspector")
+    st.caption("Directly connected to smart_fixer.py to scan project files for missing dots, syntax mismatches, and exact line fixes.")
+
+    if st.button("🚀 Run Smart Code & Dot Error Inspector"):
+        with st.spinner("Connecting to smart_fixer.py and analyzing project lines..."):
+            try:
+                # Direct import from the root file we created
+                from smart_fixer import SmartFixerEngine
+                fixer = SmartFixerEngine()
+                report = fixer.scan_and_find_exact_errors(".")
+                
+                st.success("✅ Deep File Inspection Complete via SmartFixerEngine!")
+                
+                if report.get("line_mismatches_found", 0) > 0:
+                    for patch in report.get("exact_patches", []):
+                        if patch["issue_type"] != "Clean":
+                            st.error(f"❌ **File:** `{patch['target_file']}` (Line: `{patch['line_number']}`)")
+                            st.warning(f"⚠️ **Issue:** {patch['description']}")
+                            st.info(f"👉 **Faulty Code:** `{patch['faulty_code']}`")
+                            st.markdown("✍️ **Exact Line to Copy & Replace:**")
+                            st.code(patch["exact_line_to_replace"], language="python")
+                else:
+                    st.success("🎉 All files scanned successfully! No dot or syntax errors found.")
+            except Exception as e:
+                st.error(f"Connection/Inspection Error: {str(e)}")
+                
+
 # ==========================================
 # MarketVerse Lab - Diagnostic Logic Function
 # ==========================================
