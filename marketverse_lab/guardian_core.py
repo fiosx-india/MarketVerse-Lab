@@ -1024,9 +1024,6 @@ class GuardianCore:
         
     def project_inspector_report(self):
         return self.project_inspector.report()
-        
-    def project_inspector_report(self):
-        return self.project_inspector.report()
 
     def inspect_project(self, root="."):
         return self.project_inspector.inspect(root)
