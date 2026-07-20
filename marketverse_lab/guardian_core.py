@@ -1299,4 +1299,12 @@ class GuardianCore:
         except Exception as e:
             report["project_inspector"] = str(e)
 
+        try:
+            if self.mold_file_loader:
+                report["mold_file_loader"] = self.mold_file_loader.report()
+        except Exception as e:
+            report["mold_file_loader"] = str(e)        
+        
         return report
+
+        
