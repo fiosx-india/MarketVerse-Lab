@@ -223,7 +223,24 @@ class ProjectHealthEngine:
 
     __repr__ = __str__
 
+import os
+import streamlit as st
+
+# ==========================================
+# MarketVerse Lab
+# ==========================================
+
+st.set_page_config(
+    page_title="MarketVerse Lab",
+    page_icon="🛡️",
+    layout="wide"
+)
+
+st.title("🚀 MarketVerse Lab")
+st.success("Stage 1 : Foundation Ready")
+
 st.divider()
+
 st.header("🛡️ Guardian AI Mold Verification")
 
 uploaded_file = st.file_uploader(
@@ -236,94 +253,96 @@ if uploaded_file is not None:
     st.success(f"✅ File Loaded : {uploaded_file.name}")
 
     st.subheader("📁 File Information")
-    st.write(f"Name : {uploaded_file.name}")
-    st.write(f"Size : {uploaded_file.size} bytes")
 
-    st.subheader("🔍 File Validation")
+    st.write(f"File Name : {uploaded_file.name}")
+    st.write(f"File Size : {uploaded_file.size} Bytes")
 
-    validation = {
-        "File Uploaded": True,
+    st.divider()
+
+    st.subheader("✅ File Validation")
+
+    st.json({
+        "Uploaded": True,
         "Supported Format": True,
         "Readable": True,
         "Corrupted": False
-    }
+    })
 
-    st.json(validation)
+    st.divider()
 
     st.subheader("📐 Geometry")
 
-    geometry = {
+    st.json({
         "Vertices": 0,
         "Edges": 0,
         "Faces": 0,
         "Solids": 0
-    }
+    })
 
-    st.json(geometry)
+    st.divider()
 
     st.subheader("🧩 Mesh Inspection")
 
-    mesh = {
+    st.json({
         "Open Edges": 0,
-        "Non-Manifold Edges": 0,
+        "Non-Manifold": 0,
         "Duplicate Vertices": 0,
         "Duplicate Faces": 0,
         "Flipped Normals": 0,
         "Self Intersections": 0
-    }
+    })
 
-    st.json(mesh)
+    st.divider()
 
     st.subheader("🏭 Manufacturing Check")
 
-    manufacturing = {
+    st.json({
         "Wall Thickness": "Pending",
         "Draft Angle": "Pending",
         "Undercut": "Pending",
         "Tiny Faces": "Pending",
         "Tiny Holes": "Pending"
-    }
+    })
 
-    st.json(manufacturing)
+    st.divider()
 
     st.subheader("🤖 Guardian AI Analysis")
 
-    ai = {
+    st.json({
         "Critical Errors": 0,
         "Warnings": 0,
         "Recommendations": [],
         "Auto Repair": []
-    }
+    })
 
-    st.json(ai)
+    st.divider()
 
     st.subheader("📊 Statistics")
 
-    statistics = {
+    st.json({
         "Volume": 0,
         "Surface Area": 0,
         "Bounding Box": "Pending"
-    }
+    })
 
-    st.json(statistics)
+    st.divider()
 
     st.subheader("🛡 Guardian Score")
 
-    st.metric(
-        "Health Score",
-        "100 / 100"
-    )
+    st.metric("Health Score", "100 / 100")
 
     st.success("✅ PASS")
 
+    st.divider()
+
     st.subheader("📄 Final Report")
 
-    report = {
+    st.json({
         "Status": "PASS",
         "Critical": 0,
         "Warnings": 0,
         "Ready For Production": True
-    }
+    })
 
-    st.json(report)
-
+else:
+    st.info("📂 Please upload a mold file to start verification.")
