@@ -52,6 +52,7 @@ from .automation_engine import AutomationEngine
 from .rule_engine import RuleEngine
 from .report_generator import ReportGenerator
 from .project_health_engine import ProjectHealthEngine
+from .project_inspector import ProjectInspector
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -102,6 +103,7 @@ class GuardianCore:
         self.rule_engine = RuleEngine()
         self.report_generator = ReportGenerator()
         self.project_health_engine = ProjectHealthEngine()
+        self.project_inspector = ProjectInspector()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -293,6 +295,11 @@ class GuardianCore:
     "ProjectHealthEngine",
     "Project Health Engine"
         )
+        
+        self.register(
+    "project_inspector",
+    self.project_inspector
+        )
 
         # Enable Modules
         for module in (
@@ -340,6 +347,7 @@ class GuardianCore:
             "RuleEngine",
             "ReportGenerator",
             "ProjectHealthEngine",
+            self.enable("project_inspector")
         ):
             self.blueprint.enable_module(module)
 
@@ -519,6 +527,7 @@ class GuardianCore:
     "ProjectHealthEngine",
     self.project_health_engine
         )
+        
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
@@ -1004,6 +1013,9 @@ class GuardianCore:
 
     def pending_tasks(self):
         return self.task_scheduler.pending_tasks()
+        
+    def project_inspector_report(self):
+        return self.project_inspector.report()
 
     # ==========================================
     # Event Bus
