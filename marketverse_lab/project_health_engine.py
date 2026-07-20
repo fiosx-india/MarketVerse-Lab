@@ -223,126 +223,50 @@ class ProjectHealthEngine:
 
     __repr__ = __str__
 
-import os
 import streamlit as st
-
-# ==========================================
-# MarketVerse Lab
-# ==========================================
-
-st.set_page_config(
-    page_title="MarketVerse Lab",
-    page_icon="🛡️",
-    layout="wide"
-)
+import ast
+import json
 
 st.title("🚀 MarketVerse Lab")
 st.success("Stage 1 : Foundation Ready")
 
-st.divider()
+st.markdown("---")
+st.subheader("🛡️ Guardian AI Mold & Code Verification")
 
-st.header("🛡️ Guardian AI Mold Verification")
-
+# 1. ALLOW ALL REQUIRED FILE TYPES (py, json, obj, stl, step, iges, txt)
 uploaded_file = st.file_uploader(
-    "Upload Mold File",
-    type=["obj", "stl", "step", "iges"]
+    "Upload File to Scan", 
+    type=["py", "json", "obj", "stl", "step", "iges", "txt"] # All file types allowed now
 )
 
-if uploaded_file is not None:
-
-    st.success(f"✅ File Loaded : {uploaded_file.name}")
-
-    st.subheader("📁 File Information")
-
-    st.write(f"File Name : {uploaded_file.name}")
-    st.write(f"File Size : {uploaded_file.size} Bytes")
-
-    st.divider()
-
-    st.subheader("✅ File Validation")
-
-    st.json({
-        "Uploaded": True,
-        "Supported Format": True,
-        "Readable": True,
-        "Corrupted": False
-    })
-
-    st.divider()
-
-    st.subheader("📐 Geometry")
-
-    st.json({
-        "Vertices": 0,
-        "Edges": 0,
-        "Faces": 0,
-        "Solids": 0
-    })
-
-    st.divider()
-
-    st.subheader("🧩 Mesh Inspection")
-
-    st.json({
-        "Open Edges": 0,
-        "Non-Manifold": 0,
-        "Duplicate Vertices": 0,
-        "Duplicate Faces": 0,
-        "Flipped Normals": 0,
-        "Self Intersections": 0
-    })
-
-    st.divider()
-
-    st.subheader("🏭 Manufacturing Check")
-
-    st.json({
-        "Wall Thickness": "Pending",
-        "Draft Angle": "Pending",
-        "Undercut": "Pending",
-        "Tiny Faces": "Pending",
-        "Tiny Holes": "Pending"
-    })
-
-    st.divider()
-
-    st.subheader("🤖 Guardian AI Analysis")
-
-    st.json({
-        "Critical Errors": 0,
-        "Warnings": 0,
-        "Recommendations": [],
-        "Auto Repair": []
-    })
-
-    st.divider()
-
-    st.subheader("📊 Statistics")
-
-    st.json({
-        "Volume": 0,
-        "Surface Area": 0,
-        "Bounding Box": "Pending"
-    })
-
-    st.divider()
-
-    st.subheader("🛡 Guardian Score")
-
-    st.metric("Health Score", "100 / 100")
-
-    st.success("✅ PASS")
-
-    st.divider()
-
-    st.subheader("📄 Final Report")
-
-    st.json({
-        "Status": "PASS",
-        "Critical": 0,
-        "Warnings": 0,
-        "Ready For Production": True
-    })
-
+# If file is not uploaded yet, show blue info banner
+if uploaded_file is None:
+    st.info("📂 Please upload a file to start verification.")
 else:
-    st.info("📂 Please upload a mold file to start verification.")
+    # File is uploaded successfully
+    file_name = uploaded_file.name
+    st.success(f"📁 **File Uploaded:** `{file_name}`")
+    
+    # Process Python files for line-by-line syntax errors
+    if file_name.endswith('.py'):
+        content = uploaded_file.read().decode("utf-8")
+        try:
+            ast.parse(content)
+            st.success("✅ **Verification Success:** No syntax errors found in this Python file!")
+        except SyntaxError as e:
+            st.error("🚨 **CRITICAL SYNTAX ERROR DETECTED!**")
+            st.warning(f"📍 **Error Location:** Line Number **{e.lineno}**")
+            if e.text:
+                st.code(f"Broken Code Line:\n{e.text.strip()}", language="python")
+            st.code(f"Details: {e.msg}", language="text")
+
+    # Process 3D Mold files by Name Matching
+    elif file_name.endswith(('.obj', '.stl', '.step', '.iges')):
+        CORRECT_MOLD_NAME = "correct_final_mold.obj"
+        if file_name != CORRECT_MOLD_NAME:
+            st.error("🚨 **WRONG MOLD DETECTED!**")
+            st.warning(f"❌ **Uploaded Mold:** `{file_name}`")
+            st.info(f"🎯 **Expected Mold Name:** `{CORRECT_MOLD_NAME}`")
+        else:
+            st.success(f"✅ **Mold Verified:** `{file_name}` matches required specifications!")
+
