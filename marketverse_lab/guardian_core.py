@@ -55,6 +55,7 @@ from .project_health_engine import ProjectHealthEngine
 from .project_inspector import ProjectInspector
 from .mold_file_loader import MoldFileLoader
 from .mold_analyzer import MoldAnalyzer
+from .mold_inspector import MoldInspector
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -108,6 +109,7 @@ class GuardianCore:
         self.project_inspector = ProjectInspector()
         self.mold_file_loader = MoldFileLoader()
         self.mold_analyzer = MoldAnalyzer()
+        self.mold_inspector = MoldInspector()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -314,6 +316,12 @@ class GuardianCore:
     "MoldAnalyzer",
     "Mold Analyzer"
         )
+        
+        self.blueprint.register_module(
+    "MoldInspector",
+    "Mold Inspector"
+        )
+        
 
         # Enable Modules
         for module in (
@@ -364,7 +372,7 @@ class GuardianCore:
             "ProjectInspector",
             "MoldFileLoader",
             "MoldAnalyzer",
-            
+            "MoldInspector",
         ):
             self.blueprint.enable_module(module)
 
@@ -560,6 +568,13 @@ class GuardianCore:
     self.mold_analyzer
         )
         
+        self.blueprint.connect(
+    "MoldInspector",
+    self.mold_inspector
+        )
+
+    
+        
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
         self.locator.connect_mapper(self.mapper)
@@ -712,6 +727,9 @@ class GuardianCore:
             
         if hasattr(self.mold_analyzer, "connect_guardian"):
             self.mold_analyzer.connect_guardian(self)
+
+        if hasattr(self.mold_inspector, "connect_guardian"):
+            self.mold_inspector.connect_guardian(self)
     
     def report(self):
         return self.blueprint.report()
@@ -1280,6 +1298,15 @@ class GuardianCore:
 
     def analyze_mold(self, file_path):
         return self.mold_analyzer.analyze(file_path)
+
+    def mold_inspector_report(self):
+        return self.mold_inspector.report()
+
+    def mold_inspector_ready(self):
+        return self.mold_inspector.is_ready()
+
+    def inspect_mold(self, file_path):
+        return self.mold_inspector.inspect(file_path)
 
     # ==========================================
     # Scan Project
