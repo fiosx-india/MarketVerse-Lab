@@ -296,9 +296,9 @@ class GuardianCore:
     "Project Health Engine"
         )
         
-        self.register(
-    "project_inspector",
-    self.project_inspector
+        self.blueprint.register_module(
+    "ProjectInspector",
+    "AI Project Inspector"
         )
 
         # Enable Modules
@@ -347,7 +347,8 @@ class GuardianCore:
             "RuleEngine",
             "ReportGenerator",
             "ProjectHealthEngine",
-            self.enable("project_inspector")
+            "ProjectInspector",
+            
         ):
             self.blueprint.enable_module(module)
 
@@ -528,6 +529,10 @@ class GuardianCore:
     self.project_health_engine
         )
         
+        self.blueprint.connect(
+    "ProjectInspector",
+    self.project_inspector
+        )
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
@@ -673,6 +678,9 @@ class GuardianCore:
         self.rule_engine.connect_guardian(self)
         self.report_generator.connect_guardian(self)
         self.project_health_engine.connect_guardian(self)
+        
+        if hasattr(self.project_inspector, "connect_guardian"):
+        self.project_inspector.connect_guardian(self)
         
     def report(self):
         return self.blueprint.report()
@@ -1254,3 +1262,9 @@ class GuardianCore:
             report["import_analyzer"] = str(e)
 
         return report
+try:
+    if self.project_inspector:
+        self.project_inspector.inspect(root)
+        report["project_inspector"] = self.project_inspector.report()
+except Exception as e:
+    report["project_inspector"] = str(e)
