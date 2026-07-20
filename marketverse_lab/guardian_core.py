@@ -1229,6 +1229,7 @@ class GuardianCore:
     # ==========================================
     # Scan Project
     # ==========================================
+
     def scan_project(self, root="."):
 
         report = {}
@@ -1261,10 +1262,11 @@ class GuardianCore:
         except Exception as e:
             report["import_analyzer"] = str(e)
 
+        try:
+            if self.project_inspector:
+                self.project_inspector.inspect(root)
+                report["project_inspector"] = self.project_inspector.report()
+        except Exception as e:
+            report["project_inspector"] = str(e)
+
         return report
-try:
-    if self.project_inspector:
-        self.project_inspector.inspect(root)
-        report["project_inspector"] = self.project_inspector.report()
-except Exception as e:
-    report["project_inspector"] = str(e)
