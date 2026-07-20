@@ -53,6 +53,7 @@ from .rule_engine import RuleEngine
 from .report_generator import ReportGenerator
 from .project_health_engine import ProjectHealthEngine
 from .project_inspector import ProjectInspector
+from .mold_file_loader import MoldFileLoader
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -104,6 +105,7 @@ class GuardianCore:
         self.report_generator = ReportGenerator()
         self.project_health_engine = ProjectHealthEngine()
         self.project_inspector = ProjectInspector()
+        self.mold_file_loader = MoldFileLoader()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
