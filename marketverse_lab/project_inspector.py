@@ -1,91 +1,158 @@
 """
 MarketVerse Lab
+project_inspector.py
 
-Main Entry Point
-
-Purpose:
-Start the complete MarketVerse AI Foundation
-and verify that every core module is connected.
+AI Project Inspector
 """
 
-import traceback
-
-from bootstrap import bootstrap_system
-
-
-def print_status(result):
-
-    print("\n" + "=" * 60)
-    print("        MARKETVERSE LAB")
-    print("=" * 60)
-
-    print(f"System Status : {result['status']}")
-    print(f"Guardian      : {result['guardian']}")
-    print(f"Assistant     : {result['assistant']}")
-    print(f"Workflow      : {result['workflow']}")
-    print(f"Monitor       : {result['monitor']}")
-
-    print("=" * 60)
+from pathlib import Path
+from datetime import datetime
+import ast
 
 
-def diagnostics(system):
+class ProjectInspector:
 
-    print("\nDiagnostics")
-    print("-" * 60)
+    def __init__(self):
 
-    modules = {
-        "Blueprint": system.guardian.blueprint,
-        "Mapper": system.guardian.mapper,
-        "Locator": system.guardian.locator,
-        "DependencyGraph": system.guardian.dependency_graph,
-        "IntegrationChecker": system.guardian.integration_checker,
-        "ErrorIntelligence": system.guardian.error_intelligence,
-        "KnowledgeBase": system.guardian.knowledge_base,
-        "ChangePlanner": system.guardian.change_planner,
-        "AutoPatchEngine": system.guardian.auto_patch_engine,
-        "ProjectMemory": system.guardian.project_memory,
-        "LiveMonitor": system.guardian.live_monitor,
-        "WorkflowEngine": system.guardian.workflow_engine,
-        "AIAssistant": system.guardian.ai_assistant,
-    }
+        self.root = None
 
-    for name, obj in modules.items():
+        self.files = 0
 
-        if obj is None:
-            print(f"[ERROR] {name:<22} NOT CONNECTED")
-            continue
+        self.critical = []
+        self.warnings = []
+        self.recommendations = []
 
-        ready = True
+        self.statistics_data = {}
+        self.last_scan = None
 
-        if hasattr(obj, "is_ready"):
+    # --------------------------------------------------
+
+    def inspect(self, root="."):
+
+        self.reset()
+
+        self.root = Path(root).resolve()
+
+        for file in self.root.rglob("*.py"):
+
+            self.files += 1
+
             try:
-                ready = obj.is_ready()
-            except Exception:
-                ready = False
 
-        print(f"[OK] {name:<22} Ready = {ready}")
+                source = file.read_text(
+                    encoding="utf-8",
+                    errors="ignore"
+                )
 
+                if not source.strip():
+                    self.warnings.append(
+                        f"Empty file : {file.name}"
+                    )
 
-def main():
+                if len(source.splitlines()) > 1000:
+                    self.warnings.append(
+                        f"Large file : {file.name}"
+                    )
 
-    try:
+                ast.parse(source)
 
-        system = bootstrap_system()
+            except SyntaxError:
 
-        result = system.start()
+                self.critical.append(
+                    f"Syntax error : {file.name}"
+                )
 
-        print_status(result)
+            except Exception as e:
 
-        diagnostics(system)
+                self.critical.append(
+                    f"{file.name} : {e}"
+                )
 
-        print("\nMarketVerse Foundation Started Successfully.")
+        self.last_scan = str(datetime.now())
 
-    except Exception:
+        self._generate_recommendations()
 
-        print("\nSYSTEM START FAILED\n")
+        self.statistics_data = {
+            "python_files": self.files,
+            "critical": len(self.critical),
+            "warnings": len(self.warnings)
+        }
 
-        traceback.print_exc()
+        return self.report()
 
+    # --------------------------------------------------
 
-if __name__ == "__main__":
-    main()
+    def _generate_recommendations(self):
+
+        if self.critical:
+            self.recommendations.append(
+                "Fix all critical issues."
+            )
+
+        if self.warnings:
+            self.recommendations.append(
+                "Review warning messages."
+            )
+
+        if not self.critical and not self.warnings:
+            self.recommendations.append(
+                "Project looks healthy."
+            )
+
+    # --------------------------------------------------
+
+    def summary(self):
+
+        return {
+            "files": self.files,
+            "critical": len(self.critical),
+            "warnings": len(self.warnings)
+        }
+
+    # --------------------------------------------------
+
+    def statistics(self):
+
+        return self.statistics_data
+
+    # --------------------------------------------------
+
+    def diagnostics(self):
+
+        return {
+            "ready": self.is_ready(),
+            "last_scan": self.last_scan
+        }
+
+    # --------------------------------------------------
+
+    def report(self):
+
+        return {
+            "ready": self.is_ready(),
+            "summary": self.summary(),
+            "critical": self.critical,
+            "warnings": self.warnings,
+            "recommendations": self.recommendations,
+            "statistics": self.statistics(),
+            "diagnostics": self.diagnostics()
+        }
+
+    # --------------------------------------------------
+
+    def reset(self):
+
+        self.files = 0
+
+        self.critical.clear()
+        self.warnings.clear()
+        self.recommendations.clear()
+
+        self.statistics_data = {}
+        self.last_scan = None
+
+    # --------------------------------------------------
+
+    def is_ready(self):
+
+        return len(self.critical) == 0
