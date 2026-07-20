@@ -1,4 +1,4 @@
-import streamlit as st
+6import streamlit as st
 
 st.set_page_config(
     page_title="MarketVerse Lab",
@@ -713,7 +713,6 @@ try:
             guardian.scan_project(project_root)
         )
 
-
     st.divider()
 
     st.header("🔎 Project Inspector")
@@ -730,11 +729,12 @@ try:
             guardian.inspect_project(inspect_root)
         )
 
-       st.subheader("Inspection Report")
+        st.subheader("Inspection Report")
 
         st.json(
             guardian.project_inspector_report()
         )
+
 
 except Exception as e:
     st.error("Guardian Core Failed")
