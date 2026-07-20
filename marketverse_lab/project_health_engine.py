@@ -224,3 +224,32 @@ class ProjectHealthEngine:
     __repr__ = __str__
 
 
+import os
+import streamlit as st
+
+# UI Header (Matching your screen)
+st.title("🚀 MarketVerse Lab")
+st.success("Stage 1 : Foundation Ready")
+
+st.markdown("---")
+st.subheader("🛡️ Guardian Core - Mold Verification")
+
+# 1. Define the correct filename that must match
+CORRECT_MOLD_NAME = "correct_final_mold.obj" 
+
+# 2. File uploader widget in pure English
+uploaded_file = st.file_uploader("Upload Mold File to Verify", type=["obj", "stl", "step", "iges"])
+
+# Checking logic triggers as soon as a file is uploaded
+if uploaded_file is not None:
+    current_file_name = uploaded_file.name
+    
+    # Comparison logic
+    if current_file_name != CORRECT_MOLD_NAME:
+        # Red error alert if the file name doesn't match
+        st.error("🚨 **CRITICAL ERROR: WRONG MOLD DETECTED!**")
+        st.warning(f"❌ **Incorrect File Loaded:** `{current_file_name}`")
+        st.info(f"🎯 **Required File Name:** `{CORRECT_MOLD_NAME}`")
+    else:
+        # Green success alert if the file name matches perfectly
+        st.success(f"✅ **Verification Success:** The mold file `{current_file_name}` matches successfully! Ready for the next stage.")
