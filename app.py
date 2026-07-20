@@ -80,42 +80,42 @@ with tab1:
             st.code(file_contents[:3000])
 
     # ==========================================
-    # Connected Smart Fixer Engine UI (Tab 1 - Final)
+    # Unified Smart Fixer UI Extension (app.py)
     # ==========================================
     st.markdown("---")
-    st.subheader("🔍 Advanced File & Line Auto-Fix Inspector")
-    st.caption("Directly connected to smart_fixer.py to scan code line-by-line, detect typos/dots, and suggest exact fixes.")
+    st.subheader("🔍 Advanced File, Line & Indentation Inspector (1000+ Lines)")
+    st.caption("Combined engine to scan typos, unclosed dots, block hierarchies, and exact line-by-line alignments securely.")
 
-    if st.button("🚀 Run Smart Code & Line Inspector"):
-        with st.spinner("Analyzing lines sequentially, checking typos, dots, and exact line numbers..."):
+    if st.button("🚀 Run Comprehensive Smart Code Inspector"):
+        with st.spinner("Analyzing lines sequentially, checking typos, dots, and large-scale block hierarchies..."):
             try:
                 from smart_fixer import SmartFixerEngine
                 fixer = SmartFixerEngine()
                 
-                # Fetch code from the text area above (user_code) if available
-                current_pasted_code = locals().get('user_code', None)
+                # Safely fetch user_code if available in local session/scope
+                target_code = user_code if 'user_code' in locals() and user_code else None
                 
-                # Run the scan via smart_fixer.py
-                report = fixer.scan_and_find_exact_errors(".", uploaded_code_content=current_pasted_code)
+                # Run the scan through smart_fixer engine
+                report = fixer.scan_and_find_exact_errors(".", uploaded_code_content=target_code)
                 
-                st.success("✅ Line-by-Line Inspection Complete via SmartFixerEngine!")
+                st.success("✅ Comprehensive Code & Line-by-Line Inspection Complete!")
                 
                 if report.get("line_mismatches_found", 0) > 0:
                     for patch in report.get("exact_patches", []):
                         if patch["issue_type"] != "Clean":
-                            # Display exact line number, issue type, and fix option
                             st.error(f"❌ **File / Source:** `{patch['target_file']}` | 🔢 **Line Number:** `{patch['line_number']}`")
                             st.warning(f"⚠️ **Issue Found:** {patch['issue_type']} — {patch['description']}")
                             
-                            st.markdown("👉 **Faulty Code Found:**")
+                            st.markdown("👉 **Faulty Code / Block Found:**")
                             st.code(patch['faulty_code'], language="python")
                             
                             st.markdown("✍️ **Exact Line to Copy & Replace:**")
                             st.code(patch["exact_line_to_replace"], language="python")
                 else:
-                    st.success("🎉 All lines are clean, properly aligned, and error-free!")
+                    st.success("🎉 All lines, code blocks, and 1000+ line hierarchies are perfectly aligned and error-free!")
             except Exception as e:
-                st.error(f"Inspection Connection Error: {str(e)}")
+                st.error(f"Extension Connection Error: {str(e)}")
+
 
 # ==========================================
 # MarketVerse Lab - Diagnostic Logic Function
