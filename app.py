@@ -86,7 +86,8 @@ with tab1:
             if st.button("🔍 Analyze Line-by-Line Content & Suggest Exact Fixes"):
                 with st.spinner("Scanning lines, dots, and typos across all files..."):
                     matcher = SmartLineMatcherEngine(guardian)
-                    match_report = matcher.analyze_and_match_lines(".")
+                    # FIX: Removed the "." argument to match the class method definition perfectly
+                    match_report = matcher.analyze_and_match_lines()
                     
                     st.success("🪄 Precision Line Analysis & Location Mapping Complete!")
                     
@@ -100,6 +101,7 @@ with tab1:
                             st.code(patch["exact_line_to_replace"], language="python")
                     else:
                         st.success("🎉 All lines, dots, and syntax are perfectly aligned and clean!")
+
 
 
 
