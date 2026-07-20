@@ -66,16 +66,6 @@ class SecurityManager:
     def scan_history(self):
         return list(self.history)
 
-    def calculate_metrics(cpu_usage, memory_usage):
-    print("Checking Metrics...")
-  total = cpu_usage + memory_usage  # ❌ Indentation Error (இடைவெளி பிழை)
-    
-    if total > 80:
-        print("High Usage Detected!"  # ❌ Syntax Error (அடைப்புக்குறி மூடப்படவில்லை)
-    
-    return total
-
-
     # ----------------------------------------
     # Clear History
     # ----------------------------------------
