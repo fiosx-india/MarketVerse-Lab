@@ -54,6 +54,7 @@ from .report_generator import ReportGenerator
 from .project_health_engine import ProjectHealthEngine
 from .project_inspector import ProjectInspector
 from .mold_file_loader import MoldFileLoader
+from .mold_analyzer import MoldAnalyzer
 
 class GuardianCore:
     def __init__(self, project_root="."):
@@ -106,6 +107,7 @@ class GuardianCore:
         self.project_health_engine = ProjectHealthEngine()
         self.project_inspector = ProjectInspector()
         self.mold_file_loader = MoldFileLoader()
+        self.mold_analyzer = MoldAnalyzer()
 
         # Build Project Blueprint
         self.blueprint.build(project_root)
@@ -307,6 +309,11 @@ class GuardianCore:
     "MoldFileLoader",
     "Mold File Loader"
         )
+        
+        self.blueprint.register_module(
+    "MoldAnalyzer",
+    "Mold Analyzer"
+        )
 
         # Enable Modules
         for module in (
@@ -356,6 +363,7 @@ class GuardianCore:
             "ProjectHealthEngine",
             "ProjectInspector",
             "MoldFileLoader",
+            "MoldAnalyzer",
             
         ):
             self.blueprint.enable_module(module)
@@ -546,6 +554,11 @@ class GuardianCore:
     "MoldFileLoader",
     self.mold_file_loader
         )
+
+        self.blueprint.connect(
+    "MoldAnalyzer",
+    self.mold_analyzer
+        )
         
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
@@ -697,6 +710,9 @@ class GuardianCore:
         if hasattr(self.mold_file_loader, "connect_guardian"):
             self.mold_file_loader.connect_guardian(self)
             
+        if hasattr(self.mold_analyzer, "connect_guardian"):
+            self.mold_analyzer.connect_guardian(self)
+    
     def report(self):
         return self.blueprint.report()
 
@@ -1255,6 +1271,15 @@ class GuardianCore:
 
     def load_mold_file(self, file_path):
         return self.mold_file_loader.load(file_path)
+
+    def mold_analyzer_report(self):
+        return self.mold_analyzer.report()
+
+    def mold_analyzer_ready(self):
+        return self.mold_analyzer.is_ready()
+
+    def analyze_mold(self, file_path):
+        return self.mold_analyzer.analyze(file_path)
 
     # ==========================================
     # Scan Project
