@@ -303,6 +303,11 @@ class GuardianCore:
     "AI Project Inspector"
         )
 
+        self.blueprint.register_module(
+    "MoldFileLoader",
+    "Mold File Loader"
+        )
+
         # Enable Modules
         for module in (
             "ProjectMapper",
@@ -350,6 +355,7 @@ class GuardianCore:
             "ReportGenerator",
             "ProjectHealthEngine",
             "ProjectInspector",
+            "MoldFileLoader",
             
         ):
             self.blueprint.enable_module(module)
@@ -536,6 +542,11 @@ class GuardianCore:
     self.project_inspector
         )
         
+        self.blueprint.connect(
+    "MoldFileLoader",
+    self.mold_file_loader
+        )
+        
         # Code Locator
         self.locator.connect_blueprint(self.blueprint)
         self.locator.connect_mapper(self.mapper)
@@ -683,7 +694,9 @@ class GuardianCore:
                 # Project Inspector
         if hasattr(self.project_inspector, "connect_guardian"):
             self.project_inspector.connect_guardian(self)
-        
+        if hasattr(self.mold_file_loader, "connect_guardian"):
+            self.mold_file_loader.connect_guardian(self)
+            
     def report(self):
         return self.blueprint.report()
 
@@ -1230,6 +1243,18 @@ class GuardianCore:
 
     def project_health_ready(self):
         return self.project_health_engine.is_ready()
+    # ==========================================
+    # Mold File Loader
+    # ==========================================
+
+    def mold_file_loader_report(self):
+        return self.mold_file_loader.report()
+
+    def mold_file_loader_ready(self):
+        return self.mold_file_loader.is_ready()
+
+    def load_mold_file(self, file_path):
+        return self.mold_file_loader.load(file_path)
 
     # ==========================================
     # Scan Project
