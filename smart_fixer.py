@@ -103,3 +103,41 @@ class SmartFixerEngine:
             "line_mismatches_found": len([p for p in patches if p["issue_type"] != "Clean"]),
             "exact_patches": patches
         }
+
+    # ==========================================
+    # Integrated Smart Fixer Extension (Appended Below)
+    # ==========================================
+    st.markdown("---")
+    st.subheader("🔍 Advanced File & Large Code Indentation Inspector (1000+ Lines)")
+    st.caption("Works alongside existing inspectors to verify block hierarchy, spacing flow, and line alignment without altering core code.")
+
+    if st.button("🚀 Run Comprehensive Indentation & Line Inspector"):
+        with st.spinner("Analyzing large-scale lines, block hierarchy, and spacing flows..."):
+            try:
+                from smart_fixer import SmartFixerEngine
+                fixer = SmartFixerEngine()
+                
+                # Fetch text area content safely from session/local context if available
+                current_pasted_code = locals().get('user_code', None)
+                
+                # Run the scan through smart_fixer engine
+                report = fixer.scan_and_find_exact_errors(".", uploaded_code_content=current_pasted_code)
+                
+                st.success("✅ Large-Scale Code & Indentation Flow Inspection Complete!")
+                
+                if report.get("line_mismatches_found", 0) > 0:
+                    for patch in report.get("exact_patches", []):
+                        if patch["issue_type"] != "Clean":
+                            st.error(f"❌ **File / Source:** `{patch['target_file']}` | 🔢 **Line Number:** `{patch['line_number']}`")
+                            st.warning(f"⚠️ **Issue Found:** {patch['issue_type']} — {patch['description']}")
+                            
+                            st.markdown("👉 **Faulty Code / Block:**")
+                            st.code(patch['faulty_code'], language="python")
+                            
+                            st.markdown("✍️ **Exact Line to Copy & Replace:**")
+                            st.code(patch["exact_line_to_replace"], language="python")
+                else:
+                    st.success("🎉 All lines, code blocks, and 1000+ line hierarchies are perfectly aligned and error-free!")
+            except Exception as e:
+                st.error(f"Extension Connection Error: {str(e)}")
+
