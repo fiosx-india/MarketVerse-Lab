@@ -67,6 +67,7 @@ try:
         ("Rule Engine", guardian.rule_engine),
         ("Report Generator", guardian.report_generator),
         ("Project Health Engine", guardian.project_health_engine),
+        ("Project Inspector", guardian.project_inspector),
     ]
 
     guardian_ready = True
@@ -100,6 +101,11 @@ try:
 
     st.divider()
     st.header("📊 Guardian Summary")
+    
+    st.subheader("Project Inspector")
+    st.json(
+    guardian.project_inspector_report()
+    )
 
     st.subheader("Event Bus")
     st.json(guardian.event_bus_report())
@@ -706,7 +712,30 @@ try:
         st.json(
             guardian.scan_project(project_root)
         )
-        
+
+
+    st.divider()
+
+    st.header("🔎 Project Inspector")
+
+    inspect_root = st.text_input(
+        "Inspection Root",
+        value=".",
+        key="inspect_root"
+    )
+
+    if st.button("Run Project Inspection"):
+
+        st.json(
+            guardian.inspect_project(inspect_root)
+        )
+
+       st.subheader("Inspection Report")
+
+        st.json(
+            guardian.project_inspector_report()
+        )
+
 except Exception as e:
     st.error("Guardian Core Failed")
     st.code(str(e))
