@@ -21,15 +21,17 @@ tab1, tab2, tab3 = st.tabs([
 ])
 
 # ==========================================
-# TAB 1: FILE & MOLD INSPECTOR (ALWAYS RUNNING)
+# TAB 1: FILE & MOLD INSPECTOR (STABLE MOBILE UPLOAD)
 # ==========================================
 with tab1:
     st.header("🛡 File Inspector & Mold Validator")
     st.write("Upload any Python, JSON, or 3D Mold file to scan for syntax/line errors and mold mismatch.")
 
+    # Added fixed key to prevent mobile upload loss
     uploaded_file = st.file_uploader(
         "Upload File to Inspect", 
-        type=["py", "json", "obj", "stl", "step", "iges", "txt"]
+        type=["py", "json", "obj", "stl", "step", "iges", "txt"],
+        key="main_file_uploader"
     )
 
     if uploaded_file is None:
@@ -38,10 +40,13 @@ with tab1:
         file_name = uploaded_file.name
         st.success(f"📁 **Uploaded File:** `{file_name}`")
         
+        # Read raw bytes directly from uploader stream
+        file_bytes = uploaded_file.getvalue()
+        
         # CASE 1: Python Files (.py) - Line Error Inspection
         if file_name.endswith('.py'):
-            content = uploaded_file.read().decode("utf-8")
             try:
+                content = file_bytes.decode("utf-8")
                 ast.parse(content)
                 st.success("✅ **Verification Success:** No syntax errors found in this file!")
             except SyntaxError as e:
@@ -50,11 +55,13 @@ with tab1:
                 if e.text:
                     st.code(f"Broken Code Line:\n{e.text.strip()}", language="python")
                 st.code(f"Details: {e.msg}", language="text")
+            except Exception as ex:
+                st.error(f"Error reading file stream: {str(ex)}")
 
         # CASE 2: JSON Files (.json)
         elif file_name.endswith('.json'):
-            content = uploaded_file.read().decode("utf-8")
             try:
+                content = file_bytes.decode("utf-8")
                 json.loads(content)
                 st.success("✅ **Verification Success:** Valid JSON format!")
             except json.JSONDecodeError as e:
@@ -62,7 +69,7 @@ with tab1:
                 st.warning(f"📍 **Error Location:** Line **{e.lineno}**, Column {e.colno}")
                 st.code(f"Details: {e.msg}", language="text")
 
-        # CASE 3: 3D Mold Files
+        # CASE 3: 3D Mold Files (.obj, .stl, etc.)
         elif file_name.endswith(('.obj', '.stl', '.step', '.iges')):
             CORRECT_MOLD_NAME = "correct_final_mold.obj"
             if file_name != CORRECT_MOLD_NAME:
@@ -71,6 +78,10 @@ with tab1:
                 st.info(f"🎯 **Expected Mold Name:** `{CORRECT_MOLD_NAME}`")
             else:
                 st.success(f"✅ **Mold Verified:** `{file_name}` matches required specifications!")
+        
+        # CASE 4: TXT / Other Files
+        else:
+            st.info("Uploaded general text file successfully.")
 
 # ==========================================
 # GUARDIAN CORE ENGINE INITIALIZATION
