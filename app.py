@@ -145,6 +145,7 @@ def run_system_diagnostic(guardian_instance):
         "Report Generator": (getattr(guardian_instance, "report_generator", None), "generate"),
         "Project Health Engine": (getattr(guardian_instance, "project_health_engine", None), "scan"),
         "Project Inspector": (getattr(guardian_instance, "project_inspector", None), "inspect")
+        
     }
 
     for name, (mod_obj, req_method) in modules_map.items():
@@ -442,6 +443,7 @@ try:
         ("Report Generator", guardian.report_generator),
         ("Project Health Engine", guardian.project_health_engine),
         ("Project Inspector", guardian.project_inspector),
+        ("Mold File Loader", guardian.mold_file_loader),
     ]
 
     guardian_ready = True
@@ -679,7 +681,17 @@ try:
                 st.json(guardian.inspect_project(inspect_root))
                 st.subheader("Inspection Report")
                 st.json(guardian.project_inspector_report())
+                st.divider()
+                st.header("📦 Mold File Loader")
 
+                uploaded = st.file_uploader(
+                    "Upload Mold File",
+                    type=["stl", "step", "stp", "iges", "igs", "obj", "dxf"]
+                )
+
+                if uploaded:
+                    st.success(uploaded.name)
+    
 except Exception as e:
     with tab2:
         st.error("Guardian Core Failed to Load")
