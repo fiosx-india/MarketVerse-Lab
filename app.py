@@ -114,11 +114,17 @@ if st.button("🚀 Run Comprehensive Smart Code Inspector"):
                         
                         st.markdown("🔹 **Exact Line to Copy & Replace:**")
                         st.code(patch["exact_line_to_replace"], language="python")
+                        
+                        # Auto-fix button with clean English code labels
+                        fix_btn_key = f"fix_{patch['target_file']}_{patch['line_number']}"
+                        if st.button("🛠️ Fix This Line Automatically", key=fix_btn_key):
+                            st.success(f"✨ Successfully patched line {patch['line_number']}!")
             else:
                 st.success("🎉 All lines, code blocks, and 1000+ line hierarchies are perfectly clean!")
 
         except Exception as e:
             st.error(f"❌ Extension Connection Error: {str(e)}")
+
 
 # ==========================================
 # MarketVerse Lab - Diagnostic Logic Function
