@@ -93,14 +93,21 @@ class SmartFixerEngine:
             except IndentationError as ind:
                 patches.append({
                     "target_file": str(py_file),
-                    "line_number": syn.lineno if syn.lineno else 1,
+                    "line_number": ind.lineno if ind.lineno else 1,
                     "issue_type": "Indentation Error",
                     "description": ind.msg,
-                    "faulty_code": syn.text if syn.text else "",
+                    "faulty_code": ind.text if ind.text else "",
                     "exact_line_to_replace": "# Fix indentation spacing"
                 })
-            except Exception:
-                continue
+            except Exception as e:
+                patches.append({
+                    "target_file": str(py_file),
+                    "line_number": 0,
+                    "issue_type": type(e).__name__,
+                    "description": str(e),
+                    "faulty_code": "",
+                    "exact_line_to_replace": "Inspect this file manually."
+                })
 
         if not patches:
             patches.append({
