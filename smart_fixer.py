@@ -1,5 +1,5 @@
 # ==========================================
-# MarketVerse Lab - Smart Line & Auto-Fixer Engine (GitHub Frame-Aligned Edition)
+# MarketVerse Lab - Smart Line & Auto-Fixer Engine (Ultimate Frame-Edge Aligned)
 # ==========================================
 import ast
 import textwrap
@@ -12,15 +12,14 @@ class SmartFixerEngine:
     def scan_and_find_exact_errors(self, root_path=".", uploaded_code_content=None):
         patches = []
         
-        # 1. Handle uploaded or pasted code snippet with GitHub-style left-alignment
+        # 1. Handle uploaded or pasted code snippet with strict left-alignment
         if uploaded_code_content:
             try:
-                # textwrap.dedent பயன்படுத்தி பிரேமை ஒட்டி வரிகளை சீரமைத்தல்
                 cleaned_content = textwrap.dedent(uploaded_code_content)
                 snippet_lines = cleaned_content.splitlines()
                 target_lines = snippet_lines[:self.max_lines]
                 
-                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
+                fixed_lines = [line.expandtabs(4) for line in target_lines]
                 formatted_code = "\n".join(fixed_lines) + "\n"
 
                 ast.parse(formatted_code)
@@ -43,7 +42,7 @@ class SmartFixerEngine:
                     "exact_line_to_replace": "# Fix spacing/tabs alignment here"
                 })
 
-        # 2. Scan project python files safely and apply frame-edge alignment
+        # 2. Scan project python files safely and force strict frame-edge alignment
         p = Path(root_path)
         for py_file in p.rglob("*.py"):
             if any(skip in py_file.parts for skip in [".git", "__pycache__", ".venv", ".guardian"]):
@@ -51,16 +50,16 @@ class SmartFixerEngine:
 
             try:
                 content = py_file.read_text(encoding="utf-8", errors="ignore")
-                # textwrap.dedent மூலம் கோப்பு முழுவதும் பிரேம் சுவரை ஒட்டி வர வழிவகை செய்தல்
-                cleaned_content = textwrap.dedent(content)
-                lines = cleaned_content.splitlines()
+                lines = content.splitlines()
                 
                 target_lines = lines[:self.max_lines]
                 
-                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
+                fixed_lines = []
+                for line in target_lines:
+                    expanded = line.expandtabs(4)
+                    fixed_lines.append(expanded)
+                    
                 analyzed_content = "\n".join(fixed_lines) + "\n"
-
-                # py_file.write_text(analyzed_content, encoding="utf-8")
 
                 tree = ast.parse(analyzed_content)
 
@@ -108,7 +107,7 @@ class SmartFixerEngine:
                 "target_file": "Project Files",
                 "line_number": "N/A",
                 "issue_type": "Clean",
-                "description": "All files are syntactically clean and tightly frame-aligned.",
+                "description": "All files are syntactically clean and frame-aligned.",
                 "faulty_code": "N/A",
                 "exact_line_to_replace": "# Code is clean and valid."
             })
