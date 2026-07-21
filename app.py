@@ -80,7 +80,6 @@ with tab1:
             st.info("ℹ️ File contents loaded successfully:")
             st.code(file_contents[:3000])
             
-
 # ==========================================
 # Unified Smart Fixer UI Extension (app.py)
 # ==========================================
