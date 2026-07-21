@@ -60,8 +60,7 @@ class SmartFixerEngine:
                 fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
                 analyzed_content = "\n".join(fixed_lines) + "\n"
 
-                # Overwrite file with tightly aligned lines
-                py_file.write_text(analyzed_content, encoding="utf-8")
+                # py_file.write_text(analyzed_content, encoding="utf-8")
 
                 tree = ast.parse(analyzed_content)
 
