@@ -102,6 +102,20 @@ if st.button("🚀 Run Comprehensive Smart Code Inspector"):
             report = fixer.scan_and_find_exact_errors(".", uploaded_code_content=target_code)
 
             st.success("✨ Comprehensive Code & Line-by-Line Inspection Complete!")
+            
+            # Status Check & Health Verification Card
+            st.markdown("---")
+            st.markdown("### 🛡️ Engine Status & Health Check")
+            
+            # Simple runtime check to verify active file stability
+            if 'report' in locals() and report:
+                total_mismatches = report.get("line_mismatches_found", 0)
+                if total_mismatches == 0:
+                    st.success("🟢 **Last Scan Status:** Success | ⚡ **Active File Health:** Stable & Clean")
+                else:
+                    st.warning(f"🟡 **Last Scan Status:** Attention Required | ⚡ **Active File Health:** {total_mismatches} issues found to patch")
+            else:
+                st.info("ℹ️ **Engine State:** Ready for next comprehensive scan.")
 
             if report.get("line_mismatches_found", 0) > 0:
                 for patch in report.get("exact_patches", []):
