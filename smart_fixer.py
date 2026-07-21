@@ -126,26 +126,3 @@ class SmartFixerEngine:
         }
 
 
-fixer_report = fixer.scan_and_find_exact_errors(
-    ".",
-    uploaded_code_content=target_code
-)
-
-# Status Check & Health Verification Card
-st.markdown("---")
-st.markdown("### 🛡️ Engine Status & Health Check")
-
-if fixer_report:
-    total_mismatches = fixer_report.get("line_mismatches_found", 0)
-
-    if total_mismatches == 0:
-        st.success(
-            "🟢 Last Scan Status: Success | Active File Health: Stable & Clean"
-        )
-    else:
-        st.warning(
-            f"🟡 Last Scan Status: Attention Required | "
-            f"Active File Health: {total_mismatches} issue(s) found."
-        )
-else:
-    st.info("ℹ️ Engine State: Ready for next comprehensive scan.")
