@@ -26,7 +26,6 @@ with tab1:
     st.header("🛡️ File Inspector & Code Tester")
     st.caption("Upload any Python, JSON, or CAD/3D Mold file to scan for syntax/line errors and structural mismatch.")
 
-
     # Option A: Direct Text Area for Code
     st.subheader("Option A: Paste Python / JSON Code Directly")
     user_code = st.text_area("Paste code here:", height=200, placeholder="Paste your Python script or JSON structure here...")
