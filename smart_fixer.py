@@ -5,12 +5,13 @@ import ast
 from pathlib import Path
 
 class SmartFixerEngine:
-    def __init__(self):
-        pass
+    def __init__(self, max_lines=10000):
+        # Manages large files up to 10,000 lines safely
+        self.max_lines = max_lines
 
     def scan_and_find_exact_errors(self, root_path=".", uploaded_code_content=None):
         """
-        Scans code line-by-line, ignores valid comments/docstrings,
+        Scans code line-by-line (1 to 10,000 lines), ignores valid comments/docstrings,
         and flags only true Python syntax, indentation, or argument errors.
         """
         patches = []
@@ -18,7 +19,13 @@ class SmartFixerEngine:
         # 1. Analyze pasted/uploaded code snippet if provided
         if uploaded_code_content:
             try:
-                ast.parse(uploaded_code_content)
+                snippet_lines = uploaded_code_content.splitlines()
+                if len(snippet_lines) > self.max_lines:
+                    limited_content = "\n".join(snippet_lines[:self.max_lines])
+                else:
+                    limited_content = uploaded_code_content
+
+                ast.parse(limited_content)
             except SyntaxError as syn:
                 patches.append({
                     "target_file": "Pasted Code Snippet",
@@ -38,16 +45,21 @@ class SmartFixerEngine:
                     "exact_line_to_replace": "# Fix spacing/tabs alignment here"
                 })
 
-        # 2. Scan project python files safely (ignoring false comment dots)
+        # 2. Scan project python files safely (ignoring false comment dots and restricting to max_lines)
         p = Path(root_path)
         for py_file in p.rglob("*.py"):
-            if any(skip in py_file.parts for skip in [".git", "__pycache__", ".venv"]):
+            if any(skip in py_file.parts for skip in [".git", "__pycache__", ".venv", ".guardian"]):
                 continue
 
             try:
                 content = py_file.read_text(encoding="utf-8", errors="ignore")
                 lines = content.splitlines()
-                tree = ast.parse(content)
+                
+                # Restrict analysis to max_lines (1 to 10,000)
+                target_lines = lines[:self.max_lines]
+                analyzed_content = "\n".join(target_lines)
+
+                tree = ast.parse(analyzed_content)
 
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Call):
