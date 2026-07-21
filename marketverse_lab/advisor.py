@@ -79,7 +79,7 @@ class ProjectAdvisor:
             "score": self.project_score(),
             "status": self.project_status(),
             "recommendations": self.recommendations(),
-        }8
+        }
 
     # ----------------------------------------
 
