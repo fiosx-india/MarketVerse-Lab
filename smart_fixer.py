@@ -1,31 +1,27 @@
 # ==========================================
-# MarketVerse Lab - Smart Line & Auto-Fixer Engine (Optimized)
+# MarketVerse Lab - Smart Line & Auto-Fixer Engine (Auto-Correct Enabled)
 # ==========================================
 import ast
 from pathlib import Path
 
 class SmartFixerEngine:
     def __init__(self, max_lines=10000):
-        # Manages large files up to 10,000 lines safely
         self.max_lines = max_lines
 
     def scan_and_find_exact_errors(self, root_path=".", uploaded_code_content=None):
-        """
-        Scans code line-by-line (1 to 10,000 lines), ignores valid comments/docstrings,
-        and flags only true Python syntax, indentation, or argument errors.
-        """
         patches = []
         
-        # 1. Analyze pasted/uploaded code snippet if provided
+        # 1. Handle uploaded or pasted code snippet with auto-formatting
         if uploaded_code_content:
             try:
                 snippet_lines = uploaded_code_content.splitlines()
-                if len(snippet_lines) > self.max_lines:
-                    limited_content = "\n".join(snippet_lines[:self.max_lines])
-                else:
-                    limited_content = uploaded_code_content
+                target_lines = snippet_lines[:self.max_lines]
+                
+                # Auto-correct lines (Tabs to spaces, strip trailing whitespaces)
+                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
+                formatted_code = "\n".join(fixed_lines) + "\n"
 
-                ast.parse(limited_content)
+                ast.parse(formatted_code)
             except SyntaxError as syn:
                 patches.append({
                     "target_file": "Pasted Code Snippet",
@@ -45,7 +41,7 @@ class SmartFixerEngine:
                     "exact_line_to_replace": "# Fix spacing/tabs alignment here"
                 })
 
-        # 2. Scan project python files safely (ignoring false comment dots and restricting to max_lines)
+        # 2. Scan project python files safely and auto-correct formatting
         p = Path(root_path)
         for py_file in p.rglob("*.py"):
             if any(skip in py_file.parts for skip in [".git", "__pycache__", ".venv", ".guardian"]):
@@ -55,9 +51,14 @@ class SmartFixerEngine:
                 content = py_file.read_text(encoding="utf-8", errors="ignore")
                 lines = content.splitlines()
                 
-                # Restrict analysis to max_lines (1 to 10,000)
                 target_lines = lines[:self.max_lines]
-                analyzed_content = "\n".join(target_lines)
+                
+                # Auto-correct lines for the file
+                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
+                analyzed_content = "\n".join(fixed_lines) + "\n"
+
+                # Overwrite file with aligned and cleaned lines
+                py_file.write_text(analyzed_content, encoding="utf-8")
 
                 tree = ast.parse(analyzed_content)
 
@@ -91,10 +92,10 @@ class SmartFixerEngine:
             except IndentationError as ind:
                 patches.append({
                     "target_file": str(py_file),
-                    "line_number": ind.lineno if ind.lineno else 1,
+                    "line_number": syn.lineno if syn.lineno else 1,
                     "issue_type": "Indentation Error",
                     "description": ind.msg,
-                    "faulty_code": ind.text if ind.text else "",
+                    "faulty_code": syn.text if syn.text else "",
                     "exact_line_to_replace": "# Fix indentation spacing"
                 })
             except Exception:
@@ -105,7 +106,7 @@ class SmartFixerEngine:
                 "target_file": "Project Files",
                 "line_number": "N/A",
                 "issue_type": "Clean",
-                "description": "All files are syntactically clean with zero errors.",
+                "description": "All files are syntactically clean and auto-aligned.",
                 "faulty_code": "N/A",
                 "exact_line_to_replace": "# Code is clean and valid."
             })
