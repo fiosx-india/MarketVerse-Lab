@@ -21,9 +21,11 @@ tab1, tab2, tab3 = st.tabs([
 # ==========================================
 # TAB 1: File Inspector & Code Tester
 # ==========================================
+
 with tab1:
     st.header("🛡️ File Inspector & Code Tester")
     st.caption("Upload any Python, JSON, or CAD/3D Mold file to scan for syntax/line errors and structural mismatch.")
+
 
     # Option A: Direct Text Area for Code
     st.subheader("Option A: Paste Python / JSON Code Directly")
