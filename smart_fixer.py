@@ -1,7 +1,8 @@
 # ==========================================
-# MarketVerse Lab - Smart Line & Auto-Fixer Engine (Fully Aligned)
+# MarketVerse Lab - Smart Line & Auto-Fixer Engine (GitHub Frame-Aligned Edition)
 # ==========================================
 import ast
+import textwrap
 from pathlib import Path
 
 class SmartFixerEngine:
@@ -11,14 +12,15 @@ class SmartFixerEngine:
     def scan_and_find_exact_errors(self, root_path=".", uploaded_code_content=None):
         patches = []
         
-        # 1. Handle uploaded or pasted code snippet with left-alignment
+        # 1. Handle uploaded or pasted code snippet with GitHub-style left-alignment
         if uploaded_code_content:
             try:
-                snippet_lines = uploaded_code_content.splitlines()
+                # textwrap.dedent பயன்படுத்தி பிரேமை ஒட்டி வரிகளை சீரமைத்தல்
+                cleaned_content = textwrap.dedent(uploaded_code_content)
+                snippet_lines = cleaned_content.splitlines()
                 target_lines = snippet_lines[:self.max_lines]
                 
-                # Strip both leading & trailing spaces to align tightly to the frame
-                fixed_lines = [line.expandtabs(4).strip() for line in target_lines]
+                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
                 formatted_code = "\n".join(fixed_lines) + "\n"
 
                 ast.parse(formatted_code)
@@ -41,7 +43,7 @@ class SmartFixerEngine:
                     "exact_line_to_replace": "# Fix spacing/tabs alignment here"
                 })
 
-        # 2. Scan project python files safely and force left-alignment
+        # 2. Scan project python files safely and apply frame-edge alignment
         p = Path(root_path)
         for py_file in p.rglob("*.py"):
             if any(skip in py_file.parts for skip in [".git", "__pycache__", ".venv", ".guardian"]):
@@ -49,12 +51,13 @@ class SmartFixerEngine:
 
             try:
                 content = py_file.read_text(encoding="utf-8", errors="ignore")
-                lines = content.splitlines()
+                # textwrap.dedent மூலம் கோப்பு முழுவதும் பிரேம் சுவரை ஒட்டி வர வழிவகை செய்தல்
+                cleaned_content = textwrap.dedent(content)
+                lines = cleaned_content.splitlines()
                 
                 target_lines = lines[:self.max_lines]
                 
-                # Use .strip() instead of .rstrip() to pull lines completely to the frame edge
-                fixed_lines = [line.expandtabs(4).strip() for line in target_lines]
+                fixed_lines = [line.expandtabs(4).rstrip() for line in target_lines]
                 analyzed_content = "\n".join(fixed_lines) + "\n"
 
                 # Overwrite file with tightly aligned lines
@@ -95,7 +98,7 @@ class SmartFixerEngine:
                     "line_number": syn.lineno if syn.lineno else 1,
                     "issue_type": "Indentation Error",
                     "description": ind.msg,
-                    "faulty_code": ind.text if ind.text else "",
+                    "faulty_code": syn.text if syn.text else "",
                     "exact_line_to_replace": "# Fix indentation spacing"
                 })
             except Exception:
