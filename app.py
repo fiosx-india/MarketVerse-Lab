@@ -338,6 +338,57 @@ if total_found > 0:
                 ac3.metric("TODO Tags", todo_count)
 else:
     st.warning("⚠️ No Python files detected in the active workspace directory.")
+    
+# ==========================================
+# Master Repository Code Extractor (Copy-Paste Hub)
+# ==========================================
+import os
+
+st.markdown("---")
+st.subheader("📋 Master Repository Code Extractor")
+st.caption("Bundles all repository python files into a single master view for easy copy-pasting.")
+
+if st.button("📦 Generate Complete Repository Code Bundle"):
+    with st.spinner("Compiling all repository files into a single master block..."):
+        try:
+            current_dir = os.getcwd()
+            master_bundle = []
+            
+            ignore_dirs = {'.git', '.streamlit', '__pycache__', 'venv', 'env', 'build', 'dist'}
+            for root, dirs, files in os.walk(current_dir):
+                dirs[:] = [d for d in dirs if d not in ignore_dirs]
+                for file in files:
+                    if file.endswith('.py'):
+                        file_path = os.path.join(root, file)
+                        rel_path = os.path.relpath(file_path, current_dir)
+                        
+                        try:
+                            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                                code_content = f.read()
+                                
+                                # Appending each file with a clear banner
+                                separator = "=" * 50
+                                file_block = f"\n\n{separator}\n# FILE: {rel_path}\n{separator}\n\n{code_content}"
+                                master_bundle.append(file_block)
+                        except Exception as read_err:
+                            continue
+            
+            if master_bundle:
+                full_combined_code = "".join(master_bundle)
+                st.success(f"✨ Successfully bundled **{len(master_bundle)} files** into a single master copy area!")
+                
+                # Text area containing all code, ready to copy
+                st.text_area(
+                    "📥 Copy All Repository Files Here:", 
+                    full_combined_code, 
+                    height=400
+                )
+                st.info("💡 **Tip:** You can click inside the box above, press `Ctrl + A` (or `Cmd + A`), and copy the entire repository code instantly.")
+            else:
+                st.warning("⚠️ No Python files found to bundle.")
+
+        except Exception as e:
+            st.error(f"❌ Master Bundle Error: {str(e)}")
 
 
 # ==========================================
