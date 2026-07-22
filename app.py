@@ -143,6 +143,7 @@ if st.button("🚀 Run Comprehensive Smart Code Inspector"):
         except Exception as e:
             st.error(f"❌ Extension Connection Error: {str(e)}")
             
+
 # ==========================================
 # Optimized Multi-View Repository Inspector
 # ==========================================
@@ -190,40 +191,6 @@ if total_found > 0:
         # --- DEDICATED ROOM (Isolated Sub-Page for Selected File) ---
         file_path = st.session_state.selected_file
         file_name = os.path.basename(file_path)
-
-
-# ==========================================
-# Add this inside your Dedicated Room view (after metrics/tabs)
-# ==========================================
-
-st.markdown("---")
-st.markdown("### 🔍 File-Specific Issues & Error Spotlight")
-
-# Collecting actual issues detected in this specific file
-file_issues = []
-
-if error_msg:
-    file_issues.append(f"🔴 **Critical Syntax Error:** {error_msg}")
-if long_funcs > 0:
-    file_issues.append(f"⚠️ **Performance Warning:** Found {long_funcs} function(s) exceeding 40 lines. Consider refactoring.")
-if todo_count > 0:
-    file_issues.append(f"💡 **Developer Note:** Found {todo_count} TODO/FIXME tag(s) that require attention.")
-if missing_docstrings > 0:
-    file_issues.append(f"ℹ️ **Documentation Notice:** {missing_docstrings} class/function(s) are missing docstrings.")
-
-if file_issues:
-    st.warning(f"⚠️ Found **{len(file_issues)} potential issue(s)** in `{file_name}` that need your review:")
-    for issue in file_issues:
-        st.markdown(f"- {issue}")
-        
-    # Quick fix button right inside the error spotlight box
-    if st.button(f"🛠️ Auto-Fix / Optimize `{file_name}`", key=f"fix_room_{file_name}"):
-        with st.spinner(f"Applying intelligent patches to `{file_name}`..."):
-            time.sleep(1)
-            st.success(f"✨ Successfully optimized and resolved flagged issues for `{file_name}`!")
-else:
-    st.success(f"🎉 **Clean File Report:** No syntax errors, performance bottlenecks, or warnings found in `{file_name}`. Ready for production!")
-
         
         # Back button to return to main lightweight screen
         if st.button("⬅️ Back to Main Repository Index"):
@@ -234,7 +201,7 @@ else:
         st.markdown(f"## 🏠 Dedicated Inspection Room: `{file_name}`")
         st.caption(f"Path: `{file_path}`")
         
-        # Perform AST parse ONLY for this single selected file (Zero lag!)
+        # Perform AST parse FIRST to populate variables securely (Zero lag!)
         with st.spinner(f"Analyzing `{file_name}` in its dedicated space..."):
             file_size = os.path.getsize(file_path)
             mod_time = time.ctime(os.path.getmtime(file_path))
@@ -300,7 +267,7 @@ else:
                 health_status = "🟡 Warning"
                 error_msg = str(e)
             
-            # Health Score
+            # Health Score Calculation
             score = 100
             if health_status == "🔴 Syntax Error":
                 score = 40
@@ -322,6 +289,34 @@ else:
             else:
                 st.success(f"✨ **Status:** {health_status} | File structure is clean and stable.")
                 
+            # ------------------------------------------
+            # 🔍 FILE-SPECIFIC ISSUES & ERROR SPOTLIGHT
+            # ------------------------------------------
+            st.markdown("---")
+            st.markdown("### 🔍 File-Specific Issues & Error Spotlight")
+            
+            file_issues = []
+            if error_msg:
+                file_issues.append(f"🔴 **Critical Syntax Error:** {error_msg}")
+            if long_funcs > 0:
+                file_issues.append(f"⚠️ **Performance Warning:** Found {long_funcs} function(s) exceeding 40 lines. Consider refactoring.")
+            if todo_count > 0:
+                file_issues.append(f"💡 **Developer Note:** Found {todo_count} TODO/FIXME tag(s) that require attention.")
+            if missing_docstrings > 0:
+                file_issues.append(f"ℹ️ **Documentation Notice:** {missing_docstrings} class/function(s) are missing docstrings.")
+
+            if file_issues:
+                st.warning(f"⚠️ Found **{len(file_issues)} potential issue(s)** in `{file_name}` that need your review:")
+                for issue in file_issues:
+                    st.markdown(f"- {issue}")
+                    
+                if st.button(f"🛠️ Auto-Fix / Optimize `{file_name}`", key=f"fix_room_{file_name}"):
+                    with st.spinner(f"Applying intelligent patches to `{file_name}`..."):
+                        time.sleep(1)
+                        st.success(f"✨ Successfully optimized and resolved flagged issues for `{file_name}`!")
+            else:
+                st.success(f"🎉 **Clean File Report:** No syntax errors, performance bottlenecks, or warnings found in `{file_name}`. Ready for production!")
+
             # Detailed tabs inside the room
             tab_code, tab_imports, tab_audit = st.tabs(["📜 Source Code", "🔌 Imports", "🔍 Deep Audit Findings"])
             
