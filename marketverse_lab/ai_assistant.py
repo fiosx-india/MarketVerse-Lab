@@ -462,7 +462,7 @@ class AIAssistant:
     def reset(self):
 
         return {
-            "status": "RESET_COMPLETE"
+            "status": "RESET_COMPLETE" 100
         }
 
     # ----------------------------------------
