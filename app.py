@@ -143,132 +143,252 @@ if st.button("🚀 Run Comprehensive Smart Code Inspector"):
         except Exception as e:
             st.error(f"❌ Extension Connection Error: {str(e)}")
             
+
 # ==========================================
-# Interactive AST-Powered Deep Inspector Hub
+# Enterprise-Grade AST Repository Health Dashboard
 # ==========================================
 import os
 import ast
 import time
 
 st.markdown("---")
-st.subheader("🛡️ Interactive AST-Powered Repository Health Dashboard")
-st.caption("Click metrics (Lines, Classes, Functions, Imports) to instantly expand and inspect deep code details.")
+st.subheader("🛡️ Enterprise-Grade AST Repository Health Dashboard")
+st.caption("Performs optimized directory walking, robust AST static analysis, health scoring, and advanced deep code checks.")
 
-if st.button("🚀 Run Interactive AST Deep Scan"):
-    with st.spinner("Parsing files through AST engine and building interactive inspection nodes..."):
-        try:
-            current_dir = os.getcwd()
-            python_files = []
+if st.button("🚀 Run Enterprise Repository Health Scan"):
+    # 6. Performance & Progress Tracking
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    start_time = time.time()
+    
+    try:
+        current_dir = os.getcwd()
+        python_files = []
+        
+        # 1. Optimized Directory Filtering using dirs[:] mutation
+        ignore_dirs = {'.git', '.streamlit', '__pycache__', 'venv', 'env', 'build', 'dist'}
+        for root, dirs, files in os.walk(current_dir):
+            dirs[:] = [d for d in dirs if d not in ignore_dirs]
+            for file in files:
+                if file.endswith('.py'):
+                    python_files.append(os.path.join(root, file))
+        
+        total_found = len(python_files)
+        
+        if total_found > 0:
+            status_text.text(f"Scanning and analyzing {total_found} Python files...")
             
-            for root, dirs, files in os.walk(current_dir):
-                if any(p in root for p in ['.git', '.streamlit', '__pycache__', 'venv', 'env']):
-                    continue
-                for file in files:
-                    if file.endswith('.py'):
-                        python_files.append(os.path.join(root, file))
+            # Metrics accumulators for Summary Dashboard
+            healthy_count = 0
+            warning_count = 0
+            error_count = 0
+            total_classes_repo = 0
+            total_funcs_repo = 0
             
-            total_found = len(python_files)
+            file_reports = []
             
-            if total_found > 0:
-                st.success(f"✨ Successfully indexed and analyzed **{total_found} Python files** with interactive metrics!")
+            for idx, file_path in enumerate(python_files):
+                file_name = os.path.basename(file_path)
+                file_size = os.path.getsize(file_path)
+                mod_time = time.ctime(os.path.getmtime(file_path))
                 
-                for idx, file_path in enumerate(python_files):
-                    file_name = os.path.basename(file_path)
-                    file_size = os.path.getsize(file_path)
-                    mod_time = time.ctime(os.path.getmtime(file_path))
-                    
+                health_status = "🟢 Healthy"
+                error_msg = ""
+                content_lines = []
+                classes_list = []
+                funcs_list = []
+                std_imports = []
+                third_party_imports = []
+                local_imports = []
+                
+                # Deep scan metrics counters
+                long_funcs = 0
+                missing_docstrings = 0
+                todo_count = 0
+                try_except_count = 0
+                
+                # Standard library module list for basic heuristic sorting
+                stdlib_modules = {'os', 'sys', 'ast', 'time', 'math', 'json', 'datetime', 'collections', 'pathlib', 'logging', 'typing'}
+                
+                try:
+                    # 2. File Encoding safety with errors='ignore'
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                        content = f.read()
+                        content_lines = content.splitlines()
+                        
+                        # Search for TODO/FIXME comments
+                        for line in content_lines:
+                            if "TODO" in line or "FIXME" in line:
+                                todo_count += 1
+                        
+                        tree = ast.parse(content)
+                        
+                        for node in ast.walk(tree):
+                            if isinstance(node, ast.ClassDef):
+                                classes_list.append(node.name)
+                                total_classes_repo += 1
+                                if not ast.get_docstring(node):
+                                    missing_docstrings += 1
+                            elif isinstance(node, ast.FunctionDef):
+                                funcs_list.append(node.name)
+                                total_funcs_repo += 1
+                                if not ast.get_docstring(node):
+                                    missing_docstrings += 1
+                                # Detect long functions (> 40 lines)
+                                if hasattr(node, 'end_lineno') and node.end_lineno and node.lineno:
+                                    if (node.end_lineno - node.lineno) > 40:
+                                        long_funcs += 1
+                            elif isinstance(node, (ast.Try, ast.ExceptHandler)):
+                                try_except_count += 1
+                            elif isinstance(node, ast.Import):
+                                for alias in node.names:
+                                    mod_name = alias.name.split('.')[0]
+                                    if mod_name in stdlib_modules:
+                                        std_imports.append(mod_name)
+                                    else:
+                                        third_party_imports.append(mod_name)
+                            elif isinstance(node, ast.ImportFrom):
+                                if node.module:
+                                    mod_name = node.module.split('.')[0]
+                                    if node.level > 0 or mod_name in [os.path.splitext(f)[0] for f in python_files]:
+                                        local_imports.append(mod_name)
+                                    elif mod_name in stdlib_modules:
+                                        std_imports.append(mod_name)
+                                    else:
+                                        third_party_imports.append(mod_name)
+                                else:
+                                    local_imports.append("relative")
+                                    
+                except SyntaxError as se:
+                    health_status = "🔴 Syntax Error"
+                    error_msg = f"Line {se.lineno}: {se.msg}"
+                    error_count += 1
+                except Exception as e:
+                    health_status = "🟡 Warning"
+                    error_msg = str(e)
+                    warning_count += 1
+                
+                # 7. Health Score Calculation (100-point scale)
+                score = 100
+                if health_status == "🔴 Syntax Error":
+                    score = 40
+                else:
+                    if error_msg: score -= 10
+                    if long_funcs > 0: score -= (long_funcs * 5)
+                    if todo_count > 0: score -= (todo_count * 2)
+                    if missing_docstrings > (len(classes_list) + len(funcs_list)) * 0.5: score -= 10
+                score = max(40, score)
+                
+                if score == 100 and health_status != "🔴 Syntax Error":
                     health_status = "🟢 Healthy"
-                    error_msg = ""
-                    content_lines = []
-                    classes_list = []
-                    funcs_list = []
-                    imports_list = []
+                    healthy_count += 1
+                elif score >= 80:
+                    health_status = "🟡 Minor Warning"
+                    warning_count += 1
+                elif health_status != "🔴 Syntax Error":
+                    health_status = "🟠 Needs Attention"
+                    warning_count += 1
+                
+                file_reports.append({
+                    "file_path": file_path, "file_name": file_name, "file_size": file_size, "mod_time": mod_time,
+                    "health_status": health_status, "score": score, "error_msg": error_msg,
+                    "content_lines": content_lines, "classes_list": classes_list, "funcs_list": funcs_list,
+                    "std_imports": list(set(std_imports)), "third_party_imports": list(set(third_party_imports)),
+                    "local_imports": list(set(local_imports)), "long_funcs": long_funcs,
+                    "missing_docstrings": missing_docstrings, "todo_count": todo_count, "try_except_count": try_except_count
+                })
+                
+                progress_bar.progress((idx + 1) / total_found)
+            
+            status_text.empty()
+            progress_bar.empty()
+            scan_duration = time.time() - start_time
+            
+            st.success(f"✨ Successfully scanned **{total_found} files** in {scan_duration:.2f} seconds!")
+            
+            # 3. Summary Metrics Dashboard (st.metric)
+            st.markdown("### 📈 Repository Health & Quality Overview")
+            m1, m2, m3, m4, m5, m6 = st.columns(6)
+            m1.metric("Total Files", total_found)
+            m2.metric("Healthy", healthy_count, delta="Optimal")
+            m3.metric("Warnings / Issues", warning_count, delta="-Needs review" if warning_count > 0 else "Clean", delta_color="inverse")
+            m4.metric("Syntax Errors", error_count, delta="Critical" if error_count > 0 else "None", delta_color="inverse")
+            m5.metric("Total Classes", total_classes_repo)
+            m6.metric("Total Functions", total_funcs_repo)
+            
+            st.markdown("---")
+            st.markdown("### 📊 File-by-File Detailed Intelligence Matrix")
+            
+            for idx, rep in enumerate(file_reports):
+                with st.expander(f"📁 [{rep['health_status']}] `{rep['file_name']}` | Score: **{rep['score']}/100** | Lines: {len(rep['content_lines'])} | Classes: {len(rep['classes_list'])} | Funcs: {len(rep['funcs_list'])}"):
                     
-                    try:
-                        with open(file_path, "r", encoding="utf-8") as f:
-                            content = f.read()
-                            content_lines = content.splitlines()
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        st.markdown(f"**📌 File Name:** `{rep['file_name']}`")
+                        st.markdown(f"**📂 Path:** `{rep['file_path']}`")
+                        st.markdown(f"**📊 Health Score:** `{rep['score']} / 100`")
+                        st.markdown(f"**⏱️ Last Modified:** `{rep['mod_time']}`")
+                    with c2:
+                        st.markdown(f"**📦 Size:** `{rep['file_size']} bytes`")
+                        st.markdown(f"**🏛️ Classes:** `{len(rep['classes_list'])}`")
+                        st.markdown(f"**⚡ Functions:** `{len(rep['funcs_list'])}`")
+                        st.markdown(f"**🔌 State:** `{rep['health_status']}`")
+                    
+                    if rep['error_msg']:
+                        st.error(f"❌ **AST Diagnostics Alert:** {rep['error_msg']}")
+                    
+                    # 4. Categorized Imports Display
+                    st.markdown("##### 🔌 Categorized Module Imports:")
+                    imp_c1, imp_c2, imp_c3 = st.columns(3)
+                    with imp_c1:
+                        st.markdown(f"**Standard Library ({len(rep['std_imports'])}):**")
+                        st.code(", ".join(rep['std_imports']) if rep['std_imports'] else "None", language="text")
+                    with imp_c2:
+                        st.markdown(f"**Third-Party ({len(rep['third_party_imports'])}):**")
+                        st.code(", ".join(rep['third_party_imports']) if rep['third_party_imports'] else "None", language="text")
+                    with imp_c3:
+                        st.markdown(f"**Local Project ({len(rep['local_imports'])}):**")
+                        st.code(", ".join(rep['local_imports']) if rep['local_imports'] else "None", language="text")
+                    
+                    # 5. Real AST Deep Scan Metrics & Findings
+                    st.markdown("##### 🔍 Real AST Static Analysis Audit:")
+                    d1, d2, d3, d4 = st.columns(4)
+                    d1.metric("Long Functions (>40 lines)", rep['long_funcs'], delta="Warning" if rep['long_funcs'] > 0 else "Good", delta_color="inverse")
+                    d2.metric("Missing Docstrings", rep['missing_docstrings'])
+                    d3.metric("TODO / FIXME Tags", rep['todo_count'])
+                    d4.metric("Try/Except Blocks", rep['try_except_count'])
+                    
+                    # Interactive Accordion Tabs for Code Inspection
+                    t_lines, t_classes, t_funcs = st.tabs([
+                        f"📜 Source Code ({len(rep['content_lines'])} Lines)", 
+                        f"🏛️ Classes ({len(rep['classes_list'])})", 
+                        f"⚡ Functions ({len(rep['funcs_list'])})"
+                    ])
+                    
+                    with t_lines:
+                        if rep['content_lines']:
+                            st.code("\n".join(rep['content_lines']), language="python", line_numbers=True)
+                        else:
+                            st.info("File is empty.")
                             
-                            tree = ast.parse(content)
-                            for node in ast.walk(tree):
-                                if isinstance(node, ast.ClassDef):
-                                    classes_list.append(node.name)
-                                elif isinstance(node, ast.FunctionDef):
-                                    funcs_list.append(node.name)
-                                elif isinstance(node, ast.Import):
-                                    for alias in node.names:
-                                        imports_list.append(alias.name)
-                                elif isinstance(node, ast.ImportFrom):
-                                    if node.module:
-                                        imports_list.append(node.module)
-                    except SyntaxError as se:
-                        health_status = "🔴 Syntax Error"
-                        error_msg = f"Line {se.lineno}: {se.msg}"
-                    except Exception as e:
-                        health_status = "🟡 Warning"
-                        error_msg = str(e)
-                    
-                    total_lines_count = len(content_lines)
-                    total_classes = len(classes_list)
-                    total_funcs = len(funcs_list)
-                    total_imports = list(set(imports_list))
-                    
-                    # Main Expander for each file
-                    with st.expander(f"📁 [{health_status}] `{file_name}` | 📊 Lines: {total_lines_count} | 🏛️ Classes: {total_classes} | ⚡ Funcs: {total_funcs} | 🔌 Imports: {len(total_imports)}"):
-                        
-                        st.markdown(f"**📌 File Location:** `{file_path}` | **Size:** `{file_size} bytes` | **Modified:** `{mod_time}`")
-                        
-                        if error_msg:
-                            st.error(f"❌ **Diagnostics Alert:** {error_msg}")
-                        
-                        # --- Interactive Expandable Metric Tabs/Sections ---
-                        tab_lines, tab_classes, tab_funcs, tab_imports = st.tabs([
-                            f"📜 Total Lines ({total_lines_count})", 
-                            f"🏛️ Classes ({total_classes})", 
-                            f"⚡ Functions ({total_funcs})", 
-                            f"🔌 Imports ({len(total_imports)})"
-                        ])
-                        
-                        # 1. Total Lines View (Click/Open to see all code lines)
-                        with tab_lines:
-                            st.caption("Complete source code line breakdown for this file:")
-                            if content_lines:
-                                code_snippet = "\n".join(content_lines)
-                                st.code(code_snippet, language="python", line_numbers=True)
-                            else:
-                                st.info("File is empty.")
-                        
-                        # 2. Classes View
-                        with tab_classes:
-                            st.caption("All class structures detected in this file:")
-                            if classes_list:
-                                for c in classes_list:
-                                    st.markdown(f"- 🏛️ `class {c}`")
-                            else:
-                                st.info("No classes defined in this file.")
-                        
-                        # 3. Functions View
-                        with tab_funcs:
-                            st.caption("All function definitions detected in this file:")
-                            if funcs_list:
-                                for fn in funcs_list:
-                                    st.markdown(f"- ⚡ `def {fn}()`")
-                            else:
-                                st.info("No standalone functions defined in this file.")
-                        
-                        # 4. Imports View
-                        with tab_imports:
-                            st.caption("Modules and libraries imported by this file:")
-                            if total_imports:
-                                for imp in total_imports:
-                                    st.markdown(f"- 📦 `{imp}`")
-                            else:
-                                st.info("No external imports detected.")
+                    with t_classes:
+                        if rep['classes_list']:
+                            for c in rep['classes_list']:
+                                st.markdown(f"- 🏛️ `class {c}`")
+                        else:
+                            st.info("No classes defined.")
+                            
+                    with t_funcs:
+                        if rep['funcs_list']:
+                            for fn in rep['funcs_list']:
+                                st.markdown(f"- ⚡ `def {fn}()`")
+                        else:
+                            st.info("No functions defined.")
             else:
                 st.warning("⚠️ No Python files detected in the active workspace directory.")
 
-        except Exception as e:
-            st.error(f"❌ Interactive Dashboard Error: {str(e)}")
+    except Exception as e:
+        st.error(f"❌ Enterprise Dashboard Engine Error: {str(e)}")
 
 
 
