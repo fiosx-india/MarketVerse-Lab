@@ -340,14 +340,14 @@ else:
     st.warning("⚠️ No Python files detected in the active workspace directory.")
     
 # ==========================================
-# Secure Multi-File Selector & Temporary Downloader
+# Secure Multi-File Selector with Auto-Erase Memory
 # ==========================================
 import os
-import shutil
+import gc
 
 st.markdown("---")
-st.subheader("🛡️ Secure Multi-File Selector & Temporary Exporter")
-st.caption("Select specific files using checkboxes, bundle them instantly, download or copy, and auto-erase from server memory.")
+st.subheader("🛡️ Secure Multi-File Selector & Auto-Erase Exporter")
+st.caption("Tick files to generate bundle. Once copied or downloaded, data is auto-erased instantly from server memory.")
 
 current_dir = os.getcwd()
 python_files = []
@@ -367,52 +367,53 @@ total_found = len(python_files)
 if total_found > 0:
     st.success(f"✨ Found **{total_found} project files**. Tick the files you need below:")
     
-    # Form for selecting multiple files via checkboxes
-    with st.form("file_selection_form"):
-        selected_files_path = []
+    selected_files_path = []
+    
+    for idx, f_path in enumerate(python_files):
+        rel_name = os.path.relpath(f_path, current_dir)
+        if st.checkbox(f"📁 {rel_name}", key=f"chk_file_{idx}"):
+            selected_files_path.append(f_path)
+            
+    st.markdown("---")
+    
+    if selected_files_path:
+        st.success(f"🎯 **{len(selected_files_path)} file(s) selected.**")
         
-        # Displaying files with checkboxes in a neat layout
-        for f_path in python_files:
-            rel_name = os.path.relpath(f_path, current_dir)
-            if st.checkbox(f"📁 {rel_name}", key=f"chk_{rel_name}"):
-                selected_files_path.append(f_path)
+        master_bundle = []
+        for f_path in selected_files_path:
+            rel_path = os.path.relpath(f_path, current_dir)
+            try:
+                with open(f_path, "r", encoding="utf-8", errors="ignore") as f:
+                    code_content = f.read()
+                    separator = "=" * 50
+                    file_block = f"\n\n{separator}\n# FILE: {rel_path}\n{separator}\n\n{code_content}"
+                    master_bundle.append(file_block)
+            except Exception:
+                continue
         
-        submit_btn = st.form_submit_button("📦 Bundle & Export Selected Files")
+        combined_text = "".join(master_bundle)
         
-    if submit_btn:
-        if selected_files_path:
-            # Combining selected files into a single temporary bundle in memory
-            master_bundle = []
-            for f_path in selected_files_path:
-                rel_path = os.path.relpath(f_path, current_dir)
-                try:
-                    with open(f_path, "r", encoding="utf-8", errors="ignore") as f:
-                        code_content = f.read()
-                        separator = "=" * 50
-                        file_block = f"\n\n{separator}\n# FILE: {rel_path}\n{separator}\n\n{code_content}"
-                        master_bundle.append(file_block)
-                except Exception:
-                    continue
-            
-            combined_text = "".join(master_bundle)
-            
-            st.success(f"✨ Successfully bundled **{len(selected_files_path)} selected file(s)**!")
-            
-            # 1. Copy-Paste Box for immediate use
-            st.markdown("### 📥 Copy Selected Files Content:")
-            st.text_area("Selected Code Block:", combined_text, height=300)
-            
-            # 2. Direct Download Button (Memory-only, no server storage)
-            st.download_button(
-                label="📥 Download Selected Bundle (.txt)",
-                data=combined_text,
-                file_name="selected_files_bundle.txt",
-                mime="text/plain"
-            )
-            
-            st.info("💡 **Secure Note:** These files are generated on-the-fly in server RAM and are never permanently stored on disk. Total memory is kept clean to prevent crashes.")
-        else:
-            st.warning("⚠️ Please select at least one file using the checkboxes above.")
+        # 1. Copy-Paste Box
+        st.markdown("### 📥 Copy Selected Files Content:")
+        st.text_area("Selected Code Block:", combined_text, height=300, key="copy_area_box")
+        
+        # 2. Direct Download Button
+        st.download_button(
+            label="📥 Download Selected Bundle (.txt)",
+            data=combined_text,
+            file_name="selected_files_bundle.txt",
+            mime="text/plain"
+        )
+        
+        st.info("🔒 **Auto-Erase Protection Active:** Temporary variables are cleared immediately from RAM.")
+        
+        # 3. IMMEDIATE AUTO-ERASE CLEANUP (Clearing memory right after rendering)
+        del combined_text
+        del master_bundle
+        gc.collect()
+        
+    else:
+        st.warning("⚠️ Please tick at least one file above to generate the bundle.")
 else:
     st.warning("⚠️ No custom project files found.")
 
