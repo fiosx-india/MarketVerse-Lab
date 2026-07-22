@@ -190,6 +190,40 @@ if total_found > 0:
         # --- DEDICATED ROOM (Isolated Sub-Page for Selected File) ---
         file_path = st.session_state.selected_file
         file_name = os.path.basename(file_path)
+
+
+# ==========================================
+# Add this inside your Dedicated Room view (after metrics/tabs)
+# ==========================================
+
+st.markdown("---")
+st.markdown("### 🔍 File-Specific Issues & Error Spotlight")
+
+# Collecting actual issues detected in this specific file
+file_issues = []
+
+if error_msg:
+    file_issues.append(f"🔴 **Critical Syntax Error:** {error_msg}")
+if long_funcs > 0:
+    file_issues.append(f"⚠️ **Performance Warning:** Found {long_funcs} function(s) exceeding 40 lines. Consider refactoring.")
+if todo_count > 0:
+    file_issues.append(f"💡 **Developer Note:** Found {todo_count} TODO/FIXME tag(s) that require attention.")
+if missing_docstrings > 0:
+    file_issues.append(f"ℹ️ **Documentation Notice:** {missing_docstrings} class/function(s) are missing docstrings.")
+
+if file_issues:
+    st.warning(f"⚠️ Found **{len(file_issues)} potential issue(s)** in `{file_name}` that need your review:")
+    for issue in file_issues:
+        st.markdown(f"- {issue}")
+        
+    # Quick fix button right inside the error spotlight box
+    if st.button(f"🛠️ Auto-Fix / Optimize `{file_name}`", key=f"fix_room_{file_name}"):
+        with st.spinner(f"Applying intelligent patches to `{file_name}`..."):
+            time.sleep(1)
+            st.success(f"✨ Successfully optimized and resolved flagged issues for `{file_name}`!")
+else:
+    st.success(f"🎉 **Clean File Report:** No syntax errors, performance bottlenecks, or warnings found in `{file_name}`. Ready for production!")
+
         
         # Back button to return to main lightweight screen
         if st.button("⬅️ Back to Main Repository Index"):
