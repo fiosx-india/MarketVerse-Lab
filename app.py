@@ -142,20 +142,20 @@ if st.button("🚀 Run Comprehensive Smart Code Inspector"):
 
         except Exception as e:
             st.error(f"❌ Extension Connection Error: {str(e)}")
-
+            
 # ==========================================
-# Advanced AST-Powered Repository Health Dashboard
+# Interactive AST-Powered Deep Inspector Hub
 # ==========================================
 import os
 import ast
 import time
 
 st.markdown("---")
-st.subheader("🛡️ Advanced AST-Powered Repository Health Dashboard")
-st.caption("Performs real-time AST parsing, syntax validation, function/class counting, and deep code health inspection for all repository files.")
+st.subheader("🛡️ Interactive AST-Powered Repository Health Dashboard")
+st.caption("Click metrics (Lines, Classes, Functions, Imports) to instantly expand and inspect deep code details.")
 
-if st.button("🚀 Run Deep AST Repository Health Scan"):
-    with st.spinner("Parsing files through AST engine, analyzing imports, and calculating code metrics..."):
+if st.button("🚀 Run Interactive AST Deep Scan"):
+    with st.spinner("Parsing files through AST engine and building interactive inspection nodes..."):
         try:
             current_dir = os.getcwd()
             python_files = []
@@ -170,35 +170,31 @@ if st.button("🚀 Run Deep AST Repository Health Scan"):
             total_found = len(python_files)
             
             if total_found > 0:
-                st.success(f"✨ Successfully indexed and analyzed **{total_found} Python files** using AST parser!")
-                
-                st.markdown("### 📊 Comprehensive File-by-File Intelligence & Health Matrix")
+                st.success(f"✨ Successfully indexed and analyzed **{total_found} Python files** with interactive metrics!")
                 
                 for idx, file_path in enumerate(python_files):
                     file_name = os.path.basename(file_path)
                     file_size = os.path.getsize(file_path)
                     mod_time = time.ctime(os.path.getmtime(file_path))
                     
-                    # AST Parsing and Code Metric Extraction
                     health_status = "🟢 Healthy"
                     error_msg = ""
-                    line_count = 0
-                    class_count = 0
-                    func_count = 0
+                    content_lines = []
+                    classes_list = []
+                    funcs_list = []
                     imports_list = []
                     
                     try:
                         with open(file_path, "r", encoding="utf-8") as f:
                             content = f.read()
-                            line_count = len(content.splitlines())
+                            content_lines = content.splitlines()
                             
-                            # Parse AST tree
                             tree = ast.parse(content)
                             for node in ast.walk(tree):
                                 if isinstance(node, ast.ClassDef):
-                                    class_count += 1
+                                    classes_list.append(node.name)
                                 elif isinstance(node, ast.FunctionDef):
-                                    func_count += 1
+                                    funcs_list.append(node.name)
                                 elif isinstance(node, ast.Import):
                                     for alias in node.names:
                                         imports_list.append(alias.name)
@@ -212,43 +208,69 @@ if st.button("🚀 Run Deep AST Repository Health Scan"):
                         health_status = "🟡 Warning"
                         error_msg = str(e)
                     
-                    # Displaying dynamic expander card for each file
-                    status_color_icon = health_status
-                    with st.expander(f"📁 [{status_color_icon}] `{file_name}` | Lines: {line_count} | Classes: {class_count} | Funcs: {func_count}"):
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.markdown(f"**📌 File Name:** `{file_name}`")
-                            st.markdown(f"**📂 Path:** `{file_path}`")
-                            st.markdown(f"**📊 Total Lines:** `{line_count}`")
-                            st.markdown(f"**⏱️ Last Modified:** `{mod_time}`")
-                        with col2:
-                            st.markdown(f"**📦 File Size:** `{file_size} bytes`")
-                            st.markdown(f"**🏛️ Classes Found:** `{class_count}`")
-                            st.markdown(f"**⚡ Functions Found:** `{func_count}`")
-                            st.markdown(f"**🔌 Health State:** `{health_status}`")
+                    total_lines_count = len(content_lines)
+                    total_classes = len(classes_list)
+                    total_funcs = len(funcs_list)
+                    total_imports = list(set(imports_list))
+                    
+                    # Main Expander for each file
+                    with st.expander(f"📁 [{health_status}] `{file_name}` | 📊 Lines: {total_lines_count} | 🏛️ Classes: {total_classes} | ⚡ Funcs: {total_funcs} | 🔌 Imports: {len(total_imports)}"):
+                        
+                        st.markdown(f"**📌 File Location:** `{file_path}` | **Size:** `{file_size} bytes` | **Modified:** `{mod_time}`")
                         
                         if error_msg:
-                            st.error(f"❌ **AST Diagnostics Alert:** {error_msg}")
-                        else:
-                            st.success(f"✨ **AST Check:** File structure is clean, syntax is valid, and execution tree is stable.")
+                            st.error(f"❌ **Diagnostics Alert:** {error_msg}")
                         
-                        # Displaying imports if available
-                        if imports_list:
-                            unique_imports = list(set(imports_list))
-                            st.info(f"🔗 **Detected Module Imports ({len(unique_imports)}):** {', '.join(unique_imports[:10])}{' ...and more' if len(unique_imports) > 10 else ''}")
+                        # --- Interactive Expandable Metric Tabs/Sections ---
+                        tab_lines, tab_classes, tab_funcs, tab_imports = st.tabs([
+                            f"📜 Total Lines ({total_lines_count})", 
+                            f"🏛️ Classes ({total_classes})", 
+                            f"⚡ Functions ({total_funcs})", 
+                            f"🔌 Imports ({len(total_imports)})"
+                        ])
                         
-                        # Deep Scan Action Button per file
-                        if st.button(f"🔍 Execute Deep Code Inspection for `{file_name}`", key=f"ast_deep_{idx}_{file_name}"):
-                            with st.spinner(f"Running deep block-level audit on `{file_name}`..."):
-                                st.write(f"- **Syntax Tree Integrity:** Verified via Python AST")
-                                st.write(f"- **Circular Dependency Risk:** Low (Modular hooks isolated)")
-                                st.write(f"- **Readiness Level:** 100% Ready for production deployment.")
-                                st.success(f"🎯 Deep audit completed successfully for `{file_name}`!")
+                        # 1. Total Lines View (Click/Open to see all code lines)
+                        with tab_lines:
+                            st.caption("Complete source code line breakdown for this file:")
+                            if content_lines:
+                                code_snippet = "\n".join(content_lines)
+                                st.code(code_snippet, language="python", line_numbers=True)
+                            else:
+                                st.info("File is empty.")
+                        
+                        # 2. Classes View
+                        with tab_classes:
+                            st.caption("All class structures detected in this file:")
+                            if classes_list:
+                                for c in classes_list:
+                                    st.markdown(f"- 🏛️ `class {c}`")
+                            else:
+                                st.info("No classes defined in this file.")
+                        
+                        # 3. Functions View
+                        with tab_funcs:
+                            st.caption("All function definitions detected in this file:")
+                            if funcs_list:
+                                for fn in funcs_list:
+                                    st.markdown(f"- ⚡ `def {fn}()`")
+                            else:
+                                st.info("No standalone functions defined in this file.")
+                        
+                        # 4. Imports View
+                        with tab_imports:
+                            st.caption("Modules and libraries imported by this file:")
+                            if total_imports:
+                                for imp in total_imports:
+                                    st.markdown(f"- 📦 `{imp}`")
+                            else:
+                                st.info("No external imports detected.")
             else:
                 st.warning("⚠️ No Python files detected in the active workspace directory.")
 
         except Exception as e:
-            st.error(f"❌ AST Dashboard Engine Error: {str(e)}")
+            st.error(f"❌ Interactive Dashboard Error: {str(e)}")
+
+
 
 # ==========================================
 # MarketVerse Lab - Diagnostic Logic Function
