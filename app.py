@@ -337,7 +337,7 @@ if total_found > 0:
                 ac2.metric("Missing Docstrings", missing_docstrings)
                 ac3.metric("TODO Tags", todo_count)
 else:
-    st.warning("⚠️ No Python files detected in the active workspace 
+    st.warning("⚠️ No Python files detected in the active workspace directory.")
 # ==========================================
 # Optimized Project-Only Repository Inspector
 # ==========================================
