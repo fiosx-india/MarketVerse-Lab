@@ -338,72 +338,81 @@ if total_found > 0:
                 ac3.metric("TODO Tags", todo_count)
 else:
     st.warning("⚠️ No Python files detected in the active workspace directory.")
+    
 # ==========================================
-# Optimized Project-Only Repository Inspector
+# Secure Multi-File Selector & Temporary Downloader
 # ==========================================
 import os
-import ast
-import time
+import shutil
 
 st.markdown("---")
-st.subheader("🛡️ Project-Only Repository Inspector")
-st.caption("Scans strictly your custom repository files (ignoring system/site-packages) to prevent memory crash.")
-
-if 'selected_file' not in st.session_state:
-    st.session_state.selected_file = None
+st.subheader("🛡️ Secure Multi-File Selector & Temporary Exporter")
+st.caption("Select specific files using checkboxes, bundle them instantly, download or copy, and auto-erase from server memory.")
 
 current_dir = os.getcwd()
 python_files = []
 
-# கடுமையான வடிகட்டி: சிஸ்டம் மற்றும் லைப்ரரி ஃபோல்டர்களை முழுமையாகத் தவிர்த்தல்
 ignore_dirs = {'.git', '.streamlit', '__pycache__', 'venv', 'env', 'build', 'dist', 'site-packages', 'lib', 'include', 'share'}
 
 for root, dirs, files in os.walk(current_dir):
-    # சிஸ்டம் ஃபோல்டர்களை உள்ளே செல்லவிடாமல் தடுத்தல்
     dirs[:] = [d for d in dirs if d not in ignore_dirs and not d.startswith('lib') and not d.startswith('python')]
-    
     for file in files:
         if file.endswith('.py'):
             full_path = os.path.join(root, file)
-            # site-packages அல்லது python internal பாத் இருந்தால் தவிர்த்துவிடுதல்
             if 'site-packages' not in full_path and 'lib/python' not in full_path:
                 python_files.append(full_path)
 
 total_found = len(python_files)
 
 if total_found > 0:
-    if st.session_state.selected_file is None:
-        st.success(f"✨ Successfully indexed your **{total_found} project files** (System files excluded).")
-        st.markdown("### 📂 Your Project File Index")
+    st.success(f"✨ Found **{total_found} project files**. Tick the files you need below:")
+    
+    # Form for selecting multiple files via checkboxes
+    with st.form("file_selection_form"):
+        selected_files_path = []
         
-        file_options = {os.path.basename(f): f for f in python_files}
-        chosen_file_name = st.selectbox("Select your file to inspect:", list(file_options.keys()))
+        # Displaying files with checkboxes in a neat layout
+        for f_path in python_files:
+            rel_name = os.path.relpath(f_path, current_dir)
+            if st.checkbox(f"📁 {rel_name}", key=f"chk_{rel_name}"):
+                selected_files_path.append(f_path)
         
-        if st.button("🚪 Open File Room"):
-            st.session_state.selected_file = file_options[chosen_file_name]
-            st.rerun()
-    else:
-        file_path = st.session_state.selected_file
-        file_name = os.path.basename(file_path)
+        submit_btn = st.form_submit_button("📦 Bundle & Export Selected Files")
         
-        if st.button("⬅️ Back to File List"):
-            st.session_state.selected_file = None
-            st.rerun()
+    if submit_btn:
+        if selected_files_path:
+            # Combining selected files into a single temporary bundle in memory
+            master_bundle = []
+            for f_path in selected_files_path:
+                rel_path = os.path.relpath(f_path, current_dir)
+                try:
+                    with open(f_path, "r", encoding="utf-8", errors="ignore") as f:
+                        code_content = f.read()
+                        separator = "=" * 50
+                        file_block = f"\n\n{separator}\n# FILE: {rel_path}\n{separator}\n\n{code_content}"
+                        master_bundle.append(file_block)
+                except Exception:
+                    continue
             
-        st.markdown(f"---")
-        st.markdown(f"## 🏠 File Room: `{file_name}`")
-        
-        with st.spinner("Analyzing file..."):
-            try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
-                    content_lines = content.splitlines()
-                
-                st.metric("Total Lines", len(content_lines))
-                st.code("\n".join(content_lines), language="python", line_numbers=True)
-                
-            except Exception as e:
-                st.error(f"Error reading file: {str(e)}")
+            combined_text = "".join(master_bundle)
+            
+            st.success(f"✨ Successfully bundled **{len(selected_files_path)} selected file(s)**!")
+            
+            # 1. Copy-Paste Box for immediate use
+            st.markdown("### 📥 Copy Selected Files Content:")
+            st.text_area("Selected Code Block:", combined_text, height=300)
+            
+            # 2. Direct Download Button (Memory-only, no server storage)
+            st.download_button(
+                label="📥 Download Selected Bundle (.txt)",
+                data=combined_text,
+                file_name="selected_files_bundle.txt",
+                mime="text/plain"
+            )
+            
+            st.info("💡 **Secure Note:** These files are generated on-the-fly in server RAM and are never permanently stored on disk. Total memory is kept clean to prevent crashes.")
+        else:
+            st.warning("⚠️ Please select at least one file using the checkboxes above.")
 else:
     st.warning("⚠️ No custom project files found.")
 
