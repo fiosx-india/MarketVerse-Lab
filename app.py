@@ -337,58 +337,75 @@ if total_found > 0:
                 ac2.metric("Missing Docstrings", missing_docstrings)
                 ac3.metric("TODO Tags", todo_count)
 else:
-    st.warning("⚠️ No Python files detected in the active workspace directory.")
-    
+    st.warning("⚠️ No Python files detected in the active workspace 
 # ==========================================
-# Master Repository Code Extractor (Copy-Paste Hub)
+# Optimized Project-Only Repository Inspector
 # ==========================================
 import os
+import ast
+import time
 
 st.markdown("---")
-st.subheader("📋 Master Repository Code Extractor")
-st.caption("Bundles all repository python files into a single master view for easy copy-pasting.")
+st.subheader("🛡️ Project-Only Repository Inspector")
+st.caption("Scans strictly your custom repository files (ignoring system/site-packages) to prevent memory crash.")
 
-if st.button("📦 Generate Complete Repository Code Bundle"):
-    with st.spinner("Compiling all repository files into a single master block..."):
-        try:
-            current_dir = os.getcwd()
-            master_bundle = []
+if 'selected_file' not in st.session_state:
+    st.session_state.selected_file = None
+
+current_dir = os.getcwd()
+python_files = []
+
+# கடுமையான வடிகட்டி: சிஸ்டம் மற்றும் லைப்ரரி ஃபோல்டர்களை முழுமையாகத் தவிர்த்தல்
+ignore_dirs = {'.git', '.streamlit', '__pycache__', 'venv', 'env', 'build', 'dist', 'site-packages', 'lib', 'include', 'share'}
+
+for root, dirs, files in os.walk(current_dir):
+    # சிஸ்டம் ஃபோல்டர்களை உள்ளே செல்லவிடாமல் தடுத்தல்
+    dirs[:] = [d for d in dirs if d not in ignore_dirs and not d.startswith('lib') and not d.startswith('python')]
+    
+    for file in files:
+        if file.endswith('.py'):
+            full_path = os.path.join(root, file)
+            # site-packages அல்லது python internal பாத் இருந்தால் தவிர்த்துவிடுதல்
+            if 'site-packages' not in full_path and 'lib/python' not in full_path:
+                python_files.append(full_path)
+
+total_found = len(python_files)
+
+if total_found > 0:
+    if st.session_state.selected_file is None:
+        st.success(f"✨ Successfully indexed your **{total_found} project files** (System files excluded).")
+        st.markdown("### 📂 Your Project File Index")
+        
+        file_options = {os.path.basename(f): f for f in python_files}
+        chosen_file_name = st.selectbox("Select your file to inspect:", list(file_options.keys()))
+        
+        if st.button("🚪 Open File Room"):
+            st.session_state.selected_file = file_options[chosen_file_name]
+            st.rerun()
+    else:
+        file_path = st.session_state.selected_file
+        file_name = os.path.basename(file_path)
+        
+        if st.button("⬅️ Back to File List"):
+            st.session_state.selected_file = None
+            st.rerun()
             
-            ignore_dirs = {'.git', '.streamlit', '__pycache__', 'venv', 'env', 'build', 'dist'}
-            for root, dirs, files in os.walk(current_dir):
-                dirs[:] = [d for d in dirs if d not in ignore_dirs]
-                for file in files:
-                    if file.endswith('.py'):
-                        file_path = os.path.join(root, file)
-                        rel_path = os.path.relpath(file_path, current_dir)
-                        
-                        try:
-                            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                                code_content = f.read()
-                                
-                                # Appending each file with a clear banner
-                                separator = "=" * 50
-                                file_block = f"\n\n{separator}\n# FILE: {rel_path}\n{separator}\n\n{code_content}"
-                                master_bundle.append(file_block)
-                        except Exception as read_err:
-                            continue
-            
-            if master_bundle:
-                full_combined_code = "".join(master_bundle)
-                st.success(f"✨ Successfully bundled **{len(master_bundle)} files** into a single master copy area!")
+        st.markdown(f"---")
+        st.markdown(f"## 🏠 File Room: `{file_name}`")
+        
+        with st.spinner("Analyzing file..."):
+            try:
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                    content_lines = content.splitlines()
                 
-                # Text area containing all code, ready to copy
-                st.text_area(
-                    "📥 Copy All Repository Files Here:", 
-                    full_combined_code, 
-                    height=400
-                )
-                st.info("💡 **Tip:** You can click inside the box above, press `Ctrl + A` (or `Cmd + A`), and copy the entire repository code instantly.")
-            else:
-                st.warning("⚠️ No Python files found to bundle.")
-
-        except Exception as e:
-            st.error(f"❌ Master Bundle Error: {str(e)}")
+                st.metric("Total Lines", len(content_lines))
+                st.code("\n".join(content_lines), language="python", line_numbers=True)
+                
+            except Exception as e:
+                st.error(f"Error reading file: {str(e)}")
+else:
+    st.warning("⚠️ No custom project files found.")
 
 
 # ==========================================
