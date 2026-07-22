@@ -1045,3 +1045,123 @@ except Exception as e:
     with tab2:
         st.error("Guardian Core Failed to Load")
         st.code(str(e))
+
+
+
+# ==========================================
+# Code Pass Multiplier & Shifting Tool (Fixed Shifting)
+# ==========================================
+import streamlit.components.v1 as components
+
+st.markdown("---")
+st.subheader("🔄 Code Pass Multiplier & Shifting Tool")
+st.caption("Generate unified single block passes, control exact spacing from frame, copy cleanly, and delete output instantly.")
+
+col_m1, col_m2 = st.columns([2, 1])
+
+with col_m1:
+    if "target_code_input" not in st.session_state:
+        st.session_state["target_code_input"] = ""
+
+    user_target_code = st.text_area(
+        "Paste target code line or block:", 
+        height=130, 
+        key="target_code_input", 
+        placeholder="Paste your code here..."
+    )
+
+with col_m2:
+    selected_pass_count = st.selectbox(
+        "Select Passes:", 
+        [1, 2, 4, 8, 12, 16], 
+        index=1
+    )
+    # Frame shifting spaces (4, 8, 12, 16, 20 spaces)
+    pass_spacing_spaces = st.selectbox(
+        "Spacing Points from Frame:", 
+        [4, 8, 12, 16, 20, 24, 32], 
+        index=3
+    )
+
+btn_col1, btn_col2 = st.columns([1, 1])
+
+with btn_col1:
+    generate_clicked = st.button("🚀 Generate Single Block")
+
+with btn_col2:
+    if st.button("🗑️ Clear / Delete Input"):
+        st.session_state["target_code_input"] = ""
+        if "generated_output" in st.session_state:
+            st.session_state.generated_output = ""
+        st.rerun()
+
+if "generated_output" not in st.session_state:
+    st.session_state.generated_output = ""
+
+if generate_clicked:
+    if user_target_code.strip():
+        # Correctly shift each line by selected spaces for each pass
+        indent_str = " " * pass_spacing_spaces
+        raw_lines = user_target_code.strip().splitlines()
+        
+        generated_passes = []
+        for p in range(1, selected_pass_count + 1):
+            # Apply shifting spaces to every line of the block
+            shifted_block = "\n".join([f"{indent_str}{line}" if line.strip() else "" for line in raw_lines])
+            generated_passes.append(shifted_block)
+            
+        # Join passes with standard newlines so they stack cleanly
+        st.session_state.generated_output = "\n\n".join(generated_passes)
+        st.success(f"✨ Successfully generated **{selected_pass_count} Passes** shifted by {pass_spacing_spaces} points!")
+    else:
+        st.warning("⚠️ Please paste some code above to generate passes.")
+
+# =================-----------------------------
+# Output & Custom HTML Copy Component
+# ---------------------------------------------
+if st.session_state.generated_output:
+
+    st.markdown("### 📋 Copy Output")
+
+    components.html(
+        f"""
+        <textarea id="copyText"
+            style="width:100%;height:280px;
+            font-family:monospace;
+            font-size:14px;
+            padding:10px;
+            background:#1e1e1e;
+            color:#fff;
+            border:1px solid #444;
+            border-radius:6px;">{st.session_state.generated_output}</textarea>
+
+        <br><br>
+
+        <button
+            onclick="
+                navigator.clipboard.writeText(
+                    document.getElementById('copyText').value
+                );
+                alert('✅ Code Copied Successfully!');
+            "
+            style="
+                background:#4CAF50;
+                color:white;
+                border:none;
+                padding:10px 18px;
+                border-radius:6px;
+                cursor:pointer;
+                margin-right:10px;
+            ">
+            📋 Copy Output
+        </button>
+        """,
+        height=380,
+    )
+
+    if st.button(
+        "🗑 Delete Output",
+        use_container_width=True
+    ):
+        st.session_state.generated_output = ""
+        st.rerun()
