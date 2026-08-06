@@ -1079,7 +1079,7 @@ with col_m2:
     # Frame shifting spaces (4, 8, 12, 16, 20 spaces)
     pass_spacing_spaces = st.selectbox(
         "Spacing Points from Frame:", 
-        [4, 6, 8, 10,12, 16, 20, 24,26,28,30,32 ], 
+        [4, 6, 8, 10,12, 16, 20, 24,28,32,36,40,44,48,52,56], 
         index=3
     )
 
